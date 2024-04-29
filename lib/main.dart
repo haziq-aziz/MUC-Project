@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(const RestaurantBooking());
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+class RestaurantBooking extends StatelessWidget {
+  const RestaurantBooking({super.key});
 
   // This widget is the root of your application.
   @override
