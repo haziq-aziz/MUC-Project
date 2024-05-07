@@ -3,7 +3,7 @@ import 'package:intl/intl.dart';
 import 'inputdata.dart';
 
 class ReservationPage extends StatefulWidget {
-  const ReservationPage({Key? key}) : super(key: key);
+  const ReservationPage({super.key});
 
   @override
   _ReservationPageState createState() => _ReservationPageState();
