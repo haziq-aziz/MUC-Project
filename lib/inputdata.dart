@@ -22,6 +22,8 @@ class ReservationFormData {
     required this.numberOfGuests,
   });
 
+  get booking => null;
+
   @override
 String toString() {
   // Format date using DateFormat
