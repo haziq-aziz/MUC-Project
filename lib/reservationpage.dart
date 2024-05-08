@@ -1,17 +1,28 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'calculatepackage.dart';
+import 'package:restaurantbooking/pagelistfood.dart';
 import 'inputdata.dart';
 
 class ReservationPage extends StatefulWidget {
   const ReservationPage({super.key});
 
   @override
-  _ReservationPageState createState() => _ReservationPageState();
+  ReservationPageState createState() => ReservationPageState();
 }
 
-class _ReservationPageState extends State<ReservationPage> {
-  ReservationFormData formData = ReservationFormData();
+class ReservationPageState extends State<ReservationPage> {
   final _formKey = GlobalKey<FormState>();
+
+  ReservationFormData booking = ReservationFormData(
+      name: '',
+      address: '',
+      phone: '',
+      email: '',
+      selectedDate: DateTime.now(),
+      selectedTime: TimeOfDay.fromDateTime(DateTime.now()),
+      additionalRequest: '',
+      numberOfGuests: '');
 
   @override
   Widget build(BuildContext context) {
@@ -52,11 +63,86 @@ class _ReservationPageState extends State<ReservationPage> {
                         ),
                         keyboardType: TextInputType.text,
                         onChanged: (value) {
-                          formData.name = value;
+                          booking.name = value;
                         },
                         validator: (value) {
                           if (value == null || value.isEmpty) {
                             return 'Please enter your name';
+                          }
+                          return null;
+                        },
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: TextFormField(
+                        style: const TextStyle(fontSize: 16),
+                        decoration: InputDecoration(
+                          hintText: 'Address',
+                          hintStyle: TextStyle(color: Colors.grey[400]),
+                          filled: true,
+                          fillColor: Colors.white,
+                          border: InputBorder.none,
+                          contentPadding: const EdgeInsets.all(10),
+                          prefixIcon: const Icon(Icons.location_city),
+                        ),
+                        keyboardType: TextInputType.text,
+                        onChanged: (value) {
+                          booking.address = value;
+                        },
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Please enter your address';
+                          }
+                          return null;
+                        },
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: TextFormField(
+                        style: const TextStyle(fontSize: 16),
+                        decoration: InputDecoration(
+                          hintText: 'Phone No',
+                          hintStyle: TextStyle(color: Colors.grey[400]),
+                          filled: true,
+                          fillColor: Colors.white,
+                          border: InputBorder.none,
+                          contentPadding: const EdgeInsets.all(10),
+                          prefixIcon: const Icon(Icons.contact_phone),
+                        ),
+                        keyboardType: TextInputType.text,
+                        onChanged: (value) {
+                          booking.phone = value;
+                        },
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Please enter your phone number';
+                          }
+                          return null;
+                        },
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: TextFormField(
+                        style: const TextStyle(fontSize: 16),
+                        decoration: InputDecoration(
+                          hintText: 'Email',
+                          hintStyle: TextStyle(color: Colors.grey[400]),
+                          filled: true,
+                          fillColor: Colors.white,
+                          border: InputBorder.none,
+                          contentPadding: const EdgeInsets.all(10),
+                          prefixIcon: const Icon(Icons.email),
+                        ),
+                        keyboardType: TextInputType.text,
+                        onChanged: (value) {
+                          booking.email = value;
+                        },
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Please enter your email';
                           }
                           return null;
                         },
@@ -71,11 +157,11 @@ class _ReservationPageState extends State<ReservationPage> {
                               readOnly: true,
                               style: const TextStyle(fontSize: 16),
                               decoration: InputDecoration(
-                                hintText: formData.selectedDate != null
-                                    ? DateFormat('dd MM yyyy').format(formData.selectedDate!)
+                                hintText: booking.selectedDate != null
+                                    ? DateFormat('dd MM yyyy').format(booking.selectedDate!)
                                     : 'Date',
                                 hintStyle: TextStyle(
-                                  color: formData.selectedDate != null
+                                  color: booking.selectedDate != null
                                       ? Colors.black
                                       : Colors.grey[400],
                                 ),
@@ -89,18 +175,18 @@ class _ReservationPageState extends State<ReservationPage> {
                                 // Show date picker
                                 DateTime? pickedDate = await showDatePicker(
                                   context: context,
-                                  initialDate: formData.selectedDate ?? DateTime.now(),
+                                  initialDate: booking.selectedDate ?? DateTime.now(),
                                   firstDate: DateTime.now(),
                                   lastDate: DateTime.now().add(const Duration(days: 365)),
                                 );
                                 if (pickedDate != null) {
                                   setState(() {
-                                    formData.selectedDate = pickedDate;
+                                    booking.selectedDate = pickedDate;
                                   });
                                 }
                               },
                               validator: (value) {
-                                if (formData.selectedDate == null) {
+                                if (booking.selectedDate == null) {
                                   return 'Please select a date';
                                 }
                                 return null;
@@ -113,11 +199,11 @@ class _ReservationPageState extends State<ReservationPage> {
                               readOnly: true,
                               style: const TextStyle(color: Colors.grey, fontSize: 16),
                               decoration: InputDecoration(
-                                hintText: formData.selectedTime != null
-                                    ? '${formData.selectedTime!.hour}:${formData.selectedTime!.minute}'
+                                hintText: booking.selectedTime != null
+                                    ? '${booking.selectedTime!.hour}:${booking.selectedTime!.minute}'
                                     : 'Time',
                                 hintStyle: TextStyle(
-                                  color: formData.selectedTime != null
+                                  color: booking.selectedTime != null
                                       ? Colors.black
                                       : Colors.grey[400],
                                 ),
@@ -135,12 +221,12 @@ class _ReservationPageState extends State<ReservationPage> {
                                 );
                                 if (pickedTime != null) {
                                   setState(() {
-                                    formData.selectedTime = pickedTime;
+                                    booking.selectedTime = pickedTime;
                                   });
                                 }
                               },
                               validator: (value) {
-                                if (formData.selectedTime == null) {
+                                if (booking.selectedTime == null) {
                                   return 'Please select a time';
                                 }
                                 return null;
@@ -166,7 +252,7 @@ class _ReservationPageState extends State<ReservationPage> {
                         ),
                         keyboardType: TextInputType.multiline,
                         onChanged: (value) {
-                          formData.additionalRequest = value;
+                          booking.additionalRequest = value;
                         },
                       ),
                     ),
@@ -185,7 +271,7 @@ class _ReservationPageState extends State<ReservationPage> {
                         ),
                         keyboardType: TextInputType.number,
                         onChanged: (value) {
-                          formData.numberOfGuests = value;
+                          booking.numberOfGuests = value;
                         },
                         validator: (value) {
                           if (value == null || value.isEmpty) {
@@ -263,33 +349,53 @@ class _ReservationPageState extends State<ReservationPage> {
                 'Name:',
                 style: TextStyle(fontWeight: FontWeight.bold),
               ),
-              Text(formData.name ?? "None"),
+              Text(booking.name ?? "None"),
+              const SizedBox(height: 10.0),
+              const Text(
+                'Address:',
+                style: TextStyle(fontWeight: FontWeight.bold),
+              ),
+              Text(booking.address ?? "None"),
+              const SizedBox(height: 10.0),
+              const Text(
+                'Phone No:',
+                style: TextStyle(fontWeight: FontWeight.bold),
+              ),
+              Text(booking.phone ?? "None"),
+              const SizedBox(height: 10.0),
+              const Text(
+                'Email:',
+                style: TextStyle(fontWeight: FontWeight.bold),
+              ),
+              Text(booking.email ?? "None"),
               const SizedBox(height: 10.0),
               const Text(
                 'Date:',
                 style: TextStyle(fontWeight: FontWeight.bold),
               ),
-              Text(
-                  formData.selectedDate != null ? DateFormat('dd MM yyyy').format(formData.selectedDate!) : "Not selected"),
+              Text(booking.selectedDate != null
+                  ? DateFormat('dd MM yyyy').format(booking.selectedDate!)
+                  : "Not selected"),
               const SizedBox(height: 10.0),
               const Text(
                 'Time:',
                 style: TextStyle(fontWeight: FontWeight.bold),
               ),
-              Text(
-                  formData.selectedTime != null ? '${formData.selectedTime!.hour}:${formData.selectedTime!.minute}' : "Not selected"),
+              Text(booking.selectedTime != null
+                  ? '${booking.selectedTime!.hour}:${booking.selectedTime!.minute}'
+                  : "Not selected"),
               const SizedBox(height: 10.0),
               const Text(
                 'Additional Request:',
                 style: TextStyle(fontWeight: FontWeight.bold),
               ),
-              Text(formData.additionalRequest ?? "None"),
+              Text(booking.additionalRequest ?? "None"),
               const SizedBox(height: 10.0),
               const Text(
                 'Number of Guests:',
                 style: TextStyle(fontWeight: FontWeight.bold),
               ),
-              Text(' ${formData.numberOfGuests ?? "None"}'),
+              Text(' ${booking.numberOfGuests ?? "None"}'),
             ],
           ),
           actions: <Widget>[
@@ -305,9 +411,8 @@ class _ReservationPageState extends State<ReservationPage> {
             ),
             ElevatedButton(
               onPressed: () {
-                // Continue with booking logic
-                Navigator.of(context).pop();
-                // Add logic to continue with booking
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => const PageListFood()));
               },
               style: ElevatedButton.styleFrom(
                 backgroundColor:

@@ -9,7 +9,7 @@ Menupackage(this.label, this.imageUrl,this.details);
 
 static List<Menupackage> samples = [
  Menupackage(
-          'Fusion Package', 'assets/fusion.png',
+          'Fusion Package', 'assets/images/fusion.png',
           [
               Details('This includes main dishes like Plain Rice, Onion Rice, Chicken Sambal,'
               'Crispy Soy Garlic Honey Chicken, Pineapple Prawn Curry, '
@@ -19,7 +19,7 @@ static List<Menupackage> samples = [
           ],
  ),
  Menupackage(
-        'Western Package','assets/western.png',
+        'Western Package','assets/images/western.png',
  [
       Details( 'This includes main dishes like Chicken Salami Spaghetti Aglio Olio,'
        'Garlic Butter Shrimp Pasta, Chicken Piccata with Caper Sauce,'
@@ -28,7 +28,7 @@ static List<Menupackage> samples = [
  ],
  ),
  Menupackage(
-        'Thai Package', 'assets/thai.png',
+        'Thai Package', 'assets/images/thai.png',
           [
               Details('This includes main dishes like Chicken Salami Spaghetti Aglio Olio,' 
               'Garlic Butter Shrimp Pasta, Chicken Piccata with Caper Sauce, '
