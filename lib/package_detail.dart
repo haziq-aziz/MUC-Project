@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'menupackage.dart';
+import 'checkoutform.dart';
 
 class PackageDetail extends StatefulWidget {
   final Menupackage menupackage;
@@ -39,16 +40,21 @@ class _PackageDetailState extends State<PackageDetail> {
                 itemCount: widget.menupackage.details.length,
                 itemBuilder: (BuildContext context, int index) {
                   final detail = widget.menupackage.details[index];
-                  return Text('${detail.name}');
+                  return Text(detail.name);
                 },
               ),
             ),
             ElevatedButton(
               onPressed: () {
-                // Add your functionality for "Add to Cart" here
+                // Navigate to CheckoutForm when button is pressed
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const MyHomePage(title: 'Payment'),
+                  ),
+                );
               },
               child: const Text('Calculate per pax'),
-            
             ),
           ],
         ),

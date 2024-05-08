@@ -16,8 +16,8 @@ class PageListFood extends StatelessWidget {
           primary: const Color(0xFF4B9EA6),
           secondary: Colors.grey,
         ),
-        appBarTheme: AppBarTheme(
-            backgroundColor: const Color(0xFF4B9EA6), foregroundColor: Colors.white),
+        appBarTheme: const AppBarTheme(
+            backgroundColor: Color(0xFF4B9EA6), foregroundColor: Colors.white),
       ),
       home: const MyHomePage(title: 'Restaurant Package Menu Booking'),
     );

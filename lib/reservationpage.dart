@@ -33,7 +33,7 @@ class ReservationPageState extends State<ReservationPage> {
           padding: const EdgeInsets.all(16.0),
           child: Center(
             child: Padding(
-              padding: const EdgeInsets.only(top: 60.0),
+              padding: const EdgeInsets.only(top: 5.0),
               child: Form(
                 key: _formKey,
                 child: Column(
@@ -158,7 +158,8 @@ class ReservationPageState extends State<ReservationPage> {
                               style: const TextStyle(fontSize: 16),
                               decoration: InputDecoration(
                                 hintText: booking.selectedDate != null
-                                    ? DateFormat('dd MM yyyy').format(booking.selectedDate!)
+                                    ? DateFormat('dd MM yyyy')
+                                        .format(booking.selectedDate!)
                                     : 'Date',
                                 hintStyle: TextStyle(
                                   color: booking.selectedDate != null
@@ -175,9 +176,11 @@ class ReservationPageState extends State<ReservationPage> {
                                 // Show date picker
                                 DateTime? pickedDate = await showDatePicker(
                                   context: context,
-                                  initialDate: booking.selectedDate ?? DateTime.now(),
+                                  initialDate:
+                                      booking.selectedDate ?? DateTime.now(),
                                   firstDate: DateTime.now(),
-                                  lastDate: DateTime.now().add(const Duration(days: 365)),
+                                  lastDate: DateTime.now()
+                                      .add(const Duration(days: 365)),
                                 );
                                 if (pickedDate != null) {
                                   setState(() {
@@ -197,7 +200,8 @@ class ReservationPageState extends State<ReservationPage> {
                           Expanded(
                             child: TextFormField(
                               readOnly: true,
-                              style: const TextStyle(color: Colors.grey, fontSize: 16),
+                              style: const TextStyle(
+                                  color: Colors.grey, fontSize: 16),
                               decoration: InputDecoration(
                                 hintText: booking.selectedTime != null
                                     ? '${booking.selectedTime!.hour}:${booking.selectedTime!.minute}'
@@ -411,8 +415,10 @@ class ReservationPageState extends State<ReservationPage> {
             ),
             ElevatedButton(
               onPressed: () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => const PageListFood()));
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const PageListFood()));
               },
               style: ElevatedButton.styleFrom(
                 backgroundColor:
