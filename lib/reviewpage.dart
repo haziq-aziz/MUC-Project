@@ -222,7 +222,7 @@ class ReviewBox extends StatelessWidget {
         SizedBox(height: 16),
         Text(
           review,
-          style: Theme.of(context).textTheme.bodyText1,
+          style: Theme.of(context).textTheme.bodyLarge,
         ),
       ],
     );
