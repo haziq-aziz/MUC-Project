@@ -7,12 +7,20 @@ class ReservationPage extends StatefulWidget {
   const ReservationPage({super.key});
 
   @override
-  ReservationPageState createState() => ReservationPageState();
+  State<ReservationPage> createState() => _ReservationPageState();
 }
 
-class ReservationPageState extends State<ReservationPage> {
-  
+class _ReservationPageState extends State<ReservationPage> {
   final _formKey = GlobalKey<FormState>();
+
+  final TextEditingController _name = TextEditingController();
+  final TextEditingController _address = TextEditingController();
+  final TextEditingController _phone = TextEditingController();
+  final TextEditingController _email = TextEditingController();
+  final TextEditingController _selectedDate = TextEditingController();
+  final TextEditingController _selectedTime = TextEditingController();
+  final TextEditingController _additionalRequest = TextEditingController();
+  final TextEditingController _numberOfGuest = TextEditingController();
 
   ReservationFormData booking = ReservationFormData(
       name: '',
@@ -51,6 +59,7 @@ class ReservationPageState extends State<ReservationPage> {
                     Padding(
                       padding: const EdgeInsets.all(16.0),
                       child: TextFormField(
+                        controller: _name,
                         style: const TextStyle(fontSize: 16),
                         decoration: InputDecoration(
                           hintText: 'Name',
@@ -63,7 +72,7 @@ class ReservationPageState extends State<ReservationPage> {
                         ),
                         keyboardType: TextInputType.text,
                         onChanged: (value) {
-                          booking.name = value;
+                          _name.text;
                         },
                         validator: (value) {
                           if (value == null || value.isEmpty) {
@@ -76,6 +85,7 @@ class ReservationPageState extends State<ReservationPage> {
                     Padding(
                       padding: const EdgeInsets.all(16.0),
                       child: TextFormField(
+                        controller: _address,
                         style: const TextStyle(fontSize: 16),
                         decoration: InputDecoration(
                           hintText: 'Address',
@@ -88,7 +98,7 @@ class ReservationPageState extends State<ReservationPage> {
                         ),
                         keyboardType: TextInputType.text,
                         onChanged: (value) {
-                          booking.address = value;
+                          _address.text = value;
                         },
                         validator: (value) {
                           if (value == null || value.isEmpty) {
@@ -101,6 +111,7 @@ class ReservationPageState extends State<ReservationPage> {
                     Padding(
                       padding: const EdgeInsets.all(16.0),
                       child: TextFormField(
+                        controller: _phone,
                         style: const TextStyle(fontSize: 16),
                         decoration: InputDecoration(
                           hintText: 'Phone No',
@@ -113,7 +124,7 @@ class ReservationPageState extends State<ReservationPage> {
                         ),
                         keyboardType: TextInputType.text,
                         onChanged: (value) {
-                          booking.phone = value;
+                          _phone.text = value;
                         },
                         validator: (value) {
                           if (value == null || value.isEmpty) {
@@ -126,6 +137,7 @@ class ReservationPageState extends State<ReservationPage> {
                     Padding(
                       padding: const EdgeInsets.all(16.0),
                       child: TextFormField(
+                        controller: _email,
                         style: const TextStyle(fontSize: 16),
                         decoration: InputDecoration(
                           hintText: 'Email',
@@ -138,7 +150,7 @@ class ReservationPageState extends State<ReservationPage> {
                         ),
                         keyboardType: TextInputType.text,
                         onChanged: (value) {
-                          booking.email = value;
+                          _email.text = value;
                         },
                         validator: (value) {
                           if (value == null || value.isEmpty) {
@@ -154,17 +166,13 @@ class ReservationPageState extends State<ReservationPage> {
                         children: [
                           Expanded(
                             child: TextFormField(
+                              controller: _selectedDate,
                               readOnly: true,
                               style: const TextStyle(fontSize: 16),
                               decoration: InputDecoration(
-                                hintText: booking.selectedDate != null
-                                    ? DateFormat('dd MM yyyy')
-                                        .format(booking.selectedDate!)
-                                    : 'Date',
+                                hintText: 'Time',
                                 hintStyle: TextStyle(
-                                  color: booking.selectedDate != null
-                                      ? Colors.black
-                                      : Colors.grey[400],
+                                  color: Colors.grey[400],
                                 ),
                                 filled: true,
                                 fillColor: Colors.white,
@@ -176,20 +184,24 @@ class ReservationPageState extends State<ReservationPage> {
                                 // Show date picker
                                 DateTime? pickedDate = await showDatePicker(
                                   context: context,
-                                  initialDate:
-                                      booking.selectedDate ?? DateTime.now(),
+                                  initialDate: _selectedDate.text.isNotEmpty
+                                      ? DateFormat('dd MM yyyy')
+                                          .parse(_selectedDate.text)
+                                      : DateTime.now(),
                                   firstDate: DateTime.now(),
                                   lastDate: DateTime.now()
                                       .add(const Duration(days: 365)),
                                 );
                                 if (pickedDate != null) {
                                   setState(() {
-                                    booking.selectedDate = pickedDate;
+                                    _selectedDate.text =
+                                        DateFormat('dd MM yyyy')
+                                            .format(pickedDate);
                                   });
                                 }
                               },
                               validator: (value) {
-                                if (booking.selectedDate == null) {
+                                if (_selectedDate.text.isEmpty) {
                                   return 'Please select a date';
                                 }
                                 return null;
@@ -199,17 +211,15 @@ class ReservationPageState extends State<ReservationPage> {
                           const SizedBox(width: 8),
                           Expanded(
                             child: TextFormField(
+                              controller: _selectedTime,
                               readOnly: true,
-                              style: const TextStyle(
-                                  color: Colors.grey, fontSize: 16),
+                              style: const TextStyle(fontSize: 16),
                               decoration: InputDecoration(
-                                hintText: booking.selectedTime != null
-                                    ? '${booking.selectedTime!.hour}:${booking.selectedTime!.minute}'
+                                hintText: _selectedTime.text.isNotEmpty
+                                    ? _selectedTime.text
                                     : 'Time',
                                 hintStyle: TextStyle(
-                                  color: booking.selectedTime != null
-                                      ? Colors.black
-                                      : Colors.grey[400],
+                                  color: Colors.grey[400],
                                 ),
                                 filled: true,
                                 fillColor: Colors.white,
@@ -225,12 +235,14 @@ class ReservationPageState extends State<ReservationPage> {
                                 );
                                 if (pickedTime != null) {
                                   setState(() {
-                                    booking.selectedTime = pickedTime;
+                                    // Update the text value of _selectedTimeController with the picked time
+                                    _selectedTime.text =
+                                        '${pickedTime.hour}:${pickedTime.minute}';
                                   });
                                 }
                               },
                               validator: (value) {
-                                if (booking.selectedTime == null) {
+                                if (_selectedTime.text.isEmpty) {
                                   return 'Please select a time';
                                 }
                                 return null;
@@ -243,6 +255,7 @@ class ReservationPageState extends State<ReservationPage> {
                     Padding(
                       padding: const EdgeInsets.all(16.0),
                       child: TextField(
+                        controller: _additionalRequest,
                         maxLines: null,
                         style: const TextStyle(fontSize: 16),
                         decoration: InputDecoration(
@@ -256,13 +269,14 @@ class ReservationPageState extends State<ReservationPage> {
                         ),
                         keyboardType: TextInputType.multiline,
                         onChanged: (value) {
-                          booking.additionalRequest = value;
+                          _additionalRequest.text = value;
                         },
                       ),
                     ),
                     Padding(
                       padding: const EdgeInsets.all(16.0),
                       child: TextFormField(
+                        controller: _numberOfGuest,
                         style: const TextStyle(fontSize: 16),
                         decoration: InputDecoration(
                           hintText: 'Number of guests',
@@ -275,7 +289,7 @@ class ReservationPageState extends State<ReservationPage> {
                         ),
                         keyboardType: TextInputType.number,
                         onChanged: (value) {
-                          booking.numberOfGuests = value;
+                          _numberOfGuest.text = value;
                         },
                         validator: (value) {
                           if (value == null || value.isEmpty) {
@@ -353,53 +367,49 @@ class ReservationPageState extends State<ReservationPage> {
                 'Name:',
                 style: TextStyle(fontWeight: FontWeight.bold),
               ),
-              Text(booking.name ?? "None"),
+              Text(_name.text),
               const SizedBox(height: 10.0),
               const Text(
                 'Address:',
                 style: TextStyle(fontWeight: FontWeight.bold),
               ),
-              Text(booking.address ?? "None"),
+              Text(_address.text),
               const SizedBox(height: 10.0),
               const Text(
                 'Phone No:',
                 style: TextStyle(fontWeight: FontWeight.bold),
               ),
-              Text(booking.phone ?? "None"),
+              Text(_phone.text),
               const SizedBox(height: 10.0),
               const Text(
                 'Email:',
                 style: TextStyle(fontWeight: FontWeight.bold),
               ),
-              Text(booking.email ?? "None"),
+              Text(_email.text),
               const SizedBox(height: 10.0),
               const Text(
                 'Date:',
                 style: TextStyle(fontWeight: FontWeight.bold),
               ),
-              Text(booking.selectedDate != null
-                  ? DateFormat('dd MM yyyy').format(booking.selectedDate!)
-                  : "Not selected"),
+              Text(_selectedDate.text),
               const SizedBox(height: 10.0),
               const Text(
                 'Time:',
                 style: TextStyle(fontWeight: FontWeight.bold),
               ),
-              Text(booking.selectedTime != null
-                  ? '${booking.selectedTime!.hour}:${booking.selectedTime!.minute}'
-                  : "Not selected"),
+              Text(_selectedTime.text),
               const SizedBox(height: 10.0),
               const Text(
                 'Additional Request:',
                 style: TextStyle(fontWeight: FontWeight.bold),
               ),
-              Text(booking.additionalRequest ?? "None"),
+              Text(_additionalRequest.text),
               const SizedBox(height: 10.0),
               const Text(
                 'Number of Guests:',
                 style: TextStyle(fontWeight: FontWeight.bold),
               ),
-              Text(' ${booking.numberOfGuests ?? "None"}'),
+              Text(_numberOfGuest.text),
             ],
           ),
           actions: <Widget>[
