@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:restaurantbooking/pagelistfood.dart';
-import 'inputdata.dart';
+import 'viewpackage.dart';
 
 class ReservationPage extends StatefulWidget {
   const ReservationPage({super.key});
@@ -21,16 +20,6 @@ class _ReservationPageState extends State<ReservationPage> {
   final TextEditingController _selectedTime = TextEditingController();
   final TextEditingController _additionalRequest = TextEditingController();
   final TextEditingController _numberOfGuest = TextEditingController();
-
-  ReservationFormData booking = ReservationFormData(
-      name: '',
-      address: '',
-      phone: '',
-      email: '',
-      selectedDate: DateTime.now(),
-      selectedTime: TimeOfDay.fromDateTime(DateTime.now()),
-      additionalRequest: '',
-      numberOfGuests: '');
 
   @override
   Widget build(BuildContext context) {
@@ -428,7 +417,7 @@ class _ReservationPageState extends State<ReservationPage> {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => const PageListFood(null)));
+                        builder: (context) => ViewPackage(name: _name.text)));
               },
               style: ElevatedButton.styleFrom(
                 backgroundColor:
