@@ -116,8 +116,9 @@ class _ReservationPageState extends State<ReservationPage> {
                           _phone.text = value;
                         },
                         validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Please enter your phone number';
+                          if (value!.isEmpty ||
+                              !RegExp(r'^[0-9]+$').hasMatch(value)) {
+                            return 'Invalid phone number';
                           }
                           return null;
                         },
@@ -142,8 +143,10 @@ class _ReservationPageState extends State<ReservationPage> {
                           _email.text = value;
                         },
                         validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Please enter your email';
+                          if (value!.isEmpty ||
+                              !RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                                  .hasMatch(value)) {
+                            return 'Enter a valid email!';
                           }
                           return null;
                         },
@@ -217,14 +220,12 @@ class _ReservationPageState extends State<ReservationPage> {
                                 prefixIcon: const Icon(Icons.access_time),
                               ),
                               onTap: () async {
-                                // Show time picker
                                 TimeOfDay? pickedTime = await showTimePicker(
                                   context: context,
                                   initialTime: TimeOfDay.now(),
                                 );
                                 if (pickedTime != null) {
                                   setState(() {
-                                    // Update the text value of _selectedTimeController with the picked time
                                     _selectedTime.text =
                                         '${pickedTime.hour}:${pickedTime.minute}';
                                   });
@@ -281,10 +282,10 @@ class _ReservationPageState extends State<ReservationPage> {
                           _numberOfGuest.text = value;
                         },
                         validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Please enter the number of guests';
+                          if (value!.isEmpty ||
+                              !RegExp(r'^[0-9]+$').hasMatch(value)) {
+                            return 'Input number';
                           }
-                          // You can add more specific validation here if needed
                           return null;
                         },
                       ),
