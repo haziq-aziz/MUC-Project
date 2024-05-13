@@ -1,28 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:restaurantbooking/reviewpage.dart';
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Flutter Form',
-      theme: ThemeData(
-        useMaterial3: true,
-        // Define the default brightness and colors.
-        colorScheme: ColorScheme.fromSeed(
-          seedColor: Colors.purple,
-        ),
-      ),
-      home: const MyHomePage(title: 'Payment'),
-    );
-  }
-}
-
 class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, Key? ok, required this.title});
+  const MyHomePage({Key? key, required this.title}) : super(key: key);
 
   final String title;
 
@@ -73,6 +53,40 @@ class _MyHomePageState extends State<MyHomePage> {
       // No valid voucher, apply no discount
       return totalPayment;
     }
+  }
+
+  void _submitForm() {
+    // Validate number of people
+    String numberOfPeopleText = _numberOfPeople.text.trim();
+    if (numberOfPeopleText.isEmpty) {
+      _showValidationError('Please enter the number of people');
+      return;
+    }
+
+    int? peopleCount = int.tryParse(numberOfPeopleText);
+    if (peopleCount == null || peopleCount <= 0) {
+      _showValidationError('Please enter a valid number of people');
+      return;
+    }
+
+    // Proceed with submission (e.g., navigate to next page)
+    int totalPayment = int.tryParse(_calculateTotalPayment(numberOfPeopleText)) ?? 0;
+    int discountedTotalPayment = _applyDiscount(totalPayment, _discountController.text);
+
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (context) => ReviewPage(),
+      ),
+    );
+  }
+
+  void _showValidationError(String message) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(message),
+        duration: Duration(seconds: 2),
+      ),
+    );
   }
 
   @override
@@ -161,14 +175,7 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
             // Submit Button
             ElevatedButton(
-              onPressed: () {
-                // Navigator to the next page.
-                Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (context) => ReviewPage(),
-                  ),
-                );
-              },
+              onPressed: _submitForm,
               child: const Text("SUBMIT"),
             ),
           ],

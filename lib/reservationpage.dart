@@ -173,7 +173,6 @@ class _ReservationPageState extends State<ReservationPage> {
                                 prefixIcon: const Icon(Icons.calendar_today),
                               ),
                               onTap: () async {
-                                // Show date picker
                                 DateTime? pickedDate = await showDatePicker(
                                   context: context,
                                   initialDate: _selectedDate.text.isNotEmpty
