@@ -51,7 +51,7 @@ class LandingPage extends StatelessWidget {
                       context,
                       MaterialPageRoute(
                           builder: (context) =>
-                              ReservationPage())); // Add your action when the button is pressed
+                              const ReservationPage())); // Add your action when the button is pressed
                 },
                 style: ButtonStyle(
                   minimumSize: MaterialStateProperty.all<Size>(const Size(200, 50)),

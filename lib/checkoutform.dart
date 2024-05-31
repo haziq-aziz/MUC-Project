@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:restaurantbooking/reviewpage.dart';
 
 class MyHomePage extends StatefulWidget {
-  const MyHomePage({Key? key, required this.title}) : super(key: key);
+  const MyHomePage({super.key, required this.title});
 
   final String title;
 
@@ -75,7 +75,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
     Navigator.of(context).push(
       MaterialPageRoute(
-        builder: (context) => ReviewPage(),
+        builder: (context) => const ReviewPage(),
       ),
     );
   }
@@ -84,7 +84,7 @@ class _MyHomePageState extends State<MyHomePage> {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Text(message),
-        duration: Duration(seconds: 2),
+        duration: const Duration(seconds: 2),
       ),
     );
   }

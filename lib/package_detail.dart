@@ -4,7 +4,7 @@ import 'checkoutform.dart';
 
 class PackageDetail extends StatefulWidget {
   final Menupackage menupackage;
-  const PackageDetail({Key? key, required this.menupackage}) : super(key: key);
+  const PackageDetail({super.key, required this.menupackage});
 
   @override
   _PackageDetailState createState() {
