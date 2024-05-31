@@ -6,9 +6,9 @@ class ViewPackage extends StatefulWidget {
   final String name;
 
   const ViewPackage({
-    Key? key,
+    super.key,
     required this.name,
-  }) : super(key: key);
+  });
 
   @override
   State<ViewPackage> createState() => _ViewPackageState();
@@ -18,8 +18,8 @@ class _ViewPackageState extends State<ViewPackage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("Selera Kampung", style: TextStyle(color: Colors.white, fontWeight: FontWeight.w600),),
-      backgroundColor:Color(0xFF4B9EA6),),
+      appBar: AppBar(title: const Text("Selera Kampung", style: TextStyle(color: Colors.white, fontWeight: FontWeight.w600),),
+      backgroundColor:const Color(0xFF4B9EA6),),
       body: SafeArea(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -32,7 +32,7 @@ class _ViewPackageState extends State<ViewPackage> {
                   children: [
                     Text(
                       "Hello, ${widget.name}",
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontSize: 36.0,
                         color: Color(0xFF4B9EA6),
                       ),
@@ -49,11 +49,11 @@ class _ViewPackageState extends State<ViewPackage> {
                 ),
               ),
             ),
-            SizedBox(height: 15),
+            const SizedBox(height: 15),
             // Container to display the list of packages
             Container(
-              padding: EdgeInsets.symmetric(horizontal: 16.0),
-              child: Text(
+              padding: const EdgeInsets.symmetric(horizontal: 16.0),
+              child: const Text(
                 "Our Packages",
                 style: TextStyle(
                   fontSize: 28.0,
@@ -62,7 +62,7 @@ class _ViewPackageState extends State<ViewPackage> {
                 ),
               ),
             ),
-            SizedBox(height: 10), // Add gap here
+            const SizedBox(height: 10), // Add gap here
             // ListView to display the list of packages
             Expanded(
               child: ListView.builder(
@@ -94,7 +94,7 @@ class _ViewPackageState extends State<ViewPackage> {
 
   Widget buildPackageCard(Menupackage menupackage) {
     return Card(
-      color: Color(0xFF4B9EA6), 
+      color: const Color(0xFF4B9EA6), 
       elevation: 2.0,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(10.0),

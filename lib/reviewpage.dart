@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 class ReviewPage extends StatefulWidget {
+  const ReviewPage({super.key});
+
   @override
   _ReviewPageState createState() => _ReviewPageState();
 }
@@ -14,7 +16,7 @@ class _ReviewPageState extends State<ReviewPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Review Page'),
+        title: const Text('Review Page'),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -28,12 +30,12 @@ class _ReviewPageState extends State<ReviewPage> {
                 });
               },
             ),
-            SizedBox(height: 16),
+            const SizedBox(height: 16),
             Card(
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(8),
-                side: BorderSide(
-                    color: const Color.fromARGB(255, 103, 101, 101), width: 2),
+                side: const BorderSide(
+                    color: Color.fromARGB(255, 103, 101, 101), width: 2),
               ),
               elevation: 4,
               child: DropdownButton<String>(
@@ -43,7 +45,7 @@ class _ReviewPageState extends State<ReviewPage> {
                     _selectedPackage = value;
                   });
                 },
-                style: TextStyle(
+                style: const TextStyle(
                   color: Colors.black,
                   fontSize: 16,
                   fontWeight: FontWeight.bold,
@@ -60,16 +62,16 @@ class _ReviewPageState extends State<ReviewPage> {
                 }).toList(),
               ),
             ),
-            SizedBox(height: 16),
+            const SizedBox(height: 16),
             TextField(
               controller: _reviewController,
-              decoration: InputDecoration(
+              decoration: const InputDecoration(
                 labelText: 'Write your review',
                 border: OutlineInputBorder(),
               ),
               maxLines: 5,
             ),
-            SizedBox(height: 16),
+            const SizedBox(height: 16),
             ElevatedButton(
               onPressed: () {
                 if (_selectedPackage != null) {
@@ -85,13 +87,13 @@ class _ReviewPageState extends State<ReviewPage> {
                   );
                 } else {
                   ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
+                    const SnackBar(
                       content: Text('Please select a package'),
                     ),
                   );
                 }
               },
-              child: Text('Submit Review'),
+              child: const Text('Submit Review'),
             ),
           ],
         ),
@@ -109,7 +111,7 @@ class StarRating extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final color = Theme.of(context).colorScheme.secondary;
-    final size = 36.0;
+    const size = 36.0;
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: List.generate(5, (index) {
@@ -136,17 +138,16 @@ class ThankYouPage extends StatelessWidget {
   final String package;
 
   const ThankYouPage(
-      {Key? key,
+      {super.key,
       required this.review,
       required this.rating,
-      required this.package})
-      : super(key: key);
+      required this.package});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Thank You'),
+        title: const Text('Thank You'),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -163,7 +164,7 @@ class ThankYouPage extends StatelessWidget {
               color: Colors.grey[300],
               height: 16,
             ),
-            ReviewBox(
+            const ReviewBox(
               title: 'Menchabot',
               review: 'Delicious food!! Very GOODDD',
               rating: 5.0,
@@ -173,7 +174,7 @@ class ThankYouPage extends StatelessWidget {
               color: Colors.grey[300],
               height: 16,
             ),
-            ReviewBox(
+            const ReviewBox(
               title: 'Izz',
               review: 'Very recommended',
               rating: 4.0,
@@ -193,12 +194,12 @@ class ReviewBox extends StatelessWidget {
   final String package;
 
   const ReviewBox({
-    Key? key,
+    super.key,
     required this.title,
     required this.rating,
     required this.review,
     required this.package,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -207,19 +208,19 @@ class ReviewBox extends StatelessWidget {
       children: [
         Text(
           title,
-          style: Theme.of(context).textTheme.subtitle1,
+          style: Theme.of(context).textTheme.titleMedium,
         ),
-        SizedBox(height: 4),
+        const SizedBox(height: 4),
         Text(
           'Package: $package',
-          style: Theme.of(context).textTheme.bodyText1,
+          style: Theme.of(context).textTheme.bodyLarge,
         ),
-        SizedBox(height: 4),
+        const SizedBox(height: 4),
         StarRating(
           value: rating.toInt(),
           onChanged: (value) {},
         ),
-        SizedBox(height: 16),
+        const SizedBox(height: 16),
         Text(
           review,
           style: Theme.of(context).textTheme.bodyLarge,

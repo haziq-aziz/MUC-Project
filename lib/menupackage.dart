@@ -14,7 +14,7 @@ static List<Menupackage> samples = [
               Details('This includes main dishes like Plain Rice, Onion Rice, Chicken Sambal,'
               'Crispy Soy Garlic Honey Chicken, Pineapple Prawn Curry, '
               'Thai Chili Lemongrass Shrimp With Sweet Basil And Lime, and more '
-              'From RM50.00\pax')
+              'From RM50.00pax')
               
           ],
  ),
@@ -24,7 +24,7 @@ static List<Menupackage> samples = [
       Details( 'This includes main dishes like Chicken Salami Spaghetti Aglio Olio,'
        'Garlic Butter Shrimp Pasta, Chicken Piccata with Caper Sauce,'
      'Chicken Chop with Black Pepper Honey Sauce, and more. '
-     'From RM50.00\pax')
+     'From RM50.00pax')
  ],
  ),
  Menupackage(
