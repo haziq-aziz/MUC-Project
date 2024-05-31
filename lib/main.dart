@@ -13,7 +13,6 @@ class RestaurantBooking extends StatelessWidget {
     return MaterialApp(
       title: 'Restaurant Booking App',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
         fontFamily: 'Montserrat',
       ),
       home: const LandingPage(),

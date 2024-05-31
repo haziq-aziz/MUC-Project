@@ -30,6 +30,8 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  intl: ^0.19.0
+  flutter_datetime_picker: ^1.5.1
 
 
   # The following adds the Cupertino Icons font to your application.
@@ -62,6 +64,9 @@ flutter:
   assets:
     - assets/images/image_landing.png
     - assets/images/background.png
+    - assets/images/fusion.png
+    - assets/images/thai.png
+    - assets/images/western.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
