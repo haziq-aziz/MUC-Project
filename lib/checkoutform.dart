@@ -71,7 +71,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
     // Proceed with submission (e.g., navigate to next page)
     int totalPayment = int.tryParse(_calculateTotalPayment(numberOfPeopleText)) ?? 0;
-    int discountedTotalPayment = _applyDiscount(totalPayment, _discountController.text);
+    _applyDiscount(totalPayment, _discountController.text);
 
     Navigator.of(context).push(
       MaterialPageRoute(
