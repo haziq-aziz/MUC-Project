@@ -1,131 +1,109 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'services/database_service.dart';
-
 void main() {
-  runApp(const MyApp());
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    return MaterialApp(
       home: BookingForm(),
     );
   }
 }
 
 class BookingForm extends StatefulWidget {
-  const BookingForm({super.key});
-
   @override
   _BookingFormState createState() => _BookingFormState();
 }
 
 class _BookingFormState extends State<BookingForm> {
   final _formKey = GlobalKey<FormState>();
-  final _nameController = TextEditingController();
-  final _emailController = TextEditingController();
-  final _phoneController = TextEditingController();
-  final _usernameController = TextEditingController();
-  final _passwordController = TextEditingController();
-  final _numGuestController = TextEditingController();
   final List<String> _menuPackages = ['Package 1', 'Package 2', 'Package 3'];
+  final List<double> _packagePrices = [50.0, 40.0, 30.0];
   final List<bool> _selectedPackages = [false, false, false];
+  final List<TextEditingController> _guestControllers = [
+    TextEditingController(),
+    TextEditingController(),
+    TextEditingController(),
+  ];
   DateTime? _selectedBookDate;
   TimeOfDay? _selectedBookTime;
   DateTime? _selectedEventDate;
   TimeOfDay? _selectedEventTime;
 
+  double _totalPrice = 0.0;
+  int _totalGuests = 0;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Booking Form')),
+      appBar: AppBar(title: Text('Booking Form')),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Form(
           key: _formKey,
           child: ListView(
             children: [
-              TextFormField(
-                controller: _nameController,
-                decoration: const InputDecoration(labelText: 'Name'),
-                validator: (value) =>
-                    value!.isEmpty ? 'Please enter your name' : null,
-              ),
-              TextFormField(
-                controller: _emailController,
-                decoration: const InputDecoration(labelText: 'Email'),
-                validator: (value) =>
-                    value!.isEmpty ? 'Please enter your email' : null,
-              ),
-              TextFormField(
-                controller: _phoneController,
-                decoration: const InputDecoration(labelText: 'Phone'),
-                keyboardType: TextInputType.phone,
-                validator: (value) =>
-                    value!.isEmpty ? 'Please enter your phone number' : null,
-              ),
-              TextFormField(
-                controller: _usernameController,
-                decoration: const InputDecoration(labelText: 'Username'),
-                validator: (value) =>
-                    value!.isEmpty ? 'Please enter a username' : null,
-              ),
-              TextFormField(
-                controller: _passwordController,
-                decoration: const InputDecoration(labelText: 'Password'),
-                obscureText: true,
-                validator: (value) =>
-                    value!.isEmpty ? 'Please enter a password' : null,
-              ),
-              const SizedBox(height: 20),
               _buildDateTimePicker(
                 label: 'Booking Date',
                 selectedDate: _selectedBookDate,
                 selectedTime: _selectedBookTime,
-                onDateSelected: (date) =>
-                    setState(() => _selectedBookDate = date),
-                onTimeSelected: (time) =>
-                    setState(() => _selectedBookTime = time),
+                onDateSelected: (date) => setState(() => _selectedBookDate = date),
+                onTimeSelected: (time) => setState(() => _selectedBookTime = time),
               ),
               _buildDateTimePicker(
                 label: 'Event Date',
                 selectedDate: _selectedEventDate,
                 selectedTime: _selectedEventTime,
-                onDateSelected: (date) =>
-                    setState(() => _selectedEventDate = date),
-                onTimeSelected: (time) =>
-                    setState(() => _selectedEventTime = time),
+                onDateSelected: (date) => setState(() => _selectedEventDate = date),
+                onTimeSelected: (time) => setState(() => _selectedEventTime = time),
               ),
-              const SizedBox(height: 20),
-              const Text('Menu Packages'),
+              SizedBox(height: 20),
+              Text('Menu Packages'),
               ..._menuPackages.asMap().entries.map((entry) {
                 int index = entry.key;
                 String package = entry.value;
-                return CheckboxListTile(
-                  title: Text(package),
-                  value: _selectedPackages[index],
-                  onChanged: (value) {
-                    setState(() {
-                      _selectedPackages[index] = value!;
-                    });
-                  },
+                return Column(
+                  children: [
+                    CheckboxListTile(
+                      title: Text('$package (RM${_packagePrices[index]})'),
+                      value: _selectedPackages[index],
+                      onChanged: (value) {
+                        setState(() {
+                          _selectedPackages[index] = value!;
+                          _calculateTotal();
+                        });
+                      },
+                    ),
+                    if (_selectedPackages[index])
+                      TextFormField(
+                        controller: _guestControllers[index],
+                        decoration: InputDecoration(labelText: 'Number of Guests for $package'),
+                        keyboardType: TextInputType.number,
+                        validator: (value) {
+                          if (_selectedPackages[index] && value!.isEmpty) {
+                            return 'Please enter number of guests for $package';
+                          }
+                          return null;
+                        },
+                        onChanged: (value) {
+                          _calculateTotal();
+                        },
+                      ),
+                  ],
                 );
-              }),
-              TextFormField(
-                controller: _numGuestController,
-                decoration:
-                    const InputDecoration(labelText: 'Number of Guests'),
-                keyboardType: TextInputType.number,
-                validator: (value) =>
-                    value!.isEmpty ? 'Please enter number of guests' : null,
-              ),
-              const SizedBox(height: 20),
+              }).toList(),
+              SizedBox(height: 20),
+              Text('Total Number of Guests: $_totalGuests'),
+              Text('Total Price: RM$_totalPrice'),
+              SizedBox(height: 20),
               ElevatedButton(
                 onPressed: _submitForm,
-                child: const Text('Submit'),
+                child: Text('Submit'),
               ),
             ],
           ),
@@ -157,9 +135,7 @@ class _BookingFormState extends State<BookingForm> {
                 );
                 if (date != null) onDateSelected(date);
               },
-              child: Text(selectedDate != null
-                  ? DateFormat.yMd().format(selectedDate)
-                  : 'Select Date'),
+              child: Text(selectedDate != null ? DateFormat.yMd().format(selectedDate) : 'Select Date'),
             ),
             TextButton(
               onPressed: () async {
@@ -169,9 +145,7 @@ class _BookingFormState extends State<BookingForm> {
                 );
                 if (time != null) onTimeSelected(time);
               },
-              child: Text(selectedTime != null
-                  ? selectedTime.format(context)
-                  : 'Select Time'),
+              child: Text(selectedTime != null ? selectedTime.format(context) : 'Select Time'),
             ),
           ],
         ),
@@ -179,20 +153,36 @@ class _BookingFormState extends State<BookingForm> {
     );
   }
 
+  void _calculateTotal() {
+    double totalPrice = 0.0;
+    int totalGuests = 0;
+    for (int i = 0; i < _selectedPackages.length; i++) {
+      if (_selectedPackages[i]) {
+        int numGuests = int.parse(_guestControllers[i].text.isEmpty ? '0' : _guestControllers[i].text);
+        totalGuests += numGuests;
+        totalPrice += _packagePrices[i] * numGuests;
+      }
+    }
+    setState(() {
+      _totalPrice = totalPrice;
+      _totalGuests = totalGuests;
+    });
+  }
+
   Future<void> _submitForm() async {
     if (_formKey.currentState!.validate()) {
-      // Save the data to the database
-      String name = _nameController.text;
-      String email = _emailController.text;
-      int phone = int.parse(_phoneController.text);
-      String username = _usernameController.text;
-      String password = _passwordController.text;
-      int numGuest = int.parse(_numGuestController.text);
+      double totalPrice = 0.0;
+      int totalGuests = 0;
       String menuPackage = _menuPackages
           .asMap()
           .entries
           .where((entry) => _selectedPackages[entry.key])
-          .map((entry) => entry.value)
+          .map((entry) {
+            int index = entry.key;
+            totalGuests += int.parse(_guestControllers[index].text);
+            totalPrice += _packagePrices[index] * int.parse(_guestControllers[index].text);
+            return entry.value;
+          })
           .join(', ');
 
       DateTime bookDateTime = DateTime(
@@ -211,27 +201,18 @@ class _BookingFormState extends State<BookingForm> {
         _selectedEventTime!.minute,
       );
 
-      await DatabaseService().insertUser(
-        name,
-        email,
-        phone,
-        username,
-        password,
-      );
-
-      int userId = await DatabaseService().getUserIdByUsername(username);
+      int userId = 1;
 
       await DatabaseService().insertBooking(
         userId,
         bookDateTime,
         eventDateTime,
         menuPackage,
-        numGuest,
-        0.0, // Example package price, replace with actual logic
+        totalGuests,
+        totalPrice,
       );
 
-      ScaffoldMessenger.of(context)
-          .showSnackBar(const SnackBar(content: Text('Booking successful')));
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Booking successful')));
     }
   }
 }
