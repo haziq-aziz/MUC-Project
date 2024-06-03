@@ -2,20 +2,22 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'services/database_service.dart';
 void main() {
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return const MaterialApp(
       home: BookingForm(),
     );
   }
 }
 
 class BookingForm extends StatefulWidget {
+  const BookingForm({super.key});
+
   @override
   _BookingFormState createState() => _BookingFormState();
 }
@@ -41,7 +43,7 @@ class _BookingFormState extends State<BookingForm> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Booking Form')),
+      appBar: AppBar(title: const Text('Booking Form')),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Form(
@@ -62,8 +64,8 @@ class _BookingFormState extends State<BookingForm> {
                 onDateSelected: (date) => setState(() => _selectedEventDate = date),
                 onTimeSelected: (time) => setState(() => _selectedEventTime = time),
               ),
-              SizedBox(height: 20),
-              Text('Menu Packages'),
+              const SizedBox(height: 20),
+              const Text('Menu Packages'),
               ..._menuPackages.asMap().entries.map((entry) {
                 int index = entry.key;
                 String package = entry.value;
@@ -96,14 +98,14 @@ class _BookingFormState extends State<BookingForm> {
                       ),
                   ],
                 );
-              }).toList(),
-              SizedBox(height: 20),
+              }),
+              const SizedBox(height: 20),
               Text('Total Number of Guests: $_totalGuests'),
               Text('Total Price: RM$_totalPrice'),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               ElevatedButton(
                 onPressed: _submitForm,
-                child: Text('Submit'),
+                child: const Text('Submit'),
               ),
             ],
           ),
@@ -212,7 +214,7 @@ class _BookingFormState extends State<BookingForm> {
         totalPrice,
       );
 
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Booking successful')));
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Booking successful')));
     }
   }
 }

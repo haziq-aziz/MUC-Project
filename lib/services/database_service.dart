@@ -1,7 +1,7 @@
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
+import 'package:restaurantbooking/JsonModels/users.dart';
 import 'package:intl/intl.dart';
-
 
 class DatabaseService {
   static final DatabaseService _instance = DatabaseService._internal();
@@ -61,7 +61,8 @@ class DatabaseService {
     ''');
   }
 
-  Future<void> insertUser(String name, String email, int phone, String username, String password) async {
+  Future<void> insertUser(String name, String email, int phone, String username,
+      String password) async {
     final db = await database;
     await db.insert(
       'users',
@@ -90,13 +91,12 @@ class DatabaseService {
   }
 
   Future<void> insertBooking(
-    int userId,
-    DateTime bookDateTime,
-    DateTime eventDateTime,
-    String menuPackage,
-    int numGuest,
-    double packagePrice,
-  ) async {
+      int userId,
+      DateTime bookDateTime,
+      DateTime eventDateTime,
+      String menuPackage,
+      int numGuest,
+      double packagePrice) async {
     final db = await database;
     await db.insert(
       'menubook',
@@ -112,5 +112,27 @@ class DatabaseService {
       },
       conflictAlgorithm: ConflictAlgorithm.replace,
     );
+  }
+
+  // Login
+  Future<bool> login(Users user) async {
+    final db = await database;
+
+    // Check Password
+    var result = await db.rawQuery(
+        "SELECT * from users where username = '${user.username}' AND password = '${user.password}'");
+
+    if (result.isNotEmpty) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  // Sign Up
+  Future<int> signup(Users user) async {
+    final db = await database;
+
+    return db.insert('users', user.toMap());
   }
 }
