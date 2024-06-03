@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:restaurantbooking/Authentication/login.dart';
-import 'landingpage.dart';
 
 void main() {
   runApp(const RestaurantBooking());

@@ -110,7 +110,6 @@ class StarRating extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final color = Theme.of(context).colorScheme.secondary;
     const size = 36.0;
     return Row(
       mainAxisSize: MainAxisSize.min,
