@@ -1,12 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import '../services/database_service.dart';
+import 'package:restaurantbooking/screens/landingpage.dart';
+import 'package:restaurantbooking/screens/home_screen_success.dart';
+import 'package:restaurantbooking/Authentication/login.dart';
+
 void main() {
   runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
+
   @override
   Widget build(BuildContext context) {
     return const MaterialApp(
@@ -39,6 +44,7 @@ class _BookingFormState extends State<BookingForm> {
 
   double _totalPrice = 0.0;
   int _totalGuests = 0;
+  int _currentTab = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -54,15 +60,19 @@ class _BookingFormState extends State<BookingForm> {
                 label: 'Booking Date',
                 selectedDate: _selectedBookDate,
                 selectedTime: _selectedBookTime,
-                onDateSelected: (date) => setState(() => _selectedBookDate = date),
-                onTimeSelected: (time) => setState(() => _selectedBookTime = time),
+                onDateSelected: (date) =>
+                    setState(() => _selectedBookDate = date),
+                onTimeSelected: (time) =>
+                    setState(() => _selectedBookTime = time),
               ),
               _buildDateTimePicker(
                 label: 'Event Date',
                 selectedDate: _selectedEventDate,
                 selectedTime: _selectedEventTime,
-                onDateSelected: (date) => setState(() => _selectedEventDate = date),
-                onTimeSelected: (time) => setState(() => _selectedEventTime = time),
+                onDateSelected: (date) =>
+                    setState(() => _selectedEventDate = date),
+                onTimeSelected: (time) =>
+                    setState(() => _selectedEventTime = time),
               ),
               const SizedBox(height: 20),
               const Text('Menu Packages'),
@@ -84,7 +94,8 @@ class _BookingFormState extends State<BookingForm> {
                     if (_selectedPackages[index])
                       TextFormField(
                         controller: _guestControllers[index],
-                        decoration: InputDecoration(labelText: 'Number of Guests for $package'),
+                        decoration: InputDecoration(
+                            labelText: 'Number of Guests for $package'),
                         keyboardType: TextInputType.number,
                         validator: (value) {
                           if (_selectedPackages[index] && value!.isEmpty) {
@@ -110,6 +121,53 @@ class _BookingFormState extends State<BookingForm> {
             ],
           ),
         ),
+      ),
+      bottomNavigationBar: BottomNavigationBar(
+        currentIndex: _currentTab,
+        onTap: (int value) {
+          setState(() {
+            _currentTab = value;
+            if (value == 0) {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const HomeScreenSuccess()),
+              );
+            } else if (value == 1) {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const BookingForm()),
+              );
+            } else if (value == 2) {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const HomeScreenSuccess()),
+              );
+            }
+          });
+        },
+        items: const [
+          BottomNavigationBarItem(
+            icon: Icon(
+              Icons.home,
+              size: 30.0,
+            ),
+            label: 'Home',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(
+              Icons.menu_book,
+              size: 30.0,
+            ),
+            label: 'Book Now',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(
+              Icons.person,
+              size: 30.0,
+            ),
+            label: 'Profile',
+          ),
+        ],
       ),
     );
   }
@@ -137,7 +195,9 @@ class _BookingFormState extends State<BookingForm> {
                 );
                 if (date != null) onDateSelected(date);
               },
-              child: Text(selectedDate != null ? DateFormat.yMd().format(selectedDate) : 'Select Date'),
+              child: Text(selectedDate != null
+                  ? DateFormat.yMd().format(selectedDate)
+                  : 'Select Date'),
             ),
             TextButton(
               onPressed: () async {
@@ -147,7 +207,9 @@ class _BookingFormState extends State<BookingForm> {
                 );
                 if (time != null) onTimeSelected(time);
               },
-              child: Text(selectedTime != null ? selectedTime.format(context) : 'Select Time'),
+              child: Text(selectedTime != null
+                  ? selectedTime.format(context)
+                  : 'Select Time'),
             ),
           ],
         ),
@@ -160,7 +222,9 @@ class _BookingFormState extends State<BookingForm> {
     int totalGuests = 0;
     for (int i = 0; i < _selectedPackages.length; i++) {
       if (_selectedPackages[i]) {
-        int numGuests = int.parse(_guestControllers[i].text.isEmpty ? '0' : _guestControllers[i].text);
+        int numGuests = int.parse(_guestControllers[i].text.isEmpty
+            ? '0'
+            : _guestControllers[i].text);
         totalGuests += numGuests;
         totalPrice += _packagePrices[i] * numGuests;
       }
@@ -180,12 +244,12 @@ class _BookingFormState extends State<BookingForm> {
           .entries
           .where((entry) => _selectedPackages[entry.key])
           .map((entry) {
-            int index = entry.key;
-            totalGuests += int.parse(_guestControllers[index].text);
-            totalPrice += _packagePrices[index] * int.parse(_guestControllers[index].text);
-            return entry.value;
-          })
-          .join(', ');
+        int index = entry.key;
+        totalGuests += int.parse(_guestControllers[index].text);
+        totalPrice +=
+            _packagePrices[index] * int.parse(_guestControllers[index].text);
+        return entry.value;
+      }).join(', ');
 
       DateTime bookDateTime = DateTime(
         _selectedBookDate!.year,
@@ -214,7 +278,8 @@ class _BookingFormState extends State<BookingForm> {
         totalPrice,
       );
 
-      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Booking successful')));
+      ScaffoldMessenger.of(context)
+          .showSnackBar(const SnackBar(content: Text('Booking successful')));
     }
   }
 }

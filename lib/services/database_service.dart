@@ -61,20 +61,17 @@ class DatabaseService {
     ''');
   }
 
-  Future<void> insertUser(String name, String email, int phone, String username,
-      String password) async {
+  Future<void> insertUser(Users user) async {
     final db = await database;
-    await db.insert(
-      'users',
-      {
-        'name': name,
-        'email': email,
-        'phone': phone,
-        'username': username,
-        'password': password,
-      },
-      conflictAlgorithm: ConflictAlgorithm.replace,
-    );
+    try {
+      await db.insert(
+        'users',
+        user.toMap(),
+        conflictAlgorithm: ConflictAlgorithm.replace,
+      );
+    } catch (e) {
+      print('Error inserting user: $e');
+    }
   }
 
   Future<int> getUserIdByUsername(String username) async {
@@ -114,25 +111,18 @@ class DatabaseService {
     );
   }
 
-  // Login
   Future<bool> login(Users user) async {
     final db = await database;
 
     // Check Password
     var result = await db.rawQuery(
-        "SELECT * from users where username = '${user.username}' AND password = '${user.password}'");
+        "SELECT * from users where username = ? AND password = ?", [user.username, user.password]);
 
-    if (result.isNotEmpty) {
-      return true;
-    } else {
-      return false;
-    }
+    return result.isNotEmpty;
   }
 
-  // Sign Up
   Future<int> signup(Users user) async {
     final db = await database;
-
-    return db.insert('users', user.toMap());
+    return await db.insert('users', user.toMap());
   }
 }
