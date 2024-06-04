@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:restaurantbooking/Authentication/login.dart';
+import 'package:restaurantbooking/screens/landingpage.dart';
 
 void main() {
   runApp(const RestaurantBooking());
@@ -15,7 +16,7 @@ class RestaurantBooking extends StatelessWidget {
       theme: ThemeData(
         fontFamily: 'Montserrat',
       ),
-      home: const LoginScreen(),
+      home: const LandingPage(),
     );
   }
 }
