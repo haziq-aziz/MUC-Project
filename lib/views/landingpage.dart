@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import '../reservationpage.dart';
 import 'home_screen.dart';
 
 class LandingPage extends StatelessWidget {
