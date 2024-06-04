@@ -3,6 +3,7 @@ import 'package:restaurantbooking/Authentication/signup.dart';
 import 'package:restaurantbooking/JsonModels/users.dart';
 import 'package:restaurantbooking/landingpage.dart';
 import 'package:restaurantbooking/services/database_service.dart';
+import 'package:restaurantbooking/BookForm/bookingform.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -32,7 +33,7 @@ class _LoginScreenState extends State<LoginScreen> {
       // if login is correct, go to landing page
       if (!mounted) return;
       Navigator.pushReplacement(context,
-          MaterialPageRoute(builder: (context) => const LandingPage()));
+          MaterialPageRoute(builder: (context) => const BookingForm()));
     } else {
       // If login is not correct, show error message
       setState(() {

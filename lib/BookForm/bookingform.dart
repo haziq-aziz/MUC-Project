@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'services/database_service.dart';
+import '../services/database_service.dart';
 void main() {
   runApp(const MyApp());
 }
