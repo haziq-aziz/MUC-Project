@@ -15,7 +15,7 @@ class RestaurantBooking extends StatelessWidget {
       theme: ThemeData(
         fontFamily: 'Montserrat',
       ),
-      home: const Profile(),
+      home: Profile(),
     );
   }
 }
