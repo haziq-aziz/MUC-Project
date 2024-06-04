@@ -1,66 +1,97 @@
 import 'package:flutter/material.dart';
 
 class Profile extends StatelessWidget {
-  const Profile({super.key});
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Edit Profile'),
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back),
-          onPressed: () {
-            // Handle back button press
-          },
+      backgroundColor: Colors.black, // Set the background color to black
+      body: Center(
+        child: Container(
+          width: MediaQuery.of(context).size.width * 0.8,
+          padding: EdgeInsets.all(20),
+          decoration: BoxDecoration(
+            color: Colors.black,
+            borderRadius: BorderRadius.circular(20),
+          ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              CircleAvatar(
+                radius: 40,
+                backgroundColor: Colors.grey[300],
+                child: Align(
+                  alignment: Alignment.bottomRight,
+                  child: CircleAvatar(
+                    radius: 12,
+                    backgroundColor: Colors.yellow,
+                    child: Icon(
+                      Icons.camera_alt,
+                      size: 15,
+                      color: Colors.black,
+                    ),
+                  ),
+                ),
+              ),
+              SizedBox(height: 20),
+              _buildTextField(Icons.person, 'Full Name'),
+              SizedBox(height: 10),
+              _buildTextField(Icons.email, 'E-Mail'),
+              SizedBox(height: 10),
+              _buildTextField(Icons.phone, 'Phone No'),
+              SizedBox(height: 10),
+              _buildTextField(Icons.lock, 'Password', obscureText: true),
+              SizedBox(height: 20),
+              ElevatedButton(
+                onPressed: () {},
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.yellow,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                ),
+                child: Padding(
+                  padding: EdgeInsets.symmetric(vertical: 15, horizontal: 30),
+                  child: Text(
+                    'Edit Profile',
+                    style: TextStyle(color: Colors.black),
+                  ),
+                ),
+              ),
+              SizedBox(height: 20),
+              Text(
+                'Joined 31 October 2022',
+                style: TextStyle(color: Colors.white),
+              ),
+              SizedBox(height: 20),
+              TextButton(
+                onPressed: () {},
+                child: Text(
+                  'Delete',
+                  style: TextStyle(color: Colors.red),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
-      body: ListView(
-        children: <Widget>[
-          const Padding(
-            padding: EdgeInsets.all(8.0),
-            child: Center(
-              child: CircleAvatar(
-                radius: 50,
-                backgroundImage: NetworkImage('URL_TO_PROFILE_PICTURE'),
-              ),
-            ),
-          ),
-          ListTile(
-            title: const Text('Personal Information'),
-            trailing: const Icon(Icons.edit),
-            onTap: () {
-              // Handle personal information edit
-            },
-          ),
-          const Divider(),
-          ListTile(
-            title: const Text('Name'),
-            subtitle: const Text('John Doe'),
-            trailing: const Icon(Icons.edit),
-            onTap: () {
-              // Handle name edit
-            },
-          ),
-          ListTile(
-            title: const Text('Email'),
-            subtitle: const Text('john.doe@example.com'),
-            trailing: const Icon(Icons.edit),
-            onTap: () {
-              // Handle email edit
-            },
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16.0),
-            child: ElevatedButton(
-              onPressed: () {
-                // Handle save button press
-              },
-              child: const Text('Save Changes'),
-            ),
-          ),
-        ],
+    );
+  }
+
+  Widget _buildTextField(IconData icon, String label, {bool obscureText = false}) {
+    return TextField(
+      obscureText: obscureText,
+      decoration: InputDecoration(
+        prefixIcon: Icon(icon, color: Colors.yellow),
+        labelText: label,
+        labelStyle: TextStyle(color: Colors.white),
+        filled: true,
+        fillColor: Colors.grey[800],
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(10),
+          borderSide: BorderSide.none,
+        ),
       ),
+      style: TextStyle(color: Colors.white),
     );
   }
 }
