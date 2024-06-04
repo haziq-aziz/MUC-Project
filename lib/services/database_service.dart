@@ -116,7 +116,8 @@ class DatabaseService {
 
     // Check Password
     var result = await db.rawQuery(
-        "SELECT * from users where username = ? AND password = ?", [user.username, user.password]);
+        "SELECT * from users where username = ? AND password = ?",
+        [user.username, user.password]);
 
     return result.isNotEmpty;
   }
@@ -124,5 +125,21 @@ class DatabaseService {
   Future<int> signup(Users user) async {
     final db = await database;
     return await db.insert('users', user.toMap());
+  }
+
+  // Update user details
+  Future<void> updateUsers(Users user) async {
+    final db = await database;
+    try {
+      await db.update(
+        'users',
+        user.toMap(),
+        where: 'userid = ?',
+        whereArgs: [user.userid],
+        conflictAlgorithm: ConflictAlgorithm.replace,
+      );
+    } catch (e) {
+      print('Error updating user: $e');
+    }
   }
 }

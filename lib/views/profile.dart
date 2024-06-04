@@ -1,97 +1,165 @@
 import 'package:flutter/material.dart';
+import 'package:restaurantbooking/services/database_service.dart';
+import 'package:restaurantbooking/JsonModels/users.dart';
 
-class Profile extends StatelessWidget {
+class Profile extends StatefulWidget {
+  final int userId;
+
+  Profile({required this.userId});
+
+  @override
+  _ProfileState createState() => _ProfileState();
+}
+
+class _ProfileState extends State<Profile> {
+  final _formKey = GlobalKey<FormState>();
+  final _nameController = TextEditingController();
+  final _emailController = TextEditingController();
+  final _phoneController = TextEditingController();
+  final _passwordController = TextEditingController();
+  bool _obscurePassword = true;
+
+  Users _user = Users(username: '', password: '');
+
+  @override
+  void initState() {
+    super.initState();
+    _loadUserData();
+  }
+
+  Future<void> _loadUserData() async {
+    final db = DatabaseService();
+    final dbInstance = await db.database;
+    List<Map<String, dynamic>> results = await dbInstance.query(
+      'users',
+      where: 'userid = ?',
+      whereArgs: [widget.userId],
+    );
+
+    if (results.isNotEmpty) {
+      setState(() {
+        _user = Users.fromMap(results.first);
+        _nameController.text = _user.name ?? '';
+        _emailController.text = _user.email ?? '';
+        _phoneController.text = _user.phone?.toString() ?? '';
+        _passwordController.text = _user.password; // Load password into the controller
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.black, // Set the background color to black
+      appBar: AppBar(
+        title: const Text("Edit Profile"),
+        backgroundColor: Color.fromRGBO(43, 159, 148, 1.0),
+      ),
       body: Center(
-        child: Container(
-          width: MediaQuery.of(context).size.width * 0.8,
-          padding: EdgeInsets.all(20),
-          decoration: BoxDecoration(
-            color: Colors.black,
-            borderRadius: BorderRadius.circular(20),
-          ),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              CircleAvatar(
-                radius: 40,
-                backgroundColor: Colors.grey[300],
-                child: Align(
-                  alignment: Alignment.bottomRight,
-                  child: CircleAvatar(
-                    radius: 12,
-                    backgroundColor: Colors.yellow,
-                    child: Icon(
-                      Icons.camera_alt,
-                      size: 15,
-                      color: Colors.black,
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.all(20),
+            child: Form(
+              key: _formKey,
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  CircleAvatar(
+                    radius: 60,
+                    backgroundImage: AssetImage('assets/images/default_pfp.png'),
+                  ),
+                  SizedBox(height: 20),
+                  _buildTextField(Icons.person, 'Full Name', _nameController),
+                  SizedBox(height: 20),
+                  _buildTextField(Icons.email, 'E-Mail', _emailController),
+                  SizedBox(height: 20),
+                  _buildTextField(Icons.phone, 'Phone No', _phoneController),
+                  SizedBox(height: 20),
+                  _buildTextField(Icons.lock, 'Password', _passwordController, obscureText: _obscurePassword),
+                  SizedBox(height: 20),
+                  ElevatedButton(
+                    onPressed: _updateProfile,
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Color.fromRGBO(43, 159, 148, 1.0),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                    ),
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(vertical: 15),
+                      child: Text(
+                        'UPDATE',
+                        style: TextStyle(color: Colors.white),
+                        textAlign: TextAlign.center,
+                      ),
                     ),
                   ),
-                ),
+                  SizedBox(height: 20),
+                ],
               ),
-              SizedBox(height: 20),
-              _buildTextField(Icons.person, 'Full Name'),
-              SizedBox(height: 10),
-              _buildTextField(Icons.email, 'E-Mail'),
-              SizedBox(height: 10),
-              _buildTextField(Icons.phone, 'Phone No'),
-              SizedBox(height: 10),
-              _buildTextField(Icons.lock, 'Password', obscureText: true),
-              SizedBox(height: 20),
-              ElevatedButton(
-                onPressed: () {},
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.orange,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                ),
-                child: Padding(
-                  padding: EdgeInsets.symmetric(vertical: 15, horizontal: 30),
-                  child: Text(
-                    'Edit Profile',
-                    style: TextStyle(color: Colors.black),
-                  ),
-                ),
-              ),
-              SizedBox(height: 20),
-              Text(
-                'Joined 31 October 2022',
-                style: TextStyle(color: Colors.white),
-              ),
-              SizedBox(height: 20),
-              TextButton(
-                onPressed: () {},
-                child: Text(
-                  'Delete',
-                  style: TextStyle(color: Colors.red),
-                ),
-              ),
-            ],
+            ),
           ),
         ),
       ),
     );
   }
 
-  Widget _buildTextField(IconData icon, String label, {bool obscureText = false}) {
-    return TextField(
+  Widget _buildTextField(IconData icon, String label, TextEditingController controller, {bool obscureText = false}) {
+    return TextFormField(
+      controller: controller,
       obscureText: obscureText,
       decoration: InputDecoration(
-        prefixIcon: Icon(icon, color: Colors.yellow),
+        prefixIcon: Icon(icon, color: Color.fromRGBO(43, 159, 148, 1.0)),
         labelText: label,
-        labelStyle: TextStyle(color: Colors.white),
-        filled: true,
-        fillColor: Colors.grey[800],
+        labelStyle: TextStyle(color: Colors.black),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(10),
-          borderSide: BorderSide.none,
+          borderSide: BorderSide(color: Colors.black),
         ),
+        suffixIcon: label == 'Password'
+            ? IconButton(
+                icon: Icon(
+                  obscureText ? Icons.visibility : Icons.visibility_off,
+                  color: Color.fromRGBO(43, 159, 148, 1.0),
+                ),
+                onPressed: () {
+                  setState(() {
+                    _obscurePassword = !_obscurePassword;
+                  });
+                },
+              )
+            : null,
       ),
-      style: TextStyle(color: Colors.white),
+      style: TextStyle(color: Colors.black),
+      validator: (value) {
+        if (value == null || value.isEmpty) {
+          return 'Please enter $label';
+        }
+        return null;
+      },
     );
+  }
+
+  Future<void> _updateProfile() async {
+    if (_formKey.currentState!.validate()) {
+      // Update the user object with new data
+      Users updatedUser = Users(
+        username: _user.username,
+        password: _passwordController.text,
+        userid: widget.userId,
+        name: _nameController.text,
+        email: _emailController.text,
+        phone: int.tryParse(_phoneController.text),
+      );
+
+      // Update user data in the database
+      final db = DatabaseService();
+      await db.updateUsers(updatedUser);
+
+      // Show a snackbar indicating success
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Profile updated successfully')),
+      );
+    }
   }
 }

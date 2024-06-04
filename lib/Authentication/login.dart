@@ -5,7 +5,8 @@ import 'package:restaurantbooking/services/database_service.dart';
 import 'package:restaurantbooking/BookForm/bookingform.dart';
 import 'package:restaurantbooking/views/home_screen.dart';
 import 'package:restaurantbooking/views/home_screen_success.dart';
-import 'package:restaurantbooking/Authentication/globals.dart' as globals; // Import the globals file
+import 'package:restaurantbooking/Authentication/globals.dart' as globals;
+import 'package:restaurantbooking/views/profile.dart'; // Import the globals file
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -29,25 +30,26 @@ class _LoginScreenState extends State<LoginScreen> {
 
   // Call function in login button
   login() async {
-    var response = await db.login(Users(username: username.text, password: password.text));
+    var response =
+        await db.login(Users(username: username.text, password: password.text));
 
     if (response == true) {
+      // Retrieve userId
+      int userId = await db.getUserIdByUsername(username.text);
 
       // if login is correct, update isLoggedIn and go to landing page
       if (!mounted) return;
       setState(() {
         globals.isLoggedIn = true;
+        globals.userId = userId; // Store userId in globals
       });
 
-      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const HomeScreenSuccess()));
-    
+      Navigator.pushReplacement(context,
+          MaterialPageRoute(builder: (context) => Profile(userId: userId)));
     } else {
-
       // If login is not correct, show error message
       setState(() {
-        
         isLoginTrue = true;
-      
       });
     }
   }
@@ -58,6 +60,10 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: const Text("Login"),
+        backgroundColor: Color.fromRGBO(43, 159, 148, 1.0),
+      ),
       body: Center(
           child: SingleChildScrollView(
               child: Padding(
@@ -68,8 +74,8 @@ class _LoginScreenState extends State<LoginScreen> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Image.asset(
-                            "assets/images/image_landing.png",
-                            width: 100,
+                            "assets/images/login_image.png",
+                            width: 300,
                           ),
                           const SizedBox(height: 10),
                           Container(
@@ -78,7 +84,8 @@ class _LoginScreenState extends State<LoginScreen> {
                                   horizontal: 10, vertical: 6),
                               decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(8),
-                                  color: Colors.deepPurple.withOpacity(0.2)),
+                                  color: const Color.fromRGBO(43, 159, 148, 1.0)
+                                      .withOpacity(.2)),
                               child: TextFormField(
                                 controller: username,
                                 validator: (value) {
@@ -99,7 +106,8 @@ class _LoginScreenState extends State<LoginScreen> {
                                 horizontal: 10, vertical: 6),
                             decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(8),
-                                color: Colors.deepPurple.withOpacity(0.2)),
+                                color: const Color.fromRGBO(43, 159, 148, 1.0)
+                                    .withOpacity(.2)),
                             child: TextFormField(
                               controller: password,
                               validator: (value) {
@@ -132,7 +140,8 @@ class _LoginScreenState extends State<LoginScreen> {
                               width: MediaQuery.of(context).size.width * 0.9,
                               decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(8),
-                                  color: Colors.deepPurple),
+                                  color:
+                                      const Color.fromRGBO(43, 159, 148, 1.0)),
                               child: TextButton(
                                 onPressed: () {
                                   if (formKey.currentState!.validate()) {
@@ -154,70 +163,21 @@ class _LoginScreenState extends State<LoginScreen> {
                                         context,
                                         MaterialPageRoute(
                                             builder: (context) =>
-                                            const SignUp()));
+                                                const SignUp()));
                                   },
-                                  child: const Text("SIGN UP")),
+                                  child: const Text("SIGN UP",
+                                      style: TextStyle(
+                                          color: Color.fromRGBO(
+                                              43, 159, 148, 1.0)))),
                             ],
                           ),
                           // Incorrect password notification
                           isLoginTrue
-                              ? const Text(
-                              "Username or password is incorrect",
-                              style: TextStyle(color: Colors.red))
+                              ? const Text("Username or password is incorrect",
+                                  style: TextStyle(color: Colors.red))
                               : const SizedBox(),
                         ],
                       ))))),
-      bottomNavigationBar: BottomNavigationBar(
-        currentIndex: _currentTab,
-        onTap: (int value) {
-          setState(() {
-            _currentTab = value;
-            if (value == 0) {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => const HomeScreen()),
-              );
-            } else if (value == 1) {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => globals.isLoggedIn
-                    ? const BookingForm()
-                    : const LoginScreen()),
-              );
-            } else if (value == 2) {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => globals.isLoggedIn
-                    ? const HomeScreenSuccess()
-                    : const LoginScreen()),
-              );
-            }
-          });
-        },
-        items: const [
-          BottomNavigationBarItem(
-            icon: Icon(
-              Icons.home,
-              size: 30.0,
-            ),
-            label: 'Home',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(
-              Icons.menu_book,
-              size: 30.0,
-            ),
-            label: 'Book Now',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(
-              Icons.person,
-              size: 30.0,
-            ),
-            label: 'Login',
-          ),
-        ],
-      ),
     );
   }
 }
