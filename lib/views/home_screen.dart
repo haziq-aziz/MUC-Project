@@ -1,22 +1,21 @@
-import 'package:restaurantbooking/screens/landingpage.dart';
-import 'package:restaurantbooking/screens/registerationpage.dart';
+import 'package:restaurantbooking/views/landingpage.dart';
+import 'package:restaurantbooking/views/registerationpage.dart';
 import 'package:flutter/material.dart';
 import 'package:restaurantbooking/widgets/destination_restoran.dart';
 import 'package:restaurantbooking/widgets/restoran_comingsoon.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:restaurantbooking/Authentication/login.dart';
-import 'package:restaurantbooking/BookForm/bookingform.dart';
 
-class HomeScreenSuccess extends StatefulWidget {
-  const HomeScreenSuccess({super.key});
+class HomeScreen extends StatefulWidget {
+  const HomeScreen({super.key});
   @override
-  _HomeScreenSuccessState createState() => _HomeScreenSuccessState();
+  _HomeScreenState createState() => _HomeScreenState();
 }
 
-class _HomeScreenSuccessState extends State<HomeScreenSuccess> {
+class _HomeScreenState extends State<HomeScreen> {
   int _selectedIndex = 0;
   int _currentTab = 0;
-  List<IconData> _icons = [
+  final List<IconData> _icons = [
     FontAwesomeIcons.faceSmile,
     FontAwesomeIcons.faceGrinStars,
     FontAwesomeIcons.faceGrin,
@@ -36,7 +35,7 @@ class _HomeScreenSuccessState extends State<HomeScreenSuccess> {
         decoration: BoxDecoration(
           color: _selectedIndex == index
               ? Theme.of(context).primaryColor
-              : Color(0xFFE7EBEE),
+              : const Color(0xFFE7EBEE),
           borderRadius: BorderRadius.circular(30.0),
         ),
         child: Icon(
@@ -44,7 +43,7 @@ class _HomeScreenSuccessState extends State<HomeScreenSuccess> {
           size: 25.0,
           color: _selectedIndex == index
               ? Colors.white
-              : Color(0xFFB4C1C4),
+              : const Color(0xFFB4C1C4),
         ),
       ),
     );
@@ -55,9 +54,9 @@ class _HomeScreenSuccessState extends State<HomeScreenSuccess> {
     return Scaffold(
       body: SafeArea(
         child: ListView(
-          padding: EdgeInsets.symmetric(vertical: 30.0),
+          padding: const EdgeInsets.symmetric(vertical: 30.0),
           children: <Widget>[
-            Padding(
+            const Padding(
               padding: EdgeInsets.only(left: 20.0, right: 120.0),
               child: Text(
                 'What would you like to find?',
@@ -67,7 +66,7 @@ class _HomeScreenSuccessState extends State<HomeScreenSuccess> {
                 ),
               ),
             ),
-            SizedBox(height: 20.0),
+            const SizedBox(height: 20.0),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: _icons
@@ -78,9 +77,9 @@ class _HomeScreenSuccessState extends State<HomeScreenSuccess> {
                   )
                   .toList(),
             ),
-            SizedBox(height: 20.0),
+            const SizedBox(height: 20.0),
             DestinationRestoran(),
-            SizedBox(height: 20.0),
+            const SizedBox(height: 20.0),
             HotelCarousel(),
           ],
         ),
@@ -91,20 +90,21 @@ class _HomeScreenSuccessState extends State<HomeScreenSuccess> {
           setState(() {
             _currentTab = value;
             if (value == 0) {
-              // Navigate to the current page
-              // You may not need to navigate anywhere, so this is left blank
-            } else if (value == 1) {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => const BookingForm()),
-              );
-            } else if (value == 2) {
-
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => const HomeScreenSuccess()),
-              );
-            }
+        // Navigate to the current page
+        // You may not need to navigate anywhere, so this is left blank
+      } else if (value == 1) {
+        // Navigate to Login App
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => const LoginScreen()),
+        );
+      } else if (value == 2) {
+        // Navigate to Login App
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => const LoginScreen()),
+        );
+      }
           });
         },
         items: const [
@@ -123,11 +123,13 @@ class _HomeScreenSuccessState extends State<HomeScreenSuccess> {
             label: 'Book Now',
           ),
           BottomNavigationBarItem(
-            icon: Icon(
-              Icons.person,
+              
+              icon: Icon(
+                Icons.person,
               size: 30.0,
+
             ),
-            label: 'Profile',
+            label: 'Login',
           )
         ],
       ),

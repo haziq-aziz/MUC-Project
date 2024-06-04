@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:restaurantbooking/Authentication/signup.dart';
 import 'package:restaurantbooking/JsonModels/users.dart';
-import 'package:restaurantbooking/screens/landingpage.dart';
 import 'package:restaurantbooking/services/database_service.dart';
 import 'package:restaurantbooking/BookForm/bookingform.dart';
-import 'package:restaurantbooking/widgets/destination_restoran.dart';
-import 'package:restaurantbooking/screens/home_screen.dart';
-import 'package:restaurantbooking/screens/home_screen_success.dart';
+import 'package:restaurantbooking/views/home_screen.dart';
+import 'package:restaurantbooking/views/home_screen_success.dart';
 import 'package:restaurantbooking/Authentication/globals.dart' as globals; // Import the globals file
 
 class LoginScreen extends StatefulWidget {
@@ -34,17 +32,22 @@ class _LoginScreenState extends State<LoginScreen> {
     var response = await db.login(Users(username: username.text, password: password.text));
 
     if (response == true) {
+
       // if login is correct, update isLoggedIn and go to landing page
       if (!mounted) return;
       setState(() {
         globals.isLoggedIn = true;
       });
-      Navigator.pushReplacement(context,
-          MaterialPageRoute(builder: (context) => const HomeScreenSuccess()));
+
+      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const HomeScreenSuccess()));
+    
     } else {
+
       // If login is not correct, show error message
       setState(() {
+        
         isLoginTrue = true;
+      
       });
     }
   }
