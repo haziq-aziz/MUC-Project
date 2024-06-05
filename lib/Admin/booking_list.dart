@@ -3,6 +3,7 @@ import 'package:restaurantbooking/Admin/dashboard.dart';
 import 'package:restaurantbooking/Admin/user_list.dart';
 import 'package:restaurantbooking/JsonModels/booking.dart';
 import 'package:restaurantbooking/services/database_service.dart';
+import 'package:restaurantbooking/Admin/booking_edit.dart';
 
 class BookingList extends StatefulWidget {
   @override
@@ -60,6 +61,7 @@ class _BookingListState extends State<BookingList> {
     return Scaffold(
       appBar: AppBar(
         title: Center(child: Text("Booking List")),
+        automaticallyImplyLeading: false, // Remove the back button
       ),
       backgroundColor: const Color(0xFF4B9EA6),
       body: ListView.builder(
@@ -69,8 +71,7 @@ class _BookingListState extends State<BookingList> {
           return Card(
             child: ListTile(
               leading: CircleAvatar(
-                child: Text(
-                    '${booking.userId}'), // Assuming userId is the unique identifier for bookings
+                child: Text('${booking.bookId}'), // Assuming bookId is the unique identifier for bookings
               ),
               title: Text(booking.menuPackage ??
                   ''), // Accessing the menuPackage property of the booking
@@ -80,12 +81,15 @@ class _BookingListState extends State<BookingList> {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   IconButton(
-                    icon: Icon(Icons.edit),
-                    onPressed: () {
-                      // Implement edit functionality
-                      // You can navigate to a screen where admins can edit the booking details
-                    },
-                  ),
+  icon: Icon(Icons.edit),
+  onPressed: () {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => BookingEdit(booking: booking)),
+    );
+  },
+),
+
                   IconButton(
                     icon: Icon(Icons.delete),
                     onPressed: () {

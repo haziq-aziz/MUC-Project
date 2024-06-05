@@ -170,36 +170,30 @@ class _BookingEditState extends State<BookingEdit> {
   }
 
   void _submitForm() async {
-  if (_formKey.currentState!.validate()) {
-    // Update booking in the database
-    try {
-      DateTime pickedDateTime = DateFormat('yyyy-MM-dd HH:mm').parse('${_eventDateController.text} ${_eventTimeController.text}');
+    if (_formKey.currentState!.validate()) {
+      // Update booking in the database
+      try {
+        DateTime pickedDateTime = DateFormat('yyyy-MM-dd HH:mm').parse('${_eventDateController.text} ${_eventTimeController.text}');
 
-      MenuBook updatedBooking = MenuBook(
-        bookId: widget.booking.bookId,
-        userId: widget.booking.userId,
-        bookDate: widget.booking.bookDate,
-        bookTime: widget.booking.bookTime,
-        eventDate: pickedDateTime,
-        eventTime: pickedDateTime,
-        menuPackage: _menuPackageController.text,
-        numGuest: int.parse(_numGuestController.text),
-        packagePrice: double.parse(_packagePriceController.text),
-      );
+        await DatabaseService().updateBooking(
+          widget.booking.bookId,
+          _menuPackageController.text,
+          pickedDateTime,
+          int.parse(_numGuestController.text),
+          double.parse(_packagePriceController.text),
+        );
 
-      await DatabaseService().updateBooking(updatedBooking);
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Booking updated successfully')),
+        );
 
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Booking updated successfully')),
-      );
-
-      // Navigate back to the previous screen
-      Navigator.pop(context);
-    } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Failed to update booking')),
-      );
+        // Navigate back to the previous screen
+        Navigator.pop(context);
+      } catch (e) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Failed to update booking')),
+        );
+      }
     }
   }
-}
 }

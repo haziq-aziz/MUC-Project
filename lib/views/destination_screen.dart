@@ -6,11 +6,12 @@ import 'package:restaurantbooking/BookForm/bookingform.dart';
 import 'package:restaurantbooking/views/home_screen_success.dart';
 import 'package:restaurantbooking/Authentication/login.dart';
 import 'package:restaurantbooking/Authentication/globals.dart' as globals; // Import the globals file
+import 'package:stroke_text/stroke_text.dart';
 
 class DestinationScreen extends StatefulWidget {
   final Destination destination;
 
-  const DestinationScreen({super.key, required this.destination});
+  DestinationScreen({required this.destination});
 
   @override
   _DestinationScreenState createState() => _DestinationScreenState();
@@ -26,8 +27,6 @@ class _DestinationScreenState extends State<DestinationScreen> {
     return Text(stars);
   }
 
-  int _currentTab = 0;
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -39,7 +38,7 @@ class _DestinationScreenState extends State<DestinationScreen> {
                 height: MediaQuery.of(context).size.width,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(30.0),
-                  boxShadow: const [
+                  boxShadow: [
                     BoxShadow(
                       color: Colors.black26,
                       offset: Offset(0.0, 2.0),
@@ -59,16 +58,17 @@ class _DestinationScreenState extends State<DestinationScreen> {
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 40.0),
+                padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 40.0),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
                     IconButton(
-                      icon: const Icon(Icons.arrow_back),
+                      icon: Icon(Icons.arrow_back),
                       iconSize: 30.0,
-                      color: Colors.black,
+                      color: Color(0xFF2B9F94),
                       onPressed: () => Navigator.pop(context),
                     ),
+
                   ],
                 ),
               ),
@@ -78,26 +78,28 @@ class _DestinationScreenState extends State<DestinationScreen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                    Text(
-                      widget.destination.city,
-                      style: const TextStyle(
+                    StrokeText(
+                      text: widget.destination.nopackage,
+                      textStyle: TextStyle(
                         color: Colors.white,
                         fontSize: 35.0,
                         fontWeight: FontWeight.w600,
                         letterSpacing: 1.2,
                       ),
+                      strokeWidth: 10.0, // Adjust the strokeWidth as needed
+                      strokeColor: Color(0xFF2B9F94), // Set the color of the stroke
                     ),
                     Row(
                       children: <Widget>[
-                        const Icon(
+                        Icon(
                           FontAwesomeIcons.locationArrow,
                           size: 15.0,
                           color: Colors.white70,
                         ),
-                        const SizedBox(width: 5.0),
+                        SizedBox(width: 5.0),
                         Text(
-                          widget.destination.country,
-                          style: const TextStyle(
+                          widget.destination.tpackage,
+                          style: TextStyle(
                             color: Colors.white70,
                             fontSize: 20.0,
                           ),
@@ -125,13 +127,13 @@ class _DestinationScreenState extends State<DestinationScreen> {
                     }
                   },
                   style: TextButton.styleFrom(
-                    backgroundColor: Colors.blueAccent,
-                    padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+                    backgroundColor: Color.fromRGBO(43, 159, 148, 1.0),
+                    padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(8.0),
                     ),
                   ),
-                  child: const Text(
+                  child: Text(
                     'Book Here',
                     style: TextStyle(
                       color: Colors.white,
@@ -144,14 +146,14 @@ class _DestinationScreenState extends State<DestinationScreen> {
           ),
           Expanded(
             child: ListView.builder(
-              padding: const EdgeInsets.only(top: 10.0, bottom: 15.0),
+              padding: EdgeInsets.only(top: 10.0, bottom: 15.0),
               itemCount: widget.destination.activities.length,
               itemBuilder: (BuildContext context, int index) {
                 Activity activity = widget.destination.activities[index];
                 return Stack(
                   children: <Widget>[
                     Container(
-                      margin: const EdgeInsets.fromLTRB(40.0, 5.0, 20.0, 5.0),
+                      margin: EdgeInsets.fromLTRB(40.0, 5.0, 20.0, 5.0),
                       height: 170.0,
                       width: double.infinity,
                       decoration: BoxDecoration(
@@ -159,7 +161,7 @@ class _DestinationScreenState extends State<DestinationScreen> {
                         borderRadius: BorderRadius.circular(20.0),
                       ),
                       child: Padding(
-                        padding: const EdgeInsets.fromLTRB(100.0, 5.0, 5.0, 5.0),
+                        padding: EdgeInsets.fromLTRB(100.0, 5.0, 5.0, 5.0),
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -168,11 +170,12 @@ class _DestinationScreenState extends State<DestinationScreen> {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: <Widget>[
-                                SizedBox(
-                                  width: 120.0,
+                                Container(
+                                  width: 170.0,
                                   child: Text(
                                     activity.name,
-                                    style: const TextStyle(
+                                    style: TextStyle(
+                                      letterSpacing: 1.2,
                                       fontSize: 18.0,
                                       fontWeight: FontWeight.w600,
                                     ),
@@ -183,14 +186,14 @@ class _DestinationScreenState extends State<DestinationScreen> {
                                 Column(
                                   children: <Widget>[
                                     Text(
-                                      'RM${activity.price}',
-                                      style: const TextStyle(
+                                      '\ ${activity.price}',
+                                      style: TextStyle(
                                         fontSize: 22.0,
                                         fontWeight: FontWeight.w600,
                                       ),
                                     ),
-                                    const Text(
-                                      'per pax',
+                                    Text(
+                                      'Try it',
                                       style: TextStyle(
                                         color: Colors.grey,
                                       ),
@@ -200,20 +203,20 @@ class _DestinationScreenState extends State<DestinationScreen> {
                               ],
                             ),
                             Text(
-                              activity.personpax,
-                              style: const TextStyle(
+                              activity.descfood,
+                              style: TextStyle(
                                 color: Colors.grey,
                               ),
                             ),
                             _buildRatingStars(activity.rating),
-                            const SizedBox(height: 10.0),
+                            SizedBox(height: 10.0),
                             Row(
                               children: <Widget>[
                                 Container(
-                                  padding: const EdgeInsets.all(5.0),
-                                  width: 70.0,
+                                  padding: EdgeInsets.all(5.0),
+                                  width: 80.0,
                                   decoration: BoxDecoration(
-                                    color: Theme.of(context).primaryColor,
+                                    color: Color(0xFF2B9F94),
                                     borderRadius: BorderRadius.circular(10.0),
                                   ),
                                   alignment: Alignment.center,
@@ -221,16 +224,17 @@ class _DestinationScreenState extends State<DestinationScreen> {
                                     activity.startTimes[0],
                                   ),
                                 ),
-                                const SizedBox(width: 10.0),
+                                SizedBox(width: 10.0),
                                 Container(
-                                  padding: const EdgeInsets.all(5.0),
+                                  padding: EdgeInsets.all(5.0),
                                   width: 70.0,
                                   decoration: BoxDecoration(
-                                    color: Theme.of(context).primaryColor,
+                                    color: Color(0xFF2B9F94),
                                     borderRadius: BorderRadius.circular(10.0),
                                   ),
                                   alignment: Alignment.center,
                                   child: Text(
+
                                     activity.startTimes[1],
                                   ),
                                 ),
@@ -259,53 +263,6 @@ class _DestinationScreenState extends State<DestinationScreen> {
                 );
               },
             ),
-          ),
-        ],
-      ),
-      bottomNavigationBar: BottomNavigationBar(
-        currentIndex: _currentTab,
-        onTap: (int value) {
-          setState(() {
-            _currentTab = value;
-            if (value == 0) {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => const HomeScreenSuccess()),
-              );
-            } else if (value == 1) {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => const BookingForm()),
-              );
-            } else if (value == 2) {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => const HomeScreenSuccess()),
-              );
-            }
-          });
-        },
-        items: const [
-          BottomNavigationBarItem(
-            icon: Icon(
-              Icons.home,
-              size: 30.0,
-            ),
-            label: 'Home',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(
-              Icons.menu_book,
-              size: 30.0,
-            ),
-            label: 'Book Now',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(
-              Icons.person,
-              size: 30.0,
-            ),
-            label: 'Login',
           ),
         ],
       ),
