@@ -142,4 +142,39 @@ class DatabaseService {
       print('Error updating user: $e');
     }
   }
+
+  // Admin Login
+  Future<bool> isAdmin(String username) async {
+    final db = await database;
+    var result = await db.query(
+      'administrator',
+      where: 'username = ?',
+      whereArgs: [username],
+    );
+    return result.isNotEmpty;
+  }
+
+  // Check Admin Password
+  Future<bool> checkAdminPassword(String username, String password) async {
+    final db = await database;
+    var result = await db.query(
+      'administrator',
+      where: 'username = ? AND password = ?',
+      whereArgs: [username, password],
+    );
+    return result.isNotEmpty;
+  }
+
+  // Insert Admin Account into database
+  Future<void> insertAdmin(String username, String password) async {
+    final db = await database;
+    await db.insert(
+      'administrator',
+      {
+        'username': username,
+        'password': password,
+      },
+      conflictAlgorithm: ConflictAlgorithm.replace,
+    );
+  }
 }
