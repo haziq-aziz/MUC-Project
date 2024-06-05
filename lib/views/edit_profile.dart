@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:restaurantbooking/services/database_service.dart';
-import 'package:restaurantbooking/JsonModels/users.dart';
+import 'package:restaurantbooking/JsonModels/session.dart';
 import 'package:restaurantbooking/views/home_screen_success.dart';
 
 class EditProfile extends StatefulWidget {

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:restaurantbooking/Authentication/login.dart';
-import 'package:restaurantbooking/JsonModels/users.dart';
+import 'package:restaurantbooking/JsonModels/session.dart';
 import 'package:restaurantbooking/services/database_service.dart';
 
 class SignUp extends StatefulWidget {
