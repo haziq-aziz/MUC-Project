@@ -48,7 +48,7 @@ class _BookingListState extends State<BookingList> {
 
   Future<void> _fetchMenuBookings() async {
     try {
-      List<Users> users = await DatabaseService().getAllMenuBookings()(); // Fetch users data from the database
+      List<Users> users = await DatabaseService().getAllUsers(); // Fetch users data from the database
       setState(() {
         BookingList = users; // Update the BookingList with the fetched data
       });
