@@ -5,7 +5,7 @@ import 'package:restaurantbooking/services/database_service.dart';
 import 'package:restaurantbooking/views/home_screen.dart';
 import 'package:restaurantbooking/views/home_screen_success.dart';
 import 'package:restaurantbooking/views/edit_profile.dart';
-import 'package:restaurantbooking/views/admin_dashboard.dart';
+import 'package:restaurantbooking/Admin/dashboard.dart';
 import 'package:restaurantbooking/Authentication/globals.dart' as globals;
 
 class LoginScreen extends StatefulWidget {
