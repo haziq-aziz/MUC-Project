@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:restaurantbooking/Admin/dashboard.dart';
 import 'package:restaurantbooking/Admin/user_list.dart';
-import 'package:restaurantbooking/JsonModels/session.dart'; // Import the Users model
-import 'package:restaurantbooking/services/database_service.dart'; // Import the DatabaseService
-import 'package:restaurantbooking/Admin/booking_list.dart';
+import 'package:restaurantbooking/JsonModels/booking.dart';
+import 'package:restaurantbooking/services/database_service.dart';
 
 class BookingList extends StatefulWidget {
   @override
@@ -11,9 +10,9 @@ class BookingList extends StatefulWidget {
 }
 
 class _BookingListState extends State<BookingList> {
-  List<Users> BookingList = []; // Initialize an empty list of Users
+  List<MenuBook> bookingList = []; // Initialize an empty list of bookings
 
-  int _selectedIndex = 1;
+  int _selectedIndex = 2;
 
   void _onItemTapped(int index) {
     setState(() {
@@ -24,17 +23,15 @@ class _BookingListState extends State<BookingList> {
       case 0:
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => AdminDashboard()), // Navigate to the BookingList screen
+          MaterialPageRoute(builder: (context) => AdminDashboard()),
         );
         break;
       case 1:
-        // Navigate to Bookings screen
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => UserList()), // Navigate to the BookingList screen
+          MaterialPageRoute(builder: (context) => UserList()),
         );
         break;
-
       case 2:
         break;
     }
@@ -43,17 +40,18 @@ class _BookingListState extends State<BookingList> {
   @override
   void initState() {
     super.initState();
-    _fetchMenuBookings(); // Call the method to fetch users data from the database when the widget initializes
+    _fetchBookings(); // Call the method to fetch bookings data from the database when the widget initializes
   }
 
-  Future<void> _fetchMenuBookings() async {
+  Future<void> _fetchBookings() async {
     try {
-      List<Users> users = await DatabaseService().getAllUsers(); // Fetch users data from the database
+      List<MenuBook> bookings =
+          await DatabaseService().getAllMenuBookings(); // Fetch bookings data from the database
       setState(() {
-        BookingList = users; // Update the BookingList with the fetched data
+        bookingList = bookings; // Update the bookingList with the fetched data
       });
     } catch (e) {
-      print('Error fetching users: $e');
+      print('Error fetching bookings: $e');
     }
   }
 
@@ -61,20 +59,20 @@ class _BookingListState extends State<BookingList> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Center(child: Text("Shoe Database")),
+        title: Center(child: Text("Booking List")),
       ),
       backgroundColor: const Color(0xFF4B9EA6),
       body: ListView.builder(
-        itemCount: BookingList.length,
+        itemCount: bookingList.length,
         itemBuilder: (context, index) {
-          final user = BookingList[index];
+          final booking = bookingList[index];
           return Card(
             child: ListTile(
               leading: CircleAvatar(
-                child: Text('${user.userid}'), // Assuming userid is the unique identifier for users
+                child: Text('${booking.userId}'), // Assuming userId is the unique identifier for bookings
               ),
-              title: Text(user.name ?? ''), // Accessing the name property of the user
-              subtitle: Text(user.email ?? ''), // Accessing the email property of the user
+              title: Text(booking.menuPackage ?? ''), // Accessing the menuPackage property of the booking
+              subtitle: Text(booking.eventDate.toString() ?? ''), // Accessing the eventDate property of the booking
               trailing: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
@@ -82,6 +80,7 @@ class _BookingListState extends State<BookingList> {
                     icon: Icon(Icons.edit),
                     onPressed: () {
                       // Implement edit functionality
+                      // You can navigate to a screen where admins can edit the booking details
                     },
                   ),
                   IconButton(
@@ -98,7 +97,7 @@ class _BookingListState extends State<BookingList> {
       ),
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _selectedIndex,
-        selectedItemColor: const Color(0xFF4B9EA6), // Set the selected tab color
+        selectedItemColor: const Color(0xFF4B9EA6),
         onTap: _onItemTapped,
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
