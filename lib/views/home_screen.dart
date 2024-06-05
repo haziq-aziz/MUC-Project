@@ -52,6 +52,10 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: const Text("Home Page"),
+        backgroundColor: Color.fromRGBO(43, 159, 148, 1.0),
+      ),
       body: SafeArea(
         child: ListView(
           padding: const EdgeInsets.symmetric(vertical: 30.0),
@@ -59,7 +63,7 @@ class _HomeScreenState extends State<HomeScreen> {
             const Padding(
               padding: EdgeInsets.only(left: 20.0, right: 120.0),
               child: Text(
-                'What would you like to find?',
+                'How are you felling today?',
                 style: TextStyle(
                   fontSize: 30.0,
                   fontWeight: FontWeight.bold,
