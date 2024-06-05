@@ -148,6 +148,29 @@ class DatabaseService {
     return bookingList;
   }
 
+  Future<void> updateBooking(
+  int bookId,
+  String menuPackage,
+  DateTime eventDateTime,
+  int numGuest,
+  double packagePrice,
+) async {
+  final db = await database;
+  await db.update(
+    'menubook',
+    {
+      'menupackage': menuPackage,
+      'eventdate': DateFormat('yyyy-MM-dd').format(eventDateTime),
+      'eventtime': DateFormat('HH:mm:ss').format(eventDateTime),
+      'numguest': numGuest,
+      'packageprice': packagePrice,
+    },
+    where: 'bookid = ?',
+    whereArgs: [bookId],
+    conflictAlgorithm: ConflictAlgorithm.replace,
+  );
+}
+
   Future<bool> login(Users user) async {
     final db = await database;
 
