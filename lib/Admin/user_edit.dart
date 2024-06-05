@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:restaurantbooking/Admin/dashboard.dart';
+import 'package:restaurantbooking/Admin/user_list.dart';
 import 'package:restaurantbooking/JsonModels/session.dart'; // Import the Users model
 import 'package:restaurantbooking/services/database_service.dart'; // Import the DatabaseService
 
@@ -52,7 +53,7 @@ class _UserEditState extends State<UserEdit> {
       // Push the dashboard screen
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (context) => AdminDashboard()),
+        MaterialPageRoute(builder: (context) => UserList()),
       );
     } catch (e) {
       print('Error updating user: $e');

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:restaurantbooking/Admin/booking_list.dart';
 import 'package:restaurantbooking/Admin/dashboard.dart';
 import 'package:restaurantbooking/JsonModels/booking.dart'; // Import MenuBook from the correct location
 import '../services/database_service.dart';
@@ -204,7 +205,7 @@ class _BookingEditState extends State<BookingEdit> {
         // Push the dashboard screen
         Navigator.pushReplacement(
           context,
-          MaterialPageRoute(builder: (context) => AdminDashboard()),
+          MaterialPageRoute(builder: (context) => BookingList()),
         );
       } catch (e) {
         ScaffoldMessenger.of(context).showSnackBar(
