@@ -68,7 +68,6 @@ class _DestinationScreenState extends State<DestinationScreen> {
                       color: Color(0xFF2B9F94),
                       onPressed: () => Navigator.pop(context),
                     ),
-
                   ],
                 ),
               ),
@@ -114,6 +113,7 @@ class _DestinationScreenState extends State<DestinationScreen> {
                 bottom: 20.0,
                 child: TextButton(
                   onPressed: () {
+                    print("Is Logged In: ${globals.isLoggedIn}"); // Debug print
                     if (globals.isLoggedIn) {
                       Navigator.push(
                         context,
@@ -234,7 +234,6 @@ class _DestinationScreenState extends State<DestinationScreen> {
                                   ),
                                   alignment: Alignment.center,
                                   child: Text(
-
                                     activity.startTimes[1],
                                   ),
                                 ),

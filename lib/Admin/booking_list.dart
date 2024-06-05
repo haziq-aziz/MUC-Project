@@ -3,8 +3,12 @@ import 'package:restaurantbooking/Admin/dashboard.dart';
 import 'package:restaurantbooking/Admin/user_list.dart';
 import 'package:restaurantbooking/JsonModels/booking.dart';
 import 'package:restaurantbooking/services/database_service.dart';
+<<<<<<< HEAD
+
+=======
 import 'package:restaurantbooking/Admin/booking_edit.dart';
 import 'package:restaurantbooking/views/landingpage.dart';
+>>>>>>> 56db4fd2c51521deb20d8fe0bcf846d885591097
 
 class BookingList extends StatefulWidget {
   @override
@@ -97,6 +101,17 @@ class _BookingListState extends State<BookingList> {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   IconButton(
+<<<<<<< HEAD
+  icon: Icon(Icons.edit),
+  onPressed: () {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => BookingList()),
+    );
+  },
+),
+
+=======
                     icon: Icon(Icons.edit),
                     onPressed: () {
                       Navigator.push(
@@ -105,6 +120,7 @@ class _BookingListState extends State<BookingList> {
                       );
                     },
                   ),
+>>>>>>> 56db4fd2c51521deb20d8fe0bcf846d885591097
                   IconButton(
                     icon: Icon(Icons.delete),
                     onPressed: () {

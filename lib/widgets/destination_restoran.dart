@@ -19,7 +19,7 @@ class DestinationRestoran extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
               Text(
-                'Selera Kampung',
+                'Package List',
                 style: TextStyle(
                   fontSize: 22.0,
                   fontWeight: FontWeight.bold,
