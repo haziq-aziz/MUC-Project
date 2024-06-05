@@ -27,11 +27,10 @@ class MyApp extends StatelessWidget {
 class BookingForm extends StatefulWidget {
   const BookingForm({super.key});
 
-
-
   @override
   _BookingFormState createState() => _BookingFormState();
 }
+
 final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
 class _BookingFormState extends State<BookingForm> {
@@ -65,13 +64,14 @@ class _BookingFormState extends State<BookingForm> {
     int? userId = await AuthService().getCurrentUserId();
     if (userId != null) {
       setState(() {
-        _userId = userId!;
+        _userId = userId;
       });
     } else {
       // Handle the case where userId is null
       // For example, you might want to display an error message or take other actions
     }
   }
+
   void _openProfileDrawer() {
     _scaffoldKey.currentState?.openEndDrawer();
   }
@@ -85,11 +85,24 @@ class _BookingFormState extends State<BookingForm> {
           (route) => false,
     );
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _scaffoldKey,
       appBar: AppBar(
-        title: Text('Booking Form'), // Add the title here
+        title: const Text("Booking Form"),
+        backgroundColor: Color.fromRGBO(43, 159, 148, 1.0),
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back),
+          onPressed: () {
+            // Navigate to the desired page here
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => HomeScreenSuccess()),
+            );
+          },
+        ),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -101,19 +114,15 @@ class _BookingFormState extends State<BookingForm> {
                 label: 'Booking Date',
                 selectedDate: _selectedBookDate,
                 selectedTime: _selectedBookTime,
-                onDateSelected: (date) =>
-                    setState(() => _selectedBookDate = date),
-                onTimeSelected: (time) =>
-                    setState(() => _selectedBookTime = time),
+                onDateSelected: (date) => setState(() => _selectedBookDate = date),
+                onTimeSelected: (time) => setState(() => _selectedBookTime = time),
               ),
               _buildDateTimePicker(
                 label: 'Event Date',
                 selectedDate: _selectedEventDate,
                 selectedTime: _selectedEventTime,
-                onDateSelected: (date) =>
-                    setState(() => _selectedEventDate = date),
-                onTimeSelected: (time) =>
-                    setState(() => _selectedEventTime = time),
+                onDateSelected: (date) => setState(() => _selectedEventDate = date),
+                onTimeSelected: (time) => setState(() => _selectedEventTime = time),
               ),
               const SizedBox(height: 20),
               const Text('Menu Packages'),
@@ -135,8 +144,7 @@ class _BookingFormState extends State<BookingForm> {
                     if (_selectedPackages[index])
                       TextFormField(
                         controller: _guestControllers[index],
-                        decoration: InputDecoration(
-                            labelText: 'Number of Guests for $package'),
+                        decoration: InputDecoration(labelText: 'Number of Guests for $package'),
                         keyboardType: TextInputType.number,
                         validator: (value) {
                           if (_selectedPackages[index] && value!.isEmpty) {
@@ -174,7 +182,6 @@ class _BookingFormState extends State<BookingForm> {
                 MaterialPageRoute(builder: (context) => const HomeScreenSuccess()),
               );
             } else if (value == 1) {
-
               Navigator.push(
                 context,
                 MaterialPageRoute(builder: (context) => const BookingForm()),
@@ -249,9 +256,7 @@ class _BookingFormState extends State<BookingForm> {
               onTap: () {
                 Navigator.pushReplacement(
                   context,
-                  MaterialPageRoute(
-                      builder: (context) =>
-                          EditProfile(userId: globals.userId!)),
+                  MaterialPageRoute(builder: (context) => EditProfile(userId: globals.userId!)),
                 );
               },
             ),
@@ -297,9 +302,7 @@ class _BookingFormState extends State<BookingForm> {
                 );
                 if (date != null) onDateSelected(date);
               },
-              child: Text(selectedDate != null
-                  ? DateFormat.yMd().format(selectedDate)
-                  : 'Select Date'),
+              child: Text(selectedDate != null ? DateFormat.yMd().format(selectedDate) : 'Select Date'),
             ),
             TextButton(
               onPressed: () async {
@@ -309,9 +312,7 @@ class _BookingFormState extends State<BookingForm> {
                 );
                 if (time != null) onTimeSelected(time);
               },
-              child: Text(selectedTime != null
-                  ? selectedTime.format(context)
-                  : 'Select Time'),
+              child: Text(selectedTime != null ? selectedTime.format(context) : 'Select Time'),
             ),
           ],
         ),
@@ -324,9 +325,7 @@ class _BookingFormState extends State<BookingForm> {
     int totalGuests = 0;
     for (int i = 0; i < _selectedPackages.length; i++) {
       if (_selectedPackages[i]) {
-        int numGuests = int.parse(_guestControllers[i].text.isEmpty
-            ? '0'
-            : _guestControllers[i].text);
+        int numGuests = int.parse(_guestControllers[i].text.isEmpty ? '0' : _guestControllers[i].text);
         totalGuests += numGuests;
         totalPrice += _packagePrices[i] * numGuests;
       }
@@ -341,15 +340,10 @@ class _BookingFormState extends State<BookingForm> {
     if (_formKey.currentState!.validate()) {
       double totalPrice = 0.0;
       int totalGuests = 0;
-      String menuPackage = _menuPackages
-          .asMap()
-          .entries
-          .where((entry) => _selectedPackages[entry.key])
-          .map((entry) {
+      String menuPackage = _menuPackages.asMap().entries.where((entry) => _selectedPackages[entry.key]).map((entry) {
         int index = entry.key;
         totalGuests += int.parse(_guestControllers[index].text);
-        totalPrice +=
-            _packagePrices[index] * int.parse(_guestControllers[index].text);
+        totalPrice += _packagePrices[index] * int.parse(_guestControllers[index].text);
         return entry.value;
       }).join(', ');
 
@@ -369,8 +363,6 @@ class _BookingFormState extends State<BookingForm> {
         _selectedEventTime!.minute,
       );
 
-
-
       await DatabaseService().insertBooking(
         _userId,
         bookDateTime,
@@ -380,8 +372,7 @@ class _BookingFormState extends State<BookingForm> {
         totalPrice,
       );
 
-      ScaffoldMessenger.of(context)
-          .showSnackBar(const SnackBar(content: Text('Booking successful')));
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Booking successful')));
     }
   }
 }
