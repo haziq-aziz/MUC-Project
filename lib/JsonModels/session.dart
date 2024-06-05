@@ -37,3 +37,20 @@ class Users {
     );
   }
 }
+
+class AdminSession {
+  static String? adminUsername;
+
+  static void setAdminSession(String username) {
+    adminUsername = username;
+  }
+
+  static bool isAdminLoggedIn() {
+    return adminUsername != null;
+  }
+
+  static void clearAdminSession() {
+    adminUsername = null;
+  }
+}
+

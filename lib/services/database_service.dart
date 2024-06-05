@@ -1,6 +1,6 @@
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
-import 'package:restaurantbooking/JsonModels/users.dart';
+import 'package:restaurantbooking/JsonModels/session.dart';
 import 'package:intl/intl.dart';
 
 class DatabaseService {
@@ -124,6 +124,8 @@ class DatabaseService {
     );
   }
 
+  
+
   Future<bool> login(Users user) async {
     final db = await database;
 
@@ -189,5 +191,15 @@ class DatabaseService {
       },
       conflictAlgorithm: ConflictAlgorithm.replace,
     );
+  }
+
+ Future<List<Users>> getAllUsers() async {
+    final db = await database;
+    List<Map<String, dynamic>> results = await db.query('users');
+    List<Users> userList = [];
+    for (var map in results) {
+      userList.add(Users.fromMap(map));
+    }
+    return userList;
   }
 }

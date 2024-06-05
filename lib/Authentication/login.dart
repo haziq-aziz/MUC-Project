@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:restaurantbooking/Authentication/signup.dart';
-import 'package:restaurantbooking/JsonModels/users.dart';
+import 'package:restaurantbooking/JsonModels/session.dart';
 import 'package:restaurantbooking/services/database_service.dart';
 import 'package:restaurantbooking/views/home_screen.dart';
 import 'package:restaurantbooking/views/home_screen_success.dart';
@@ -24,24 +24,26 @@ class _LoginScreenState extends State<LoginScreen> {
   final db = DatabaseService();
 
   login() async {
-    var user = Users(username: username.text, password: password.text);
-    bool isAdminUser = await db.isAdmin(user.username);
+  var user = Users(username: username.text, password: password.text);
+  bool isAdminUser = await db.isAdmin(user.username);
 
-    if (isAdminUser) {
-      bool adminPasswordCheck =
-          await db.checkAdminPassword(user.username, user.password);
+  if (isAdminUser) {
+    bool adminPasswordCheck =
+        await db.checkAdminPassword(user.username, user.password);
 
-      if (adminPasswordCheck) {
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (context) => AdminDashboard()),
-        );
-      } else {
-        setState(() {
-          isLoginTrue = true;
-        });
-      }
+    if (adminPasswordCheck) {
+      // Set admin session data upon successful login
+      AdminSession.setAdminSession(user.username);
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => AdminDashboard()),
+      );
     } else {
+      setState(() {
+        isLoginTrue = true;
+      });
+    }
+  } else {
       bool userLogin = await db.login(user);
 
       if (userLogin) {
