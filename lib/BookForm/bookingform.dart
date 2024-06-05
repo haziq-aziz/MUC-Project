@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import '../services/database_service.dart';
-import 'package:restaurantbooking/screens/landingpage.dart';
-import 'package:restaurantbooking/screens/home_screen_success.dart';
-import 'package:restaurantbooking/Authentication/login.dart';
+import 'package:restaurantbooking/views/home_screen_success.dart';
 
 void main() {
   runApp(const MyApp());

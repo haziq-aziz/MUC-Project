@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:restaurantbooking/widgets/destination_restoran.dart';
-import 'package:intl/intl.dart';
-import 'package:restaurantbooking/screens/home_screen.dart';
-import 'package:restaurantbooking/screens/home_screen_success.dart';
+import 'package:restaurantbooking/views/home_screen.dart';
+import 'package:restaurantbooking/views/home_screen_success.dart';
 
 class ReservationPage extends StatefulWidget {
   const ReservationPage({super.key});
@@ -275,18 +273,18 @@ class _ReservationPageState extends State<ReservationPage> {
               // Navigate to HomeScreen
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => HomeScreen()),
+                MaterialPageRoute(builder: (context) => const HomeScreen()),
               );
             } else if (value == 2) {
               // Navigate to ReservationPage
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => ReservationPage()),
+                MaterialPageRoute(builder: (context) => const ReservationPage()),
               );
             }
           });
         },
-        items: [
+        items: const [
           BottomNavigationBarItem(
             icon: Icon(
               Icons.search,

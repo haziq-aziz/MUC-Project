@@ -4,7 +4,7 @@ import 'package:restaurantbooking/JsonModels/users.dart';
 import 'package:restaurantbooking/services/database_service.dart';
 
 class SignUp extends StatefulWidget {
-  const SignUp({super.key});
+  const SignUp({Key? key}) : super(key: key);
 
   @override
   State<SignUp> createState() => _SignUpState();
@@ -25,27 +25,26 @@ class _SignUpState extends State<SignUp> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-        child: SingleChildScrollView(
-          child: Form(
-            key: formKey,
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const ListTile(
-                    title: Text(
-                      "Register New Account",
-                      style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
-                    ),
-                  ),
+  appBar: AppBar(
+    title: const Text("Register New Account"),
+    backgroundColor: Color.fromRGBO(43, 159, 148, 1.0),
+  ),
+  body: Center(
+    child: SingleChildScrollView(
+      child: Form(
+        key: formKey,
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
                   Container(
                     margin: const EdgeInsets.all(8),
-                    padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(8),
-                      color: Colors.deepPurple.withOpacity(.2),
+                      color: const Color.fromRGBO(43, 159, 148, 1.0).withOpacity(.2),
                     ),
                     child: TextFormField(
                       controller: username,
@@ -64,10 +63,11 @@ class _SignUpState extends State<SignUp> {
                   ),
                   Container(
                     margin: const EdgeInsets.all(8),
-                    padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(8),
-                      color: Colors.deepPurple.withOpacity(.2),
+                      color: const Color.fromRGBO(43, 159, 148, 1.0).withOpacity(.2),
                     ),
                     child: TextFormField(
                       controller: email,
@@ -86,10 +86,11 @@ class _SignUpState extends State<SignUp> {
                   ),
                   Container(
                     margin: const EdgeInsets.all(8),
-                    padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(8),
-                      color: Colors.deepPurple.withOpacity(.2),
+                      color: const Color.fromRGBO(43, 159, 148, 1.0).withOpacity(.2),
                     ),
                     child: TextFormField(
                       controller: name,
@@ -108,10 +109,11 @@ class _SignUpState extends State<SignUp> {
                   ),
                   Container(
                     margin: const EdgeInsets.all(8),
-                    padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(8),
-                      color: Colors.deepPurple.withOpacity(.2),
+                      color: const Color.fromRGBO(43, 159, 148, 1.0).withOpacity(.2),
                     ),
                     child: TextFormField(
                       controller: phone,
@@ -130,10 +132,11 @@ class _SignUpState extends State<SignUp> {
                   ),
                   Container(
                     margin: const EdgeInsets.all(8),
-                    padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(8),
-                      color: Colors.deepPurple.withOpacity(.2),
+                      color: const Color.fromRGBO(43, 159, 148, 1.0).withOpacity(.2),
                     ),
                     child: TextFormField(
                       controller: password,
@@ -154,17 +157,20 @@ class _SignUpState extends State<SignUp> {
                               isVisible = !isVisible;
                             });
                           },
-                          icon: Icon(isVisible ? Icons.visibility : Icons.visibility_off),
+                          icon: Icon(isVisible
+                              ? Icons.visibility
+                              : Icons.visibility_off),
                         ),
                       ),
                     ),
                   ),
                   Container(
                     margin: const EdgeInsets.all(8),
-                    padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(8),
-                      color: Colors.deepPurple.withOpacity(.2),
+                      color: const Color.fromRGBO(43, 159, 148, 1.0).withOpacity(.2),
                     ),
                     child: TextFormField(
                       controller: confirmPassword,
@@ -187,7 +193,9 @@ class _SignUpState extends State<SignUp> {
                               isVisible = !isVisible;
                             });
                           },
-                          icon: Icon(isVisible ? Icons.visibility : Icons.visibility_off),
+                          icon: Icon(isVisible
+                              ? Icons.visibility
+                              : Icons.visibility_off),
                         ),
                       ),
                     ),
@@ -198,13 +206,12 @@ class _SignUpState extends State<SignUp> {
                     width: MediaQuery.of(context).size.width * .9,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(8),
-                      color: Colors.deepPurple,
+                      color: const Color.fromRGBO(43, 159, 148, 1.0),
                     ),
                     child: TextButton(
                       onPressed: () async {
                         if (formKey.currentState!.validate()) {
                           final db = DatabaseService();
-                          try {
                             await db.insertUser(Users(
                               name: name.text,
                               email: email.text,
@@ -218,9 +225,6 @@ class _SignUpState extends State<SignUp> {
                                 builder: (context) => const LoginScreen(),
                               ),
                             );
-                          } catch (e) {
-                            print('Error signing up: $e');
-                          }
                         }
                       },
                       child: const Text(
@@ -237,10 +241,15 @@ class _SignUpState extends State<SignUp> {
                         onPressed: () {
                           Navigator.push(
                             context,
-                            MaterialPageRoute(builder: (context) => const LoginScreen()),
+                            MaterialPageRoute(
+                                builder: (context) => const LoginScreen()),
                           );
                         },
-                        child: const Text("Login"),
+                        child: const Text(
+                          "Login",
+                          style: TextStyle(
+                              color: Color.fromRGBO(43, 159, 148, 1.0)),
+                        ),
                       ),
                     ],
                   ),

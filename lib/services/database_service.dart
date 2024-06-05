@@ -74,6 +74,19 @@ class DatabaseService {
     }
   }
 
+  Future<Users> getUserById(int userId) async {
+  final db = await database;
+  List<Map<String, dynamic>> results = await db.query(
+    'users',
+    where: 'userid = ?',
+    whereArgs: [userId],
+  );
+  if (results.isNotEmpty) {
+    return Users.fromMap(results.first);
+  }
+  throw Exception('User not found');
+}
+
   Future<int> getUserIdByUsername(String username) async {
     final db = await database;
     List<Map<String, dynamic>> results = await db.query(
@@ -116,7 +129,8 @@ class DatabaseService {
 
     // Check Password
     var result = await db.rawQuery(
-        "SELECT * from users where username = ? AND password = ?", [user.username, user.password]);
+        "SELECT * from users where username = ? AND password = ?",
+        [user.username, user.password]);
 
     return result.isNotEmpty;
   }
@@ -124,5 +138,56 @@ class DatabaseService {
   Future<int> signup(Users user) async {
     final db = await database;
     return await db.insert('users', user.toMap());
+  }
+
+  // Update user details
+  Future<void> updateUsers(Users user) async {
+    final db = await database;
+    try {
+      await db.update(
+        'users',
+        user.toMap(),
+        where: 'userid = ?',
+        whereArgs: [user.userid],
+        conflictAlgorithm: ConflictAlgorithm.replace,
+      );
+    } catch (e) {
+      print('Error updating user: $e');
+    }
+  }
+
+  // Admin Login
+  Future<bool> isAdmin(String username) async {
+    final db = await database;
+    var result = await db.query(
+      'administrator',
+      where: 'username = ?',
+      whereArgs: [username],
+    );
+    return result.isNotEmpty;
+  }
+
+  // Check Admin Password
+  Future<bool> checkAdminPassword(String username, String password) async {
+    final db = await database;
+    var result = await db.query(
+      'administrator',
+      where: 'username = ? AND password = ?',
+      whereArgs: [username, password],
+    );
+    return result.isNotEmpty;
+  }
+
+  // Insert Admin Account into database
+  Future<void> insertAdmin(String username, String password) async {
+    final db = await database;
+    await db.insert(
+      'administrator',
+      {
+        'username': username,
+        'password': password,
+      },
+      conflictAlgorithm: ConflictAlgorithm.replace,
+    );
   }
 }

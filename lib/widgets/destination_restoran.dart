@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:restaurantbooking/models/destination_model.dart';
-import 'package:restaurantbooking/screens/destination_screen.dart';
+import 'package:restaurantbooking/views/destination_screen.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 

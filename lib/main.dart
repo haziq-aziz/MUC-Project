@@ -1,8 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:restaurantbooking/Authentication/login.dart';
-import 'package:restaurantbooking/screens/landingpage.dart';
+import 'package:restaurantbooking/views/landingpage.dart';
+import 'package:restaurantbooking/services/database_service.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  final dbService = DatabaseService();
+
+  // Insert an admin account for testing
+  await dbService.insertAdmin('admin', 'admin');
+
   runApp(const RestaurantBooking());
 }
 
