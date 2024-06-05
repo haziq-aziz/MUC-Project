@@ -4,6 +4,10 @@ import '../services/database_service.dart';
 import 'package:restaurantbooking/views/home_screen_success.dart';
 import 'package:restaurantbooking/services/database_service.dart';
 import 'package:restaurantbooking/services/auth_service.dart';
+import 'package:restaurantbooking/Authentication/globals.dart' as globals;
+
+import '../views/edit_profile.dart';
+import '../views/landingpage.dart';
 
 void main() {
   runApp(const MyApp());
@@ -28,6 +32,7 @@ class BookingForm extends StatefulWidget {
   @override
   _BookingFormState createState() => _BookingFormState();
 }
+final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
 class _BookingFormState extends State<BookingForm> {
   final _formKey = GlobalKey<FormState>();
@@ -67,11 +72,25 @@ class _BookingFormState extends State<BookingForm> {
       // For example, you might want to display an error message or take other actions
     }
   }
+  void _openProfileDrawer() {
+    _scaffoldKey.currentState?.openEndDrawer();
+  }
 
+  void _logout() {
+    // Perform logout actions, such as clearing authentication state
+    // and navigating back to the login screen
+    Navigator.pushAndRemoveUntil(
+      context,
+      MaterialPageRoute(builder: (context) => LandingPage()),
+          (route) => false,
+    );
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Booking Form')),
+      appBar: AppBar(
+        title: Text('Booking Form'), // Add the title here
+      ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Form(
@@ -155,15 +174,13 @@ class _BookingFormState extends State<BookingForm> {
                 MaterialPageRoute(builder: (context) => const HomeScreenSuccess()),
               );
             } else if (value == 1) {
+
               Navigator.push(
                 context,
                 MaterialPageRoute(builder: (context) => const BookingForm()),
               );
             } else if (value == 2) {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => const HomeScreenSuccess()),
-              );
+              _openProfileDrawer();
             }
           });
         },
@@ -190,6 +207,69 @@ class _BookingFormState extends State<BookingForm> {
             label: 'Profile',
           ),
         ],
+      ),
+      endDrawer: Drawer(
+        child: ListView(
+          padding: EdgeInsets.zero,
+          children: <Widget>[
+            DrawerHeader(
+              decoration: BoxDecoration(
+                color: const Color.fromRGBO(43, 159, 148, 1.0),
+              ),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Icon(
+                    Icons.account_circle,
+                    size: 80,
+                    color: Colors.white,
+                  ),
+                  SizedBox(width: 10),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        globals.name ?? '', // Display current user's name
+                        style: TextStyle(fontSize: 18, color: Colors.white),
+                      ),
+                      SizedBox(height: 5),
+                      Text(
+                        globals.email ?? '', // Display current user's email
+                        style: TextStyle(fontSize: 14, color: Colors.white),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+            ListTile(
+              leading: Icon(Icons.edit),
+              title: Text('Edit Profile'),
+              onTap: () {
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) =>
+                          EditProfile(userId: globals.userId!)),
+                );
+              },
+            ),
+            ListTile(
+              leading: Icon(Icons.book),
+              title: Text('Booking List'),
+              onTap: () {
+                // Navigate to Booking List screen
+              },
+            ),
+            Divider(),
+            ListTile(
+              leading: Icon(Icons.logout),
+              title: Text('Logout'),
+              onTap: _logout,
+            ),
+          ],
+        ),
       ),
     );
   }
