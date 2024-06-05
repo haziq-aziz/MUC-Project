@@ -1,8 +1,8 @@
+import 'package:restaurantbooking/JsonModels/booking.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
 import 'package:restaurantbooking/JsonModels/session.dart';
 import 'package:intl/intl.dart';
-
 
 class DatabaseService {
   static final DatabaseService _instance = DatabaseService._internal();
@@ -76,17 +76,17 @@ class DatabaseService {
   }
 
   Future<Users> getUserById(int userId) async {
-  final db = await database;
-  List<Map<String, dynamic>> results = await db.query(
-    'users',
-    where: 'userid = ?',
-    whereArgs: [userId],
-  );
-  if (results.isNotEmpty) {
-    return Users.fromMap(results.first);
+    final db = await database;
+    List<Map<String, dynamic>> results = await db.query(
+      'users',
+      where: 'userid = ?',
+      whereArgs: [userId],
+    );
+    if (results.isNotEmpty) {
+      return Users.fromMap(results.first);
+    }
+    throw Exception('User not found');
   }
-  throw Exception('User not found');
-}
 
   Future<int> getUserIdByUsername(String username) async {
     final db = await database;
@@ -125,7 +125,15 @@ class DatabaseService {
     );
   }
 
-  
+  Future<List<MenuBook>> getAllMenuBookings() async {
+    final db = await database;
+    List<Map<String, dynamic>> results = await db.query('menubook');
+    List<MenuBook> bookingList = [];
+    for (var map in results) {
+      bookingList.add(MenuBook.fromMap(map));
+    }
+    return bookingList;
+  }
 
   Future<bool> login(Users user) async {
     final db = await database;
@@ -194,7 +202,7 @@ class DatabaseService {
     );
   }
 
- Future<List<Users>> getAllUsers() async {
+  Future<List<Users>> getAllUsers() async {
     final db = await database;
     List<Map<String, dynamic>> results = await db.query('users');
     List<Users> userList = [];
