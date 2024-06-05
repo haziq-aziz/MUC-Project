@@ -53,7 +53,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Home Page"),
+        title: const Text("Selera Kampung"),
         backgroundColor: Color.fromRGBO(43, 159, 148, 1.0),
         leading: IconButton(
           icon: Icon(Icons.arrow_back),

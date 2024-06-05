@@ -3,7 +3,7 @@ import 'package:restaurantbooking/Admin/dashboard.dart';
 import 'package:restaurantbooking/Admin/user_list.dart';
 import 'package:restaurantbooking/JsonModels/booking.dart';
 import 'package:restaurantbooking/services/database_service.dart';
-import 'package:restaurantbooking/Admin/booking_edit.dart';
+
 
 class BookingList extends StatefulWidget {
   @override
@@ -85,7 +85,7 @@ class _BookingListState extends State<BookingList> {
   onPressed: () {
     Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => BookingEdit(booking: booking)),
+      MaterialPageRoute(builder: (context) => BookingList()),
     );
   },
 ),
