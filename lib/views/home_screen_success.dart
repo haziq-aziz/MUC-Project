@@ -59,14 +59,20 @@ class _HomeScreenSuccessState extends State<HomeScreenSuccess> {
   }
 
   void _logout() {
-    // Perform logout actions, such as clearing authentication state
-    // and navigating back to the login screen
+    // Clear the authentication state
+    globals.isLoggedIn = false;
+    globals.name = null;
+    globals.email = null;
+    globals.userId = null;
+
+    // Navigate to the Landing Page
     Navigator.pushAndRemoveUntil(
       context,
       MaterialPageRoute(builder: (context) => LandingPage()),
-      (route) => false,
+          (route) => false,
     );
   }
+
 
   @override
   Widget build(BuildContext context) {

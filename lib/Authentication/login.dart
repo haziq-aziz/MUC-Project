@@ -24,35 +24,35 @@ class _LoginScreenState extends State<LoginScreen> {
   final db = DatabaseService();
 
   login() async {
-  var user = Users(username: username.text, password: password.text);
-  bool isAdminUser = await db.isAdmin(user.username);
+    var user = Users(username: username.text, password: password.text);
+    bool isAdminUser = await db.isAdmin(user.username);
 
-  if (isAdminUser) {
-    bool adminPasswordCheck =
-        await db.checkAdminPassword(user.username, user.password);
+    if (isAdminUser) {
+      bool adminPasswordCheck =
+      await db.checkAdminPassword(user.username, user.password);
 
-    if (adminPasswordCheck) {
-      // Set admin session data upon successful login
-      AdminSession.setAdminSession(user.username);
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (context) => AdminDashboard()),
-      );
+      if (adminPasswordCheck) {
+        // Set admin session data upon successful login
+        AdminSession.setAdminSession(user.username);
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => AdminDashboard()),
+        );
+      } else {
+        setState(() {
+          isLoginTrue = true;
+        });
+      }
     } else {
-      setState(() {
-        isLoginTrue = true;
-      });
-    }
-  } else {
       bool userLogin = await db.login(user);
 
       if (userLogin) {
         int userId = await db.getUserIdByUsername(username.text);
-        Users currentUser =
-            await db.getUserById(userId); // Retrieve current user's information
+        Users currentUser = await db.getUserById(userId); // Retrieve current user's information
         globals.userId = userId; // Store userId in globals
         globals.name = currentUser.name; // Store userName in globals
         globals.email = currentUser.email; // Store userEmail in globals
+        globals.isLoggedIn = true; // Set the global flag to indicate the user is logged in
         setState(() {
           isLoginTrue = false; // Reset the login error flag
         });
@@ -67,6 +67,7 @@ class _LoginScreenState extends State<LoginScreen> {
       }
     }
   }
+
 
   final formKey = GlobalKey<FormState>();
 
