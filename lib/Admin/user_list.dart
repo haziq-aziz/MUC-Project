@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:restaurantbooking/views/landingpage.dart';
 import 'package:restaurantbooking/Admin/dashboard.dart';
 
 import 'package:restaurantbooking/Admin/user_edit.dart';
@@ -58,25 +59,40 @@ class _UserListState extends State<UserList> {
   }
 
   Future<void> _deleteUser(int? userId) async {
-  if (userId != null) {
-    try {
-      await DatabaseService().deleteUser(userId); // Delete the user from the database
-      _fetchUsers(); // Refresh the user list after deletion
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('User deleted successfully')));
-    } catch (e) {
-      print('Error deleting user: $e');
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Failed to delete user')));
+    if (userId != null) {
+      try {
+        await DatabaseService().deleteUser(userId); // Delete the user from the database
+        _fetchUsers(); // Refresh the user list after deletion
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('User deleted successfully')));
+      } catch (e) {
+        print('Error deleting user: $e');
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Failed to delete user')));
+      }
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('User ID is null')));
     }
-  } else {
-    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('User ID is null')));
   }
-}
+
+  void _logout() {
+    // Implement your logout logic here
+    // For now, let's navigate back to the landing page
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(builder: (context) => LandingPage()), // Navigate to the landing page
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Center(child: Text("Users List")),
+        actions: [
+          IconButton(
+            icon: Icon(Icons.logout),
+            onPressed: _logout,
+          ),
+        ],
         automaticallyImplyLeading: false, // Remove the back button
       ),
       backgroundColor: const Color(0xFF4B9EA6),

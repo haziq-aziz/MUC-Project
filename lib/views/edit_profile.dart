@@ -174,6 +174,12 @@ class _EditProfileState extends State<EditProfile> {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('Profile updated successfully')),
       );
+
+      // Navigate to the HomeScreenSuccess
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => HomeScreenSuccess()),
+      );
     }
   }
 }

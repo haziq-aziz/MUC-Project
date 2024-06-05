@@ -82,7 +82,6 @@ class _HomeScreenSuccessState extends State<HomeScreenSuccess> {
         backgroundColor: Color.fromRGBO(43, 159, 148, 1.0),
         automaticallyImplyLeading: false,
       ),
-
       key: _scaffoldKey,
       body: SafeArea(
         child: ListView(
