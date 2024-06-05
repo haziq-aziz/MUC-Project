@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:restaurantbooking/Admin/dashboard.dart';
+import 'package:restaurantbooking/Admin/user_list.dart';
 import 'package:restaurantbooking/JsonModels/session.dart'; // Import the Users model
 import 'package:restaurantbooking/services/database_service.dart'; // Import the DatabaseService
 
@@ -30,26 +32,36 @@ class _UserEditState extends State<UserEdit> {
   }
 
   Future<void> _saveUser() async {
-    if (_formKey.currentState!.validate()) {
-      try {
-        Users updatedUser = Users(
-          userid: widget.user.userid,
-          name: _nameController.text,
-          email: _emailController.text,
-          phone: int.tryParse(_phoneController.text),
-          username: _usernameController.text,
-          password: _passwordController.text,
-        );
+  if (_formKey.currentState!.validate()) {
+    try {
+      Users updatedUser = Users(
+        userid: widget.user.userid,
+        name: _nameController.text,
+        email: _emailController.text,
+        phone: int.tryParse(_phoneController.text),
+        username: _usernameController.text,
+        password: _passwordController.text,
+      );
 
-        await DatabaseService().updateUsers(updatedUser);
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('User updated successfully')));
-        Navigator.pop(context);
-      } catch (e) {
-        print('Error updating user: $e');
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Failed to update user')));
-      }
+      await DatabaseService().updateUsers(updatedUser);
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('User updated successfully')));
+      
+      // Navigate back to the dashboard
+      Navigator.pop(context); // Pop the user edit screen
+      Navigator.pop(context); // Pop the previous screen (user details screen)
+
+      // Push the dashboard screen
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => UserList()),
+      );
+    } catch (e) {
+      print('Error updating user: $e');
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Failed to update user')));
     }
   }
+}
+
 
   @override
   void dispose() {

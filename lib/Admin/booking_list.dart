@@ -4,6 +4,7 @@ import 'package:restaurantbooking/Admin/user_list.dart';
 import 'package:restaurantbooking/JsonModels/booking.dart';
 import 'package:restaurantbooking/services/database_service.dart';
 import 'package:restaurantbooking/Admin/booking_edit.dart';
+import 'package:restaurantbooking/views/landingpage.dart';
 
 class BookingList extends StatefulWidget {
   @override
@@ -56,11 +57,26 @@ class _BookingListState extends State<BookingList> {
     }
   }
 
+  void _logout() {
+    // Implement your logout logic here
+    // For now, let's navigate back to the landing page
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(builder: (context) => LandingPage()), // Navigate to the landing page
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Center(child: Text("Booking List")),
+        actions: [
+          IconButton(
+            icon: Icon(Icons.logout),
+            onPressed: _logout,
+          ),
+        ],
         automaticallyImplyLeading: false, // Remove the back button
       ),
       backgroundColor: const Color(0xFF4B9EA6),
@@ -81,15 +97,14 @@ class _BookingListState extends State<BookingList> {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   IconButton(
-  icon: Icon(Icons.edit),
-  onPressed: () {
-    Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) => BookingEdit(booking: booking)),
-    );
-  },
-),
-
+                    icon: Icon(Icons.edit),
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => BookingEdit(booking: booking)),
+                      );
+                    },
+                  ),
                   IconButton(
                     icon: Icon(Icons.delete),
                     onPressed: () {
