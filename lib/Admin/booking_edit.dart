@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:restaurantbooking/Admin/booking_list.dart';
-import 'package:restaurantbooking/Admin/dashboard.dart';
 import 'package:restaurantbooking/JsonModels/booking.dart'; // Import MenuBook from the correct location
 import '../services/database_service.dart';
 
@@ -26,16 +25,13 @@ class _BookingEditState extends State<BookingEdit> {
   @override
   void initState() {
     super.initState();
-    _menuPackageController =
-        TextEditingController(text: widget.booking.menuPackage);
+    _menuPackageController = TextEditingController(text: widget.booking.menuPackage);
     _eventDateController = TextEditingController(
         text: DateFormat('yyyy-MM-dd').format(widget.booking.eventDate));
     _eventTimeController = TextEditingController(
-        text: DateFormat('HH:mm').format(widget.booking.eventDate));
-    _numGuestController =
-        TextEditingController(text: widget.booking.numGuest.toString());
-    _packagePriceController =
-        TextEditingController(text: widget.booking.packagePrice.toString());
+        text: DateFormat('HH:mm').format(widget.booking.eventTime));
+    _numGuestController = TextEditingController(text: widget.booking.numGuest.toString());
+    _packagePriceController = TextEditingController(text: widget.booking.packagePrice.toString());
   }
 
   @override
@@ -46,6 +42,36 @@ class _BookingEditState extends State<BookingEdit> {
     _numGuestController.dispose();
     _packagePriceController.dispose();
     super.dispose();
+  }
+
+  Future<void> _selectDate() async {
+    DateTime? pickedDate = await showDatePicker(
+      context: context,
+      initialDate: DateFormat('yyyy-MM-dd').parse(_eventDateController.text),
+      firstDate: DateTime.now(),
+      lastDate: DateTime(2101),
+    );
+
+    if (pickedDate != null) {
+      setState(() {
+        _eventDateController.text = DateFormat('yyyy-MM-dd').format(pickedDate);
+      });
+    }
+  }
+
+  Future<void> _selectTime() async {
+    TimeOfDay? pickedTime = await showTimePicker(
+      context: context,
+      initialTime: TimeOfDay.fromDateTime(
+        DateFormat('HH:mm').parse(_eventTimeController.text),
+      ),
+    );
+
+    if (pickedTime != null) {
+      setState(() {
+        _eventTimeController.text = pickedTime.format(context);
+      });
+    }
   }
 
   @override
@@ -62,7 +88,7 @@ class _BookingEditState extends State<BookingEdit> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'Event Date',
+                    'Event Date and Time',
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 16,
@@ -73,21 +99,7 @@ class _BookingEditState extends State<BookingEdit> {
                     children: [
                       Expanded(
                         child: TextButton(
-                          onPressed: () async {
-                            DateTime? pickedDate = await showDatePicker(
-                              context: context,
-                              initialDate: widget.booking.eventDate,
-                              firstDate: DateTime.now(),
-                              lastDate: DateTime(2101),
-                            );
-
-                            if (pickedDate != null) {
-                              setState(() {
-                                _eventDateController.text =
-                                    DateFormat('yyyy-MM-dd').format(pickedDate);
-                              });
-                            }
-                          },
+                          onPressed: _selectDate,
                           child: Row(
                             children: [
                               Icon(Icons.calendar_today),
@@ -104,19 +116,7 @@ class _BookingEditState extends State<BookingEdit> {
                       SizedBox(width: 16),
                       Expanded(
                         child: TextButton(
-                          onPressed: () async {
-                            TimeOfDay? pickedTime = await showTimePicker(
-                              context: context,
-                              initialTime: TimeOfDay.now(),
-                            );
-
-                            if (pickedTime != null) {
-                              setState(() {
-                                _eventTimeController.text =
-                                    pickedTime.format(context);
-                              });
-                            }
-                          },
+                          onPressed: _selectTime,
                           child: Row(
                             children: [
                               Icon(Icons.access_time),
@@ -197,16 +197,8 @@ class _BookingEditState extends State<BookingEdit> {
           SnackBar(content: Text('Booking updated successfully')),
         );
 
-        // Navigate back to the dashboard
+        // Navigate back to the booking list
         Navigator.pop(context); // Pop the booking edit screen
-        Navigator.pop(
-            context); // Pop the previous screen (booking details screen)
-
-        // Push the dashboard screen
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (context) => BookingList()),
-        );
       } catch (e) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text('Failed to update booking')),

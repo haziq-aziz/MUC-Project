@@ -5,6 +5,8 @@ import 'package:restaurantbooking/views/home_screen_success.dart';
 import 'package:restaurantbooking/services/database_service.dart';
 import 'package:restaurantbooking/services/auth_service.dart';
 import 'package:restaurantbooking/Authentication/globals.dart' as globals;
+import 'package:date_utils/date_utils.dart';
+
 
 import '../views/edit_profile.dart';
 import '../views/landingpage.dart';
@@ -21,6 +23,17 @@ class MyApp extends StatelessWidget {
     return const MaterialApp(
       home: BookingForm(),
     );
+  }
+}
+class DateUtils {
+  static String formatDate(DateTime date) {
+    return DateFormat('yyyy-MM-dd').format(date);
+  }
+
+  static String formatTime(TimeOfDay time) {
+    final now = DateTime.now();
+    final dateTime = DateTime(now.year, now.month, now.day, time.hour, time.minute);
+    return DateFormat('HH:mm').format(dateTime);
   }
 }
 
@@ -302,7 +315,7 @@ class _BookingFormState extends State<BookingForm> {
                 );
                 if (date != null) onDateSelected(date);
               },
-              child: Text(selectedDate != null ? DateFormat.yMd().format(selectedDate) : 'Select Date'),
+              child: Text(selectedDate != null ? DateUtils.formatDate(selectedDate) : 'Select Date'),
             ),
             TextButton(
               onPressed: () async {
@@ -312,7 +325,7 @@ class _BookingFormState extends State<BookingForm> {
                 );
                 if (time != null) onTimeSelected(time);
               },
-              child: Text(selectedTime != null ? selectedTime.format(context) : 'Select Time'),
+              child: Text(selectedTime != null ? DateUtils.formatTime(selectedTime) : 'Select Time'),
             ),
           ],
         ),

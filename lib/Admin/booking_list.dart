@@ -3,12 +3,9 @@ import 'package:restaurantbooking/Admin/dashboard.dart';
 import 'package:restaurantbooking/Admin/user_list.dart';
 import 'package:restaurantbooking/JsonModels/booking.dart';
 import 'package:restaurantbooking/services/database_service.dart';
-<<<<<<< HEAD
-
-=======
 import 'package:restaurantbooking/Admin/booking_edit.dart';
 import 'package:restaurantbooking/views/landingpage.dart';
->>>>>>> 56db4fd2c51521deb20d8fe0bcf846d885591097
+import 'package:intl/intl.dart'; // Ensure you import the intl package
 
 class BookingList extends StatefulWidget {
   @override
@@ -88,30 +85,23 @@ class _BookingListState extends State<BookingList> {
         itemCount: bookingList.length,
         itemBuilder: (context, index) {
           final booking = bookingList[index];
+          // Format the event date and time
+          String formattedEventDate = DateFormat('yyyy-MM-dd').format(booking.eventDate);
+          String formattedEventTime = DateFormat('HH:mm').format(booking.eventTime);
+
           return Card(
             child: ListTile(
               leading: CircleAvatar(
                 child: Text('${booking.bookId}'), // Assuming bookId is the unique identifier for bookings
               ),
-              title: Text(booking.menuPackage ??
-                  ''), // Accessing the menuPackage property of the booking
-              subtitle: Text(booking.eventDate.toString() ??
-                  ''), // Accessing the eventDate property of the booking
+              title: Text(booking.menuPackage ?? ''), // Accessing the menuPackage property of the booking
+              subtitle: Text(
+                '${booking.userId} - $formattedEventDate - $formattedEventTime', // Concatenating userId, formatted eventDate, and eventTime
+              ),
               trailing: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   IconButton(
-<<<<<<< HEAD
-  icon: Icon(Icons.edit),
-  onPressed: () {
-    Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) => BookingList()),
-    );
-  },
-),
-
-=======
                     icon: Icon(Icons.edit),
                     onPressed: () {
                       Navigator.push(
@@ -120,7 +110,6 @@ class _BookingListState extends State<BookingList> {
                       );
                     },
                   ),
->>>>>>> 56db4fd2c51521deb20d8fe0bcf846d885591097
                   IconButton(
                     icon: Icon(Icons.delete),
                     onPressed: () {
@@ -133,6 +122,7 @@ class _BookingListState extends State<BookingList> {
           );
         },
       ),
+
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _selectedIndex,
         selectedItemColor: const Color(0xFF4B9EA6),
