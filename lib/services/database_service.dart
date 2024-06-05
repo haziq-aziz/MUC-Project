@@ -135,6 +135,21 @@ class DatabaseService {
     return bookingList;
   }
 
+  Future<void> updateBooking(MenuBook updatedBooking) async {
+  final db = await database;
+  try {
+    await db.update(
+      'menubook',
+      updatedBooking.toMap(),
+      where: 'bookid = ?',
+      whereArgs: [updatedBooking.bookId],
+      conflictAlgorithm: ConflictAlgorithm.replace,
+    );
+  } catch (e) {
+    print('Error updating booking: $e');
+  }
+}
+
   Future<bool> login(Users user) async {
     final db = await database;
 

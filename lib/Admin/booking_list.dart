@@ -45,8 +45,8 @@ class _BookingListState extends State<BookingList> {
 
   Future<void> _fetchBookings() async {
     try {
-      List<MenuBook> bookings =
-          await DatabaseService().getAllMenuBookings(); // Fetch bookings data from the database
+      List<MenuBook> bookings = await DatabaseService()
+          .getAllMenuBookings(); // Fetch bookings data from the database
       setState(() {
         bookingList = bookings; // Update the bookingList with the fetched data
       });
@@ -69,10 +69,13 @@ class _BookingListState extends State<BookingList> {
           return Card(
             child: ListTile(
               leading: CircleAvatar(
-                child: Text('${booking.userId}'), // Assuming userId is the unique identifier for bookings
+                child: Text(
+                    '${booking.userId}'), // Assuming userId is the unique identifier for bookings
               ),
-              title: Text(booking.menuPackage ?? ''), // Accessing the menuPackage property of the booking
-              subtitle: Text(booking.eventDate.toString() ?? ''), // Accessing the eventDate property of the booking
+              title: Text(booking.menuPackage ??
+                  ''), // Accessing the menuPackage property of the booking
+              subtitle: Text(booking.eventDate.toString() ??
+                  ''), // Accessing the eventDate property of the booking
               trailing: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
