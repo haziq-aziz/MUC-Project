@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:restaurantbooking/Admin/dashboard.dart';
 import 'package:restaurantbooking/JsonModels/booking.dart'; // Import MenuBook from the correct location
 import '../services/database_service.dart';
 
 class BookingEdit extends StatefulWidget {
   final MenuBook booking;
 
-  const BookingEdit({Key? key, required this.booking}) : super(key: key);
+  const BookingEdit({super.key, required this.booking});
 
   @override
   _BookingEditState createState() => _BookingEditState();
@@ -24,11 +25,16 @@ class _BookingEditState extends State<BookingEdit> {
   @override
   void initState() {
     super.initState();
-    _menuPackageController = TextEditingController(text: widget.booking.menuPackage);
-    _eventDateController = TextEditingController(text: DateFormat('yyyy-MM-dd').format(widget.booking.eventDate));
-    _eventTimeController = TextEditingController(text: DateFormat('HH:mm').format(widget.booking.eventDate));
-    _numGuestController = TextEditingController(text: widget.booking.numGuest.toString());
-    _packagePriceController = TextEditingController(text: widget.booking.packagePrice.toString());
+    _menuPackageController =
+        TextEditingController(text: widget.booking.menuPackage);
+    _eventDateController = TextEditingController(
+        text: DateFormat('yyyy-MM-dd').format(widget.booking.eventDate));
+    _eventTimeController = TextEditingController(
+        text: DateFormat('HH:mm').format(widget.booking.eventDate));
+    _numGuestController =
+        TextEditingController(text: widget.booking.numGuest.toString());
+    _packagePriceController =
+        TextEditingController(text: widget.booking.packagePrice.toString());
   }
 
   @override
@@ -76,7 +82,8 @@ class _BookingEditState extends State<BookingEdit> {
 
                             if (pickedDate != null) {
                               setState(() {
-                                _eventDateController.text = DateFormat('yyyy-MM-dd').format(pickedDate);
+                                _eventDateController.text =
+                                    DateFormat('yyyy-MM-dd').format(pickedDate);
                               });
                             }
                           },
@@ -104,7 +111,8 @@ class _BookingEditState extends State<BookingEdit> {
 
                             if (pickedTime != null) {
                               setState(() {
-                                _eventTimeController.text = pickedTime.format(context);
+                                _eventTimeController.text =
+                                    pickedTime.format(context);
                               });
                             }
                           },
@@ -173,7 +181,8 @@ class _BookingEditState extends State<BookingEdit> {
     if (_formKey.currentState!.validate()) {
       // Update booking in the database
       try {
-        DateTime pickedDateTime = DateFormat('yyyy-MM-dd HH:mm').parse('${_eventDateController.text} ${_eventTimeController.text}');
+        DateTime pickedDateTime = DateFormat('yyyy-MM-dd HH:mm')
+            .parse('${_eventDateController.text} ${_eventTimeController.text}');
 
         await DatabaseService().updateBooking(
           widget.booking.bookId,
@@ -187,8 +196,16 @@ class _BookingEditState extends State<BookingEdit> {
           SnackBar(content: Text('Booking updated successfully')),
         );
 
-        // Navigate back to the previous screen
-        Navigator.pop(context);
+        // Navigate back to the dashboard
+        Navigator.pop(context); // Pop the booking edit screen
+        Navigator.pop(
+            context); // Pop the previous screen (booking details screen)
+
+        // Push the dashboard screen
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => AdminDashboard()),
+        );
       } catch (e) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text('Failed to update booking')),
