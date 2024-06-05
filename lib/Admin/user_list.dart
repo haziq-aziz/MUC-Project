@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:restaurantbooking/Admin/dashboard.dart';
-import 'package:restaurantbooking/Admin/user_edit';
+import 'package:restaurantbooking/Admin/user_edit.dart';
 import 'package:restaurantbooking/JsonModels/session.dart'; // Import the Users model
 import 'package:restaurantbooking/services/database_service.dart'; // Import the DatabaseService
 import 'package:restaurantbooking/Admin/booking_list.dart';
