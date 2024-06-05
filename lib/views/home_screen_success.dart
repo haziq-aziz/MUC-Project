@@ -71,6 +71,12 @@ class _HomeScreenSuccessState extends State<HomeScreenSuccess> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: const Text("Home Page"),
+        backgroundColor: Color.fromRGBO(43, 159, 148, 1.0),
+        automaticallyImplyLeading: false,
+      ),
+
       key: _scaffoldKey,
       body: SafeArea(
         child: ListView(

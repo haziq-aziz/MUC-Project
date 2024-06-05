@@ -1,34 +1,34 @@
 class Restoran {
   String imageUrl;
   String name;
-  String address;
-  int price;
+  String foodsd;
+  String launch;
 
   Restoran({
     required this.imageUrl,
     required this.name,
-    required this.address,
-    required this.price,
+    required this.foodsd,
+    required this.launch,
   });
 }
 
 final List<Restoran> restorans = [
   Restoran(
-    imageUrl: 'assets/images/sogo.png',
-    name: 'Sogo selera',
-    address: 'Jalan TAR, KL',
-    price: 56,
+    imageUrl: 'assets/images/grilledham.png',
+    name: 'Grilled Ham',
+    foodsd: 'Western package',
+    launch: 'Available on 7 july',
   ),
   Restoran(
-    imageUrl: 'assets/images/restoran2.png',
-    name: 'Restoran Jalan Tar',
-    address: 'Jalan TAR, KL',
-    price: 45,
+    imageUrl: 'assets/images/taco.png',
+    name: 'Taco Bell',
+    foodsd: 'Western package',
+    launch: 'Available on 9 july',
   ),
   Restoran(
-    imageUrl: 'assets/images/restoran3.png',
-    name: 'Restoran Selatan',
-    address: 'Jalan Chow Kit, KL',
-    price: 30,
+    imageUrl: 'assets/images/chickentandoori.png',
+    name: 'Tandoori Chicken',
+    foodsd: 'Indian package',
+    launch: 'Available on 15 july',
   ),
 ];

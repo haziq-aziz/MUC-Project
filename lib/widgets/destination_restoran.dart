@@ -64,7 +64,7 @@ class DestinationRestoran extends StatelessWidget {
                     alignment: Alignment.topCenter,
                     children: <Widget>[
                       Positioned(
-                        bottom: 40.0,
+                        bottom: 20.0,
                         child: Container(
                           height: 120.0,
                           width: 200.0,
@@ -131,7 +131,7 @@ class DestinationRestoran extends StatelessWidget {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: <Widget>[
                                   Text(
-                                    destination.city,
+                                    destination.nopackage,
                                     style: TextStyle(
                                       color: Colors.white,
                                       fontSize: 24.0,
@@ -148,7 +148,7 @@ class DestinationRestoran extends StatelessWidget {
                                       ),
                                       SizedBox(width: 5.0),
                                       Text(
-                                        destination.country,
+                                        destination.tpackage,
                                         style: TextStyle(
                                           color: Colors.white,
                                         ),
