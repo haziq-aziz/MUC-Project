@@ -52,6 +52,10 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: const Text("Home Page"),
+        backgroundColor: Color.fromRGBO(43, 159, 148, 1.0),
+      ),
       body: SafeArea(
         child: ListView(
           padding: const EdgeInsets.symmetric(vertical: 30.0),
@@ -59,7 +63,7 @@ class _HomeScreenState extends State<HomeScreen> {
             const Padding(
               padding: EdgeInsets.only(left: 20.0, right: 120.0),
               child: Text(
-                'What would you like to find?',
+                'How are you felling today?',
                 style: TextStyle(
                   fontSize: 30.0,
                   fontWeight: FontWeight.bold,
@@ -84,55 +88,7 @@ class _HomeScreenState extends State<HomeScreen> {
           ],
         ),
       ),
-      bottomNavigationBar: BottomNavigationBar(//untuk navigation bar
-        currentIndex: _currentTab,
-        onTap: (int value) {
-          setState(() {
-            _currentTab = value;
-            if (value == 0) {
-        // Navigate to the current page
-        // You may not need to navigate anywhere, so this is left blank
-      } else if (value == 1) {
-        // Navigate to Login App
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => const LoginScreen()),
-        );
-      } else if (value == 2) {
-        // Navigate to Login App
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => const LoginScreen()),
-        );
-      }
-          });
-        },
-        items: const [
-          BottomNavigationBarItem(
-            icon: Icon(
-              Icons.home,
-              size: 30.0,
-            ),
-            label: 'Home',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(
-              Icons.menu_book,
-              size: 30.0,
-            ),
-            label: 'Book Now',
-          ),
-          BottomNavigationBarItem(
-              
-              icon: Icon(
-                Icons.person,
-              size: 30.0,
 
-            ),
-            label: 'Login',
-          )
-        ],
-      ),
     );
   }
 }

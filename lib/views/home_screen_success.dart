@@ -79,7 +79,7 @@ class _HomeScreenSuccessState extends State<HomeScreenSuccess> {
             const Padding(
               padding: EdgeInsets.only(left: 20.0, right: 120.0),
               child: Text(
-                'What would you like to find?',
+                'How are you feeling?',
                 style: TextStyle(
                   fontSize: 30.0,
                   fontWeight: FontWeight.bold,

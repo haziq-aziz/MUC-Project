@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import '../services/database_service.dart';
 import 'package:restaurantbooking/views/home_screen_success.dart';
+import 'package:restaurantbooking/services/database_service.dart';
+import 'package:restaurantbooking/services/auth_service.dart';
 
 void main() {
   runApp(const MyApp());
@@ -20,6 +22,8 @@ class MyApp extends StatelessWidget {
 
 class BookingForm extends StatefulWidget {
   const BookingForm({super.key});
+
+
 
   @override
   _BookingFormState createState() => _BookingFormState();
@@ -43,6 +47,26 @@ class _BookingFormState extends State<BookingForm> {
   double _totalPrice = 0.0;
   int _totalGuests = 0;
   int _currentTab = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    _getCurrentUserId();
+  }
+
+  int _userId = 0; // Default value
+
+  void _getCurrentUserId() async {
+    int? userId = await AuthService().getCurrentUserId();
+    if (userId != null) {
+      setState(() {
+        _userId = userId!;
+      });
+    } else {
+      // Handle the case where userId is null
+      // For example, you might want to display an error message or take other actions
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -265,10 +289,10 @@ class _BookingFormState extends State<BookingForm> {
         _selectedEventTime!.minute,
       );
 
-      int userId = 1;
+
 
       await DatabaseService().insertBooking(
-        userId,
+        _userId,
         bookDateTime,
         eventDateTime,
         menuPackage,
