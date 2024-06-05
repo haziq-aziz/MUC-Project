@@ -74,6 +74,19 @@ class DatabaseService {
     }
   }
 
+  Future<Users> getUserById(int userId) async {
+  final db = await database;
+  List<Map<String, dynamic>> results = await db.query(
+    'users',
+    where: 'userid = ?',
+    whereArgs: [userId],
+  );
+  if (results.isNotEmpty) {
+    return Users.fromMap(results.first);
+  }
+  throw Exception('User not found');
+}
+
   Future<int> getUserIdByUsername(String username) async {
     final db = await database;
     List<Map<String, dynamic>> results = await db.query(

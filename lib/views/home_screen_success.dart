@@ -1,14 +1,17 @@
+import 'package:flutter/material.dart';
+import 'package:restaurantbooking/views/edit_profile.dart';
 import 'package:restaurantbooking/views/landingpage.dart';
 import 'package:restaurantbooking/views/registerationpage.dart';
-import 'package:flutter/material.dart';
 import 'package:restaurantbooking/widgets/destination_restoran.dart';
 import 'package:restaurantbooking/widgets/restoran_comingsoon.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:restaurantbooking/Authentication/login.dart';
 import 'package:restaurantbooking/BookForm/bookingform.dart';
+import 'package:restaurantbooking/Authentication/globals.dart' as globals;
 
 class HomeScreenSuccess extends StatefulWidget {
-  const HomeScreenSuccess({super.key});
+  const HomeScreenSuccess({Key? key}) : super(key: key);
+
   @override
   _HomeScreenSuccessState createState() => _HomeScreenSuccessState();
 }
@@ -22,6 +25,8 @@ class _HomeScreenSuccessState extends State<HomeScreenSuccess> {
     FontAwesomeIcons.faceGrin,
     FontAwesomeIcons.faceSurprise,
   ];
+
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   Widget _buildIcon(int index) {
     return GestureDetector(
@@ -42,17 +47,31 @@ class _HomeScreenSuccessState extends State<HomeScreenSuccess> {
         child: Icon(
           _icons[index],
           size: 25.0,
-          color: _selectedIndex == index
-              ? Colors.white
-              : const Color(0xFFB4C1C4),
+          color:
+              _selectedIndex == index ? Colors.white : const Color(0xFFB4C1C4),
         ),
       ),
+    );
+  }
+
+  void _openProfileDrawer() {
+    _scaffoldKey.currentState?.openEndDrawer();
+  }
+
+  void _logout() {
+    // Perform logout actions, such as clearing authentication state
+    // and navigating back to the login screen
+    Navigator.pushAndRemoveUntil(
+      context,
+      MaterialPageRoute(builder: (context) => LandingPage()),
+      (route) => false,
     );
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _scaffoldKey,
       body: SafeArea(
         child: ListView(
           padding: const EdgeInsets.symmetric(vertical: 30.0),
@@ -85,7 +104,7 @@ class _HomeScreenSuccessState extends State<HomeScreenSuccess> {
           ],
         ),
       ),
-      bottomNavigationBar: BottomNavigationBar(//untuk navigation bar
+      bottomNavigationBar: BottomNavigationBar(
         currentIndex: _currentTab,
         onTap: (int value) {
           setState(() {
@@ -99,11 +118,7 @@ class _HomeScreenSuccessState extends State<HomeScreenSuccess> {
                 MaterialPageRoute(builder: (context) => const BookingForm()),
               );
             } else if (value == 2) {
-
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => const HomeScreenSuccess()),
-              );
+              _openProfileDrawer();
             }
           });
         },
@@ -130,6 +145,69 @@ class _HomeScreenSuccessState extends State<HomeScreenSuccess> {
             label: 'Profile',
           )
         ],
+      ),
+      endDrawer: Drawer(
+        child: ListView(
+          padding: EdgeInsets.zero,
+          children: <Widget>[
+            DrawerHeader(
+              decoration: BoxDecoration(
+                color: const Color.fromRGBO(43, 159, 148, 1.0),
+              ),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Icon(
+                    Icons.account_circle,
+                    size: 80,
+                    color: Colors.white,
+                  ),
+                  SizedBox(width: 10),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        globals.name ?? '', // Display current user's name
+                        style: TextStyle(fontSize: 18, color: Colors.white),
+                      ),
+                      SizedBox(height: 5),
+                      Text(
+                        globals.email ?? '', // Display current user's email
+                        style: TextStyle(fontSize: 14, color: Colors.white),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+            ListTile(
+              leading: Icon(Icons.edit),
+              title: Text('Edit Profile'),
+              onTap: () {
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) =>
+                          EditProfile(userId: globals.userId!)),
+                );
+              },
+            ),
+            ListTile(
+              leading: Icon(Icons.book),
+              title: Text('Booking List'),
+              onTap: () {
+                // Navigate to Booking List screen
+              },
+            ),
+            Divider(),
+            ListTile(
+              leading: Icon(Icons.logout),
+              title: Text('Logout'),
+              onTap: _logout,
+            ),
+          ],
+        ),
       ),
     );
   }

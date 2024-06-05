@@ -1,17 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:restaurantbooking/services/database_service.dart';
 import 'package:restaurantbooking/JsonModels/users.dart';
+import 'package:restaurantbooking/views/home_screen_success.dart';
 
-class Profile extends StatefulWidget {
+class EditProfile extends StatefulWidget {
   final int userId;
 
-  Profile({required this.userId});
+  EditProfile({required this.userId});
 
   @override
-  _ProfileState createState() => _ProfileState();
+  _EditProfileState createState() => _EditProfileState();
 }
 
-class _ProfileState extends State<Profile> {
+class _EditProfileState extends State<EditProfile> {
   final _formKey = GlobalKey<FormState>();
   final _nameController = TextEditingController();
   final _emailController = TextEditingController();
@@ -42,7 +43,8 @@ class _ProfileState extends State<Profile> {
         _nameController.text = _user.name ?? '';
         _emailController.text = _user.email ?? '';
         _phoneController.text = _user.phone?.toString() ?? '';
-        _passwordController.text = _user.password; // Load password into the controller
+        _passwordController.text =
+            _user.password; // Load password into the controller
       });
     }
   }
@@ -52,7 +54,15 @@ class _ProfileState extends State<Profile> {
     return Scaffold(
       appBar: AppBar(
         title: const Text("Edit Profile"),
-        backgroundColor: Color.fromRGBO(43, 159, 148, 1.0),
+        backgroundColor: const Color.fromRGBO(43, 159, 148, 1.0),
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back),
+          onPressed: () {
+            Navigator.pop(context); // Pop the EditProfile route
+            Navigator.pushReplacement(context,
+                MaterialPageRoute(builder: (context) => HomeScreenSuccess()));
+          },
+        ),
       ),
       body: Center(
         child: SingleChildScrollView(
@@ -66,7 +76,8 @@ class _ProfileState extends State<Profile> {
                 children: [
                   CircleAvatar(
                     radius: 60,
-                    backgroundImage: AssetImage('assets/images/default_pfp.png'),
+                    backgroundImage:
+                        AssetImage('assets/images/default_pfp.png'),
                   ),
                   SizedBox(height: 20),
                   _buildTextField(Icons.person, 'Full Name', _nameController),
@@ -75,7 +86,8 @@ class _ProfileState extends State<Profile> {
                   SizedBox(height: 20),
                   _buildTextField(Icons.phone, 'Phone No', _phoneController),
                   SizedBox(height: 20),
-                  _buildTextField(Icons.lock, 'Password', _passwordController, obscureText: _obscurePassword),
+                  _buildTextField(Icons.lock, 'Password', _passwordController,
+                      obscureText: _obscurePassword),
                   SizedBox(height: 20),
                   ElevatedButton(
                     onPressed: _updateProfile,
@@ -104,7 +116,9 @@ class _ProfileState extends State<Profile> {
     );
   }
 
-  Widget _buildTextField(IconData icon, String label, TextEditingController controller, {bool obscureText = false}) {
+  Widget _buildTextField(
+      IconData icon, String label, TextEditingController controller,
+      {bool obscureText = false}) {
     return TextFormField(
       controller: controller,
       obscureText: obscureText,
