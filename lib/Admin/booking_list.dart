@@ -1,3 +1,6 @@
+// ignore_for_file: library_private_types_in_public_api, use_build_context_synchronously
+
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:restaurantbooking/Admin/dashboard.dart';
 import 'package:restaurantbooking/Admin/user_list.dart';
@@ -9,6 +12,8 @@ import 'package:intl/intl.dart'; // Ensure you import the intl package
 
 
 class BookingList extends StatefulWidget {
+  const BookingList({super.key});
+
   @override
   _BookingListState createState() => _BookingListState();
 }
@@ -27,13 +32,13 @@ class _BookingListState extends State<BookingList> {
       case 0:
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => AdminDashboard()),
+          MaterialPageRoute(builder: (context) => const AdminDashboard()),
         );
         break;
       case 1:
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => UserList()),
+          MaterialPageRoute(builder: (context) => const UserList()),
         );
         break;
       case 2:
@@ -55,7 +60,9 @@ class _BookingListState extends State<BookingList> {
         bookingList = bookings; // Update the bookingList with the fetched data
       });
     } catch (e) {
-      print('Error fetching bookings: $e');
+      if (kDebugMode) {
+        print('Error fetching bookings: $e');
+      }
     }
   }
 
@@ -65,20 +72,20 @@ class _BookingListState extends State<BookingList> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text('Confirm Delete'),
-          content: Text('Are you sure you want to delete this booking?'),
+          title: const Text('Confirm Delete'),
+          content: const Text('Are you sure you want to delete this booking?'),
           actions: <Widget>[
             TextButton(
               onPressed: () {
                 Navigator.of(context).pop(true); // Return true if user confirms deletion
               },
-              child: Text('Yes'),
+              child: const Text('Yes'),
             ),
             TextButton(
               onPressed: () {
                 Navigator.of(context).pop(false); // Return false if user cancels deletion
               },
-              child: Text('No'),
+              child: const Text('No'),
             ),
           ],
         );
@@ -94,11 +101,11 @@ class _BookingListState extends State<BookingList> {
           bookingList.removeWhere((booking) => booking.bookId == bookId);
         });
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Booking deleted successfully')),
+          const SnackBar(content: Text('Booking deleted successfully')),
         );
       } catch (e) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Failed to delete booking')),
+          const SnackBar(content: Text('Failed to delete booking')),
         );
       }
     }
@@ -109,7 +116,7 @@ class _BookingListState extends State<BookingList> {
     // For now, let's navigate back to the landing page
     Navigator.pushReplacement(
       context,
-      MaterialPageRoute(builder: (context) => LandingPage()), // Navigate to the landing page
+      MaterialPageRoute(builder: (context) => const LandingPage()), // Navigate to the landing page
     );
   }
 
@@ -118,7 +125,7 @@ class _BookingListState extends State<BookingList> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text('Booking Detail'),
+          title: const Text('Booking Detail'),
           content: SingleChildScrollView(
             child: ListBody(
               children: <Widget>[
@@ -132,7 +139,7 @@ class _BookingListState extends State<BookingList> {
                     'Event Date:', DateFormat.yMd().format(booking.eventDate)),
                 _buildDetailRow(
                     'Event Time:', DateFormat.Hm().format(booking.eventTime)),
-                _buildDetailRow('Menu Package:', booking.menuPackage ?? ''),
+                _buildDetailRow('Menu Package:', booking.menuPackage),
                 _buildDetailRow(
                     'Total Guests:', booking.numGuest.toString()),
                 _buildDetailRow(
@@ -142,7 +149,7 @@ class _BookingListState extends State<BookingList> {
           ),
           actions: <Widget>[
             TextButton(
-              child: Text('Edit'),
+              child: const Text('Edit'),
               onPressed: () {
                 Navigator.of(context).pop();
                 Navigator.push(
@@ -152,14 +159,14 @@ class _BookingListState extends State<BookingList> {
               },
             ),
             TextButton(
-              child: Text('Delete'),
+              child: const Text('Delete'),
               onPressed: () {
                 Navigator.of(context).pop();
                 _deleteBooking(booking.bookId);
               },
             ),
             TextButton(
-              child: Text('Close'),
+              child: const Text('Close'),
               onPressed: () {
                 Navigator.of(context).pop();
               },
@@ -174,7 +181,7 @@ class _BookingListState extends State<BookingList> {
     return Row(
       children: <Widget>[
         Expanded(
-          child: Text(label, style: TextStyle(fontWeight: FontWeight.bold)),
+          child: Text(label, style: const TextStyle(fontWeight: FontWeight.bold)),
         ),
         Expanded(
           child: Text(value),
@@ -187,10 +194,10 @@ class _BookingListState extends State<BookingList> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Center(child: Text("Booking List")),
+        title: const Center(child: Text("Booking List")),
         actions: [
           IconButton(
-            icon: Icon(Icons.logout),
+            icon: const Icon(Icons.logout),
             onPressed: _logout,
           ),
         ],
@@ -204,20 +211,20 @@ class _BookingListState extends State<BookingList> {
           // Format the event date and time
           String formattedEventDate = DateFormat('dd-MM-yyyy').format(booking.eventDate);
           String formattedEventTime = DateFormat('HH:mm ').format(booking.eventTime);
-          String formattedBookDate = DateFormat('dd-MM-yyyy').format(booking.bookDate);
-          String formattedBookTime = DateFormat('HH:mm').format(booking.bookTime);
+          DateFormat('dd-MM-yyyy').format(booking.bookDate);
+          DateFormat('HH:mm').format(booking.bookTime);
 
           return Card(
             child: ListTile(
               leading: Column(
                 children: [
-                  Text('Book ID'), // Display "Book ID" above the CircleAvatar
+                  const Text('Book ID'), // Display "Book ID" above the CircleAvatar
                   CircleAvatar(
                     child: Text('${booking.bookId}'), // Keep the existing child
                   ),
                 ], // Assuming bookId is the unique identifier for bookings
               ),
-              title: Text(booking.menuPackage ?? ''), // Accessing the menuPackage property of the booking
+              title: Text(booking.menuPackage), // Accessing the menuPackage property of the booking
               subtitle: Text(
                 'User ID: ${booking.userId} \nEvent Date: $formattedEventDate \nEvent Time: $formattedEventTime', // Concatenating userId, formatted eventDate, and eventTime
               ),
@@ -228,7 +235,7 @@ class _BookingListState extends State<BookingList> {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   IconButton(
-                    icon: Icon(Icons.edit),
+                    icon: const Icon(Icons.edit),
                     onPressed: () {
                       Navigator.push(
                         context,
@@ -237,7 +244,7 @@ class _BookingListState extends State<BookingList> {
                     },
                   ),
                   IconButton(
-                    icon: Icon(Icons.delete),
+                    icon: const Icon(Icons.delete),
                     onPressed: () {
                       // Call _deleteBooking method when delete button is pressed
                       _deleteBooking(booking.bookId);

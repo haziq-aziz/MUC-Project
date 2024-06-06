@@ -1,6 +1,7 @@
+// ignore_for_file: library_private_types_in_public_api, use_build_context_synchronously
+
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:restaurantbooking/Admin/booking_list.dart';
 import 'package:restaurantbooking/JsonModels/booking.dart'; // Import MenuBook from the correct location
 import '../services/database_service.dart';
 
@@ -64,17 +65,17 @@ class _BookingEditState extends State<BookingEdit> {
       children: [
         Text(
           label,
-          style: TextStyle(
+          style: const TextStyle(
             fontWeight: FontWeight.bold,
             fontSize: 16,
           ),
         ),
-        SizedBox(height: 8),
+        const SizedBox(height: 8),
         Row(
           children: [
             Expanded(
               child: TextFormField(
-                decoration: InputDecoration(labelText: 'Date (YYYY-MM-DD)'),
+                decoration: const InputDecoration(labelText: 'Date (YYYY-MM-DD)'),
                 controller: TextEditingController(text: DateFormat('yyyy-MM-dd').format(selectedDate)),
                 readOnly: true,
                 onTap: () async {
@@ -90,10 +91,10 @@ class _BookingEditState extends State<BookingEdit> {
                 },
               ),
             ),
-            SizedBox(width: 16),
+            const SizedBox(width: 16),
             Expanded(
               child: TextFormField(
-                decoration: InputDecoration(labelText: 'Time (HH:MM)'),
+                decoration: const InputDecoration(labelText: 'Time (HH:MM)'),
                 controller: TextEditingController(text: selectedTime.format(context)),
                 readOnly: true,
                 onTap: () async {

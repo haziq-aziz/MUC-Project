@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:restaurantbooking/JsonModels/booking.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
@@ -71,7 +72,9 @@ class DatabaseService {
         conflictAlgorithm: ConflictAlgorithm.replace,
       );
     } catch (e) {
-      print('Error inserting user: $e');
+      if (kDebugMode) {
+        print('Error inserting user: $e');
+      }
     }
   }
 
@@ -109,7 +112,9 @@ class DatabaseService {
         whereArgs: [bookId],
       );
     } catch (e) {
-      print('Error deleting booking: $e');
+      if (kDebugMode) {
+        print('Error deleting booking: $e');
+      }
       throw Exception('Failed to delete booking');
     }
   }
@@ -123,7 +128,9 @@ class DatabaseService {
         whereArgs: [userId],
       );
     } catch (e) {
-      print('Error deleting user: $e');
+      if (kDebugMode) {
+        print('Error deleting user: $e');
+      }
     }
   }
 
@@ -213,7 +220,9 @@ class DatabaseService {
         conflictAlgorithm: ConflictAlgorithm.replace,
       );
     } catch (e) {
-      print('Error updating user: $e');
+      if (kDebugMode) {
+        print('Error updating user: $e');
+      }
     }
   }
 

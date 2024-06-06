@@ -1,10 +1,10 @@
+// ignore_for_file: use_key_in_widget_constructors, use_build_context_synchronously
+
 import 'package:flutter/material.dart';
 import 'package:restaurantbooking/Authentication/signup.dart';
 import 'package:restaurantbooking/JsonModels/session.dart';
 import 'package:restaurantbooking/services/database_service.dart';
-import 'package:restaurantbooking/views/home_screen.dart';
 import 'package:restaurantbooking/views/home_screen_success.dart';
-import 'package:restaurantbooking/views/edit_profile.dart';
 import 'package:restaurantbooking/Admin/dashboard.dart';
 import 'package:restaurantbooking/Authentication/globals.dart' as globals;
 
@@ -36,7 +36,7 @@ class _LoginScreenState extends State<LoginScreen> {
         AdminSession.setAdminSession(user.username);
         Navigator.pushReplacement(
           context,
-          MaterialPageRoute(builder: (context) => AdminDashboard()),
+          MaterialPageRoute(builder: (context) => const AdminDashboard()),
         );
       } else {
         setState(() {

@@ -1,12 +1,11 @@
+// ignore_for_file: library_private_types_in_public_api, use_build_context_synchronously
+
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import '../services/database_service.dart';
 import 'package:restaurantbooking/views/home_screen_success.dart';
-import 'package:restaurantbooking/services/database_service.dart';
 import 'package:restaurantbooking/services/auth_service.dart';
 import 'package:restaurantbooking/Authentication/globals.dart' as globals;
-import 'package:date_utils/date_utils.dart';
-
 
 import '../views/edit_profile.dart';
 import '../views/landingpage.dart';
@@ -95,7 +94,7 @@ class _BookingFormState extends State<BookingForm> {
     // and navigating back to the login screen
     Navigator.pushAndRemoveUntil(
       context,
-      MaterialPageRoute(builder: (context) => LandingPage()),
+      MaterialPageRoute(builder: (context) => const LandingPage()),
           (route) => false,
     );
   }
@@ -106,14 +105,14 @@ class _BookingFormState extends State<BookingForm> {
       key: _scaffoldKey,
       appBar: AppBar(
         title: const Text("Booking Form"),
-        backgroundColor: Color.fromRGBO(43, 159, 148, 1.0),
+        backgroundColor: const Color.fromRGBO(43, 159, 148, 1.0),
         leading: IconButton(
-          icon: Icon(Icons.arrow_back),
+          icon: const Icon(Icons.arrow_back),
           onPressed: () {
             // Navigate to the desired page here
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => HomeScreenSuccess()),
+              MaterialPageRoute(builder: (context) => const HomeScreenSuccess()),
             );
           },
         ),
@@ -227,30 +226,30 @@ class _BookingFormState extends State<BookingForm> {
           padding: EdgeInsets.zero,
           children: <Widget>[
             DrawerHeader(
-              decoration: BoxDecoration(
-                color: const Color.fromRGBO(43, 159, 148, 1.0),
+              decoration: const BoxDecoration(
+                color: Color.fromRGBO(43, 159, 148, 1.0),
               ),
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Icon(
+                  const Icon(
                     Icons.account_circle,
                     size: 80,
                     color: Colors.white,
                   ),
-                  SizedBox(width: 10),
+                  const SizedBox(width: 10),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
                         globals.name ?? '', // Display current user's name
-                        style: TextStyle(fontSize: 18, color: Colors.white),
+                        style: const TextStyle(fontSize: 18, color: Colors.white),
                       ),
-                      SizedBox(height: 5),
+                      const SizedBox(height: 5),
                       Text(
                         globals.email ?? '', // Display current user's email
-                        style: TextStyle(fontSize: 14, color: Colors.white),
+                        style: const TextStyle(fontSize: 14, color: Colors.white),
                       ),
                     ],
                   ),
@@ -258,8 +257,8 @@ class _BookingFormState extends State<BookingForm> {
               ),
             ),
             ListTile(
-              leading: Icon(Icons.edit),
-              title: Text('Edit Profile'),
+              leading: const Icon(Icons.edit),
+              title: const Text('Edit Profile'),
               onTap: () {
                 Navigator.pushReplacement(
                   context,
@@ -268,16 +267,16 @@ class _BookingFormState extends State<BookingForm> {
               },
             ),
             ListTile(
-              leading: Icon(Icons.book),
-              title: Text('Booking List'),
+              leading: const Icon(Icons.book),
+              title: const Text('Booking List'),
               onTap: () {
                 // Navigate to Booking List screen
               },
             ),
-            Divider(),
+            const Divider(),
             ListTile(
-              leading: Icon(Icons.logout),
-              title: Text('Logout'),
+              leading: const Icon(Icons.logout),
+              title: const Text('Logout'),
               onTap: _logout,
             ),
           ],

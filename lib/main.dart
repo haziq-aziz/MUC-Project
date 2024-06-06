@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:restaurantbooking/Authentication/login.dart';
 import 'package:restaurantbooking/views/landingpage.dart';
 import 'package:restaurantbooking/services/database_service.dart';
 
