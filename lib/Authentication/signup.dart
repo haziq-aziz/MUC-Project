@@ -27,19 +27,19 @@ class _SignUpState extends State<SignUp> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-  appBar: AppBar(
-    title: const Text("Register New Account"),
-    backgroundColor: const Color.fromRGBO(43, 159, 148, 1.0),
-  ),
-  body: Center(
-    child: SingleChildScrollView(
-      child: Form(
-        key: formKey,
-        child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
+      appBar: AppBar(
+        title: const Text("Register New Account"),
+        backgroundColor: const Color.fromRGBO(43, 159, 148, 1.0),
+      ),
+      body: Center(
+        child: SingleChildScrollView(
+          child: Form(
+            key: formKey,
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
                   Container(
                     margin: const EdgeInsets.all(8),
                     padding:
@@ -214,19 +214,22 @@ class _SignUpState extends State<SignUp> {
                       onPressed: () async {
                         if (formKey.currentState!.validate()) {
                           final db = DatabaseService();
-                            await db.insertUser(Users(
-                              name: name.text,
-                              email: email.text,
-                              phone: int.parse(phone.text),
-                              username: username.text,
-                              password: password.text,
-                            ));
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => const LoginScreen(),
-                              ),
-                            );
+                          await db.insertUser(Users(
+                            name: name.text,
+                            email: email.text,
+                            phone: int.parse(phone.text),
+                            username: username.text,
+                            password: password.text,
+                          ));
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(content: Text('Registration successful! Please log in.')),
+                          );
+                          Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const LoginScreen(),
+                            ),
+                          );
                         }
                       },
                       child: const Text(
@@ -244,7 +247,8 @@ class _SignUpState extends State<SignUp> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => const LoginScreen()),
+                              builder: (context) => const LoginScreen(),
+                            ),
                           );
                         },
                         child: const Text(
