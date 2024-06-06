@@ -1,5 +1,7 @@
+// ignore_for_file: library_private_types_in_public_api, use_build_context_synchronously
+
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:restaurantbooking/Admin/dashboard.dart';
 import 'package:restaurantbooking/Admin/user_list.dart';
 import 'package:restaurantbooking/JsonModels/session.dart'; // Import the Users model
 import 'package:restaurantbooking/services/database_service.dart'; // Import the DatabaseService
@@ -7,7 +9,7 @@ import 'package:restaurantbooking/services/database_service.dart'; // Import the
 class UserEdit extends StatefulWidget {
   final Users user;
 
-  UserEdit({required this.user});
+  const UserEdit({super.key, required this.user});
 
   @override
   _UserEditState createState() => _UserEditState();
@@ -44,7 +46,7 @@ class _UserEditState extends State<UserEdit> {
       );
 
       await DatabaseService().updateUsers(updatedUser);
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('User updated successfully')));
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('User updated successfully')));
       
       // Navigate back to the dashboard
       Navigator.pop(context); // Pop the user edit screen
@@ -53,11 +55,13 @@ class _UserEditState extends State<UserEdit> {
       // Push the dashboard screen
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (context) => UserList()),
+        MaterialPageRoute(builder: (context) => const UserList()),
       );
     } catch (e) {
-      print('Error updating user: $e');
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Failed to update user')));
+      if (kDebugMode) {
+        print('Error updating user: $e');
+      }
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Failed to update user')));
     }
   }
 }
@@ -77,7 +81,7 @@ class _UserEditState extends State<UserEdit> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Edit User'),
+        title: const Text('Edit User'),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -87,7 +91,7 @@ class _UserEditState extends State<UserEdit> {
             children: [
               TextFormField(
                 controller: _nameController,
-                decoration: InputDecoration(labelText: 'Name'),
+                decoration: const InputDecoration(labelText: 'Name'),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'Please enter a name';
@@ -97,7 +101,7 @@ class _UserEditState extends State<UserEdit> {
               ),
               TextFormField(
                 controller: _emailController,
-                decoration: InputDecoration(labelText: 'Email'),
+                decoration: const InputDecoration(labelText: 'Email'),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'Please enter an email';
@@ -109,7 +113,7 @@ class _UserEditState extends State<UserEdit> {
               ),
               TextFormField(
                 controller: _phoneController,
-                decoration: InputDecoration(labelText: 'Phone'),
+                decoration: const InputDecoration(labelText: 'Phone'),
                 keyboardType: TextInputType.phone,
                 validator: (value) {
                   if (value == null || value.isEmpty) {
@@ -122,7 +126,7 @@ class _UserEditState extends State<UserEdit> {
               ),
               TextFormField(
                 controller: _usernameController,
-                decoration: InputDecoration(labelText: 'Username'),
+                decoration: const InputDecoration(labelText: 'Username'),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'Please enter a username';
@@ -132,7 +136,7 @@ class _UserEditState extends State<UserEdit> {
               ),
               TextFormField(
                 controller: _passwordController,
-                decoration: InputDecoration(labelText: 'Password'),
+                decoration: const InputDecoration(labelText: 'Password'),
                 obscureText: true,
                 validator: (value) {
                   if (value == null || value.isEmpty) {
@@ -141,10 +145,10 @@ class _UserEditState extends State<UserEdit> {
                   return null;
                 },
               ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               ElevatedButton(
                 onPressed: _saveUser,
-                child: Text('Save'),
+                child: const Text('Save'),
               ),
             ],
           ),

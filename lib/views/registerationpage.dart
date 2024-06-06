@@ -217,7 +217,7 @@ class _ReservationPageState extends State<ReservationPage> {
                             context,
                             MaterialPageRoute(
                                 builder: (context) =>
-                                    HomeScreen()), //letak login page
+                                    const HomeScreen()), //letak login page
                           );
                         },
                         child: Container(
@@ -343,7 +343,7 @@ class _ReservationPageState extends State<ReservationPage> {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => HomeScreenSuccess()));
+                        builder: (context) => const HomeScreenSuccess()));
               },
               style: ElevatedButton.styleFrom(
                 backgroundColor:

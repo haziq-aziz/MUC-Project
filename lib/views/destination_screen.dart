@@ -1,9 +1,11 @@
+// ignore_for_file: library_private_types_in_public_api
+
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:restaurantbooking/models/activity_model.dart';
 import 'package:restaurantbooking/models/destination_model.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:restaurantbooking/BookForm/bookingform.dart';
-import 'package:restaurantbooking/views/home_screen_success.dart';
 import 'package:restaurantbooking/Authentication/login.dart';
 import 'package:restaurantbooking/Authentication/globals.dart' as globals; // Import the globals file
 import 'package:stroke_text/stroke_text.dart';
@@ -11,7 +13,7 @@ import 'package:stroke_text/stroke_text.dart';
 class DestinationScreen extends StatefulWidget {
   final Destination destination;
 
-  DestinationScreen({required this.destination});
+  const DestinationScreen({super.key, required this.destination});
 
   @override
   _DestinationScreenState createState() => _DestinationScreenState();
@@ -38,7 +40,7 @@ class _DestinationScreenState extends State<DestinationScreen> {
                 height: MediaQuery.of(context).size.width,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(30.0),
-                  boxShadow: [
+                  boxShadow: const [
                     BoxShadow(
                       color: Colors.black26,
                       offset: Offset(0.0, 2.0),
@@ -58,14 +60,14 @@ class _DestinationScreenState extends State<DestinationScreen> {
                 ),
               ),
               Padding(
-                padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 40.0),
+                padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 40.0),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
                     IconButton(
-                      icon: Icon(Icons.arrow_back),
+                      icon: const Icon(Icons.arrow_back),
                       iconSize: 30.0,
-                      color: Color(0xFF2B9F94),
+                      color: const Color(0xFF2B9F94),
                       onPressed: () => Navigator.pop(context),
                     ),
                   ],
@@ -79,26 +81,26 @@ class _DestinationScreenState extends State<DestinationScreen> {
                   children: <Widget>[
                     StrokeText(
                       text: widget.destination.nopackage,
-                      textStyle: TextStyle(
+                      textStyle: const TextStyle(
                         color: Colors.white,
                         fontSize: 35.0,
                         fontWeight: FontWeight.w600,
                         letterSpacing: 1.2,
                       ),
                       strokeWidth: 10.0, // Adjust the strokeWidth as needed
-                      strokeColor: Color(0xFF2B9F94), // Set the color of the stroke
+                      strokeColor: const Color(0xFF2B9F94), // Set the color of the stroke
                     ),
                     Row(
                       children: <Widget>[
-                        Icon(
+                        const Icon(
                           FontAwesomeIcons.locationArrow,
                           size: 15.0,
                           color: Colors.white70,
                         ),
-                        SizedBox(width: 5.0),
+                        const SizedBox(width: 5.0),
                         Text(
                           widget.destination.tpackage,
-                          style: TextStyle(
+                          style: const TextStyle(
                             color: Colors.white70,
                             fontSize: 20.0,
                           ),
@@ -113,7 +115,9 @@ class _DestinationScreenState extends State<DestinationScreen> {
                 bottom: 20.0,
                 child: TextButton(
                   onPressed: () {
-                    print("Is Logged In: ${globals.isLoggedIn}"); // Debug print
+                    if (kDebugMode) {
+                      print("Is Logged In: ${globals.isLoggedIn}");
+                    } // Debug print
                     if (globals.isLoggedIn) {
                       Navigator.push(
                         context,
@@ -127,13 +131,13 @@ class _DestinationScreenState extends State<DestinationScreen> {
                     }
                   },
                   style: TextButton.styleFrom(
-                    backgroundColor: Color.fromRGBO(43, 159, 148, 1.0),
-                    padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+                    backgroundColor: const Color.fromRGBO(43, 159, 148, 1.0),
+                    padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(8.0),
                     ),
                   ),
-                  child: Text(
+                  child: const Text(
                     'Book Here',
                     style: TextStyle(
                       color: Colors.white,
@@ -146,14 +150,14 @@ class _DestinationScreenState extends State<DestinationScreen> {
           ),
           Expanded(
             child: ListView.builder(
-              padding: EdgeInsets.only(top: 10.0, bottom: 15.0),
+              padding: const EdgeInsets.only(top: 10.0, bottom: 15.0),
               itemCount: widget.destination.activities.length,
               itemBuilder: (BuildContext context, int index) {
                 Activity activity = widget.destination.activities[index];
                 return Stack(
                   children: <Widget>[
                     Container(
-                      margin: EdgeInsets.fromLTRB(40.0, 5.0, 20.0, 5.0),
+                      margin: const EdgeInsets.fromLTRB(40.0, 5.0, 20.0, 5.0),
                       height: 170.0,
                       width: double.infinity,
                       decoration: BoxDecoration(
@@ -161,7 +165,7 @@ class _DestinationScreenState extends State<DestinationScreen> {
                         borderRadius: BorderRadius.circular(20.0),
                       ),
                       child: Padding(
-                        padding: EdgeInsets.fromLTRB(100.0, 5.0, 5.0, 5.0),
+                        padding: const EdgeInsets.fromLTRB(100.0, 5.0, 5.0, 5.0),
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -170,11 +174,11 @@ class _DestinationScreenState extends State<DestinationScreen> {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: <Widget>[
-                                Container(
+                                SizedBox(
                                   width: 170.0,
                                   child: Text(
                                     activity.name,
-                                    style: TextStyle(
+                                    style: const TextStyle(
                                       letterSpacing: 1.2,
                                       fontSize: 18.0,
                                       fontWeight: FontWeight.w600,
@@ -186,13 +190,13 @@ class _DestinationScreenState extends State<DestinationScreen> {
                                 Column(
                                   children: <Widget>[
                                     Text(
-                                      '\ ${activity.price}',
-                                      style: TextStyle(
+                                      ' ${activity.price}',
+                                      style: const TextStyle(
                                         fontSize: 22.0,
                                         fontWeight: FontWeight.w600,
                                       ),
                                     ),
-                                    Text(
+                                    const Text(
                                       'Try it',
                                       style: TextStyle(
                                         color: Colors.grey,
@@ -204,41 +208,12 @@ class _DestinationScreenState extends State<DestinationScreen> {
                             ),
                             Text(
                               activity.descfood,
-                              style: TextStyle(
+                              style: const TextStyle(
                                 color: Colors.grey,
                               ),
                             ),
                             _buildRatingStars(activity.rating),
-                            SizedBox(height: 10.0),
-                        /*Row(
-                              children: <Widget>[
-                                Container(
-                                  padding: EdgeInsets.all(5.0),
-                                  width: 80.0,
-                                  decoration: BoxDecoration(
-                                    color: Color(0xFF2B9F94),
-                                    borderRadius: BorderRadius.circular(10.0),
-                                  ),
-                                  alignment: Alignment.center,
-                                  child: Text(
-                                    activity.startTimes[0],
-                                  ),
-                                ),
-                                SizedBox(width: 10.0),
-                                Container(
-                                  padding: EdgeInsets.all(5.0),
-                                  width: 70.0,
-                                  decoration: BoxDecoration(
-                                    color: Color(0xFF2B9F94),
-                                    borderRadius: BorderRadius.circular(10.0),
-                                  ),
-                                  alignment: Alignment.center,
-                                  child: Text(
-                                    activity.startTimes[1],
-                                  ),
-                                ),
-                              ],
-                            )*/
+                            const SizedBox(height: 10.0),
                           ],
                         ),
                       ),

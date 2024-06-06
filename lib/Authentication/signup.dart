@@ -1,10 +1,12 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:flutter/material.dart';
 import 'package:restaurantbooking/Authentication/login.dart';
 import 'package:restaurantbooking/JsonModels/session.dart';
 import 'package:restaurantbooking/services/database_service.dart';
 
 class SignUp extends StatefulWidget {
-  const SignUp({Key? key}) : super(key: key);
+  const SignUp({super.key});
 
   @override
   State<SignUp> createState() => _SignUpState();
@@ -27,7 +29,7 @@ class _SignUpState extends State<SignUp> {
     return Scaffold(
   appBar: AppBar(
     title: const Text("Register New Account"),
-    backgroundColor: Color.fromRGBO(43, 159, 148, 1.0),
+    backgroundColor: const Color.fromRGBO(43, 159, 148, 1.0),
   ),
   body: Center(
     child: SingleChildScrollView(

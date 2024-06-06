@@ -1,10 +1,10 @@
+// ignore_for_file: library_private_types_in_public_api
+
 import 'package:restaurantbooking/views/landingpage.dart';
-import 'package:restaurantbooking/views/registerationpage.dart';
 import 'package:flutter/material.dart';
 import 'package:restaurantbooking/widgets/destination_restoran.dart';
 import 'package:restaurantbooking/widgets/restoran_comingsoon.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:restaurantbooking/Authentication/login.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -14,7 +14,6 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   int _selectedIndex = 0;
-  int _currentTab = 0;
   final List<IconData> _icons = [
     FontAwesomeIcons.faceSmile,
     FontAwesomeIcons.faceGrinStars,
@@ -54,14 +53,14 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text("Selera Kampung"),
-        backgroundColor: Color.fromRGBO(43, 159, 148, 1.0),
+        backgroundColor: const Color.fromRGBO(43, 159, 148, 1.0),
         leading: IconButton(
-          icon: Icon(Icons.arrow_back),
+          icon: const Icon(Icons.arrow_back),
           onPressed: () {
             // Navigate to the desired page here
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => LandingPage()),
+              MaterialPageRoute(builder: (context) => const LandingPage()),
             );
           },
         ),
@@ -93,9 +92,9 @@ class _HomeScreenState extends State<HomeScreen> {
                   .toList(),
             ),
             const SizedBox(height: 20.0),
-            DestinationRestoran(),
+            const DestinationRestoran(),
             const SizedBox(height: 20.0),
-            HotelCarousel(),
+            const HotelCarousel(),
           ],
         ),
       ),

@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_print
+
 import 'package:flutter/material.dart';
 import 'package:restaurantbooking/models/destination_model.dart';
 import 'package:restaurantbooking/views/destination_screen.dart';
@@ -9,16 +11,18 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 
 class DestinationRestoran extends StatelessWidget {
+  const DestinationRestoran({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Column(
       children: <Widget>[
         Padding(
-          padding: EdgeInsets.symmetric(horizontal: 20.0),
+          padding: const EdgeInsets.symmetric(horizontal: 20.0),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
-              Text(
+              const Text(
                 'Package List',
                 style: TextStyle(
                   fontSize: 22.0,
@@ -41,7 +45,7 @@ class DestinationRestoran extends StatelessWidget {
             ],
           ),
         ),
-        Container(
+        SizedBox(
           height: 300.0,
           child: ListView.builder(
             scrollDirection: Axis.horizontal,
@@ -58,7 +62,7 @@ class DestinationRestoran extends StatelessWidget {
                   ),
                 ),
                 child: Container(
-                  margin: EdgeInsets.all(10.0),
+                  margin: const EdgeInsets.all(10.0),
                   width: 210.0,
                   child: Stack(
                     alignment: Alignment.topCenter,
@@ -73,7 +77,7 @@ class DestinationRestoran extends StatelessWidget {
                             borderRadius: BorderRadius.circular(10.0),
                           ),
                           child: Padding(
-                            padding: EdgeInsets.all(10.0),
+                            padding: const EdgeInsets.all(10.0),
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.end,
                               crossAxisAlignment: CrossAxisAlignment.start,
@@ -88,7 +92,7 @@ class DestinationRestoran extends StatelessWidget {
                                 // ),
                                 Text(
                                   destination.description,
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                     color: Colors.grey,
                                     fontSize: 12.0,
                                   ),
@@ -102,7 +106,7 @@ class DestinationRestoran extends StatelessWidget {
                         decoration: BoxDecoration(
                           color: Colors.white,
                           borderRadius: BorderRadius.circular(20.0),
-                          boxShadow: [
+                          boxShadow: const [
                             BoxShadow(
                               color: Colors.black26,
                               offset: Offset(0.0, 2.0),
@@ -132,7 +136,7 @@ class DestinationRestoran extends StatelessWidget {
                                 children: <Widget>[
                                   Text(
                                     destination.nopackage,
-                                    style: TextStyle(
+                                    style: const TextStyle(
                                       color: Colors.white,
                                       fontSize: 24.0,
                                       fontWeight: FontWeight.w600,
@@ -141,15 +145,15 @@ class DestinationRestoran extends StatelessWidget {
                                   ),
                                   Row(
                                     children: <Widget>[
-                                      Icon(
+                                      const Icon(
                                         FontAwesomeIcons.locationArrow,
                                         size: 10.0,
                                         color: Colors.white,
                                       ),
-                                      SizedBox(width: 5.0),
+                                      const SizedBox(width: 5.0),
                                       Text(
                                         destination.tpackage,
-                                        style: TextStyle(
+                                        style: const TextStyle(
                                           color: Colors.white,
                                         ),
                                       ),

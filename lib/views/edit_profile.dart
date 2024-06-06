@@ -1,3 +1,5 @@
+// ignore_for_file: library_private_types_in_public_api, use_build_context_synchronously
+
 import 'package:flutter/material.dart';
 import 'package:restaurantbooking/services/database_service.dart';
 import 'package:restaurantbooking/JsonModels/session.dart';
@@ -6,7 +8,7 @@ import 'package:restaurantbooking/views/home_screen_success.dart';
 class EditProfile extends StatefulWidget {
   final int userId;
 
-  EditProfile({required this.userId});
+  const EditProfile({super.key, required this.userId});
 
   @override
   _EditProfileState createState() => _EditProfileState();
@@ -60,7 +62,7 @@ class _EditProfileState extends State<EditProfile> {
           onPressed: () {
             Navigator.pop(context); // Pop the EditProfile route
             Navigator.pushReplacement(context,
-                MaterialPageRoute(builder: (context) => HomeScreenSuccess()));
+                MaterialPageRoute(builder: (context) => const HomeScreenSuccess()));
           },
         ),
       ),
@@ -74,30 +76,30 @@ class _EditProfileState extends State<EditProfile> {
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  CircleAvatar(
+                  const CircleAvatar(
                     radius: 60,
                     backgroundImage:
                         AssetImage('assets/images/default_pfp.png'),
                   ),
-                  SizedBox(height: 20),
+                  const SizedBox(height: 20),
                   _buildTextField(Icons.person, 'Full Name', _nameController),
-                  SizedBox(height: 20),
+                  const SizedBox(height: 20),
                   _buildTextField(Icons.email, 'E-Mail', _emailController),
-                  SizedBox(height: 20),
+                  const SizedBox(height: 20),
                   _buildTextField(Icons.phone, 'Phone No', _phoneController),
-                  SizedBox(height: 20),
+                  const SizedBox(height: 20),
                   _buildTextField(Icons.lock, 'Password', _passwordController,
                       obscureText: _obscurePassword),
-                  SizedBox(height: 20),
+                  const SizedBox(height: 20),
                   ElevatedButton(
                     onPressed: _updateProfile,
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: Color.fromRGBO(43, 159, 148, 1.0),
+                      backgroundColor: const Color.fromRGBO(43, 159, 148, 1.0),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(8),
                       ),
                     ),
-                    child: Padding(
+                    child: const Padding(
                       padding: EdgeInsets.symmetric(vertical: 15),
                       child: Text(
                         'UPDATE',
@@ -106,7 +108,7 @@ class _EditProfileState extends State<EditProfile> {
                       ),
                     ),
                   ),
-                  SizedBox(height: 20),
+                  const SizedBox(height: 20),
                 ],
               ),
             ),
@@ -123,18 +125,18 @@ class _EditProfileState extends State<EditProfile> {
       controller: controller,
       obscureText: obscureText,
       decoration: InputDecoration(
-        prefixIcon: Icon(icon, color: Color.fromRGBO(43, 159, 148, 1.0)),
+        prefixIcon: Icon(icon, color: const Color.fromRGBO(43, 159, 148, 1.0)),
         labelText: label,
-        labelStyle: TextStyle(color: Colors.black),
+        labelStyle: const TextStyle(color: Colors.black),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(10),
-          borderSide: BorderSide(color: Colors.black),
+          borderSide: const BorderSide(color: Colors.black),
         ),
         suffixIcon: label == 'Password'
             ? IconButton(
                 icon: Icon(
                   obscureText ? Icons.visibility : Icons.visibility_off,
-                  color: Color.fromRGBO(43, 159, 148, 1.0),
+                  color: const Color.fromRGBO(43, 159, 148, 1.0),
                 ),
                 onPressed: () {
                   setState(() {
@@ -144,7 +146,7 @@ class _EditProfileState extends State<EditProfile> {
               )
             : null,
       ),
-      style: TextStyle(color: Colors.black),
+      style: const TextStyle(color: Colors.black),
       validator: (value) {
         if (value == null || value.isEmpty) {
           return 'Please enter $label';
@@ -172,13 +174,13 @@ class _EditProfileState extends State<EditProfile> {
 
       // Show a snackbar indicating success
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Profile updated successfully')),
+        const SnackBar(content: Text('Profile updated successfully')),
       );
 
       // Navigate to the HomeScreenSuccess
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (context) => HomeScreenSuccess()),
+        MaterialPageRoute(builder: (context) => const HomeScreenSuccess()),
       );
     }
   }
