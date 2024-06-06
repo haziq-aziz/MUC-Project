@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:restaurantbooking/models/destination_model.dart';
 import 'package:restaurantbooking/views/destination_screen.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:stroke_text/stroke_text.dart';
 
 
 
@@ -134,28 +135,36 @@ class DestinationRestoran extends StatelessWidget {
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: <Widget>[
-                                  Text(
-                                    destination.nopackage,
-                                    style: const TextStyle(
+                                  StrokeText(
+                                    text: destination.nopackage,
+                                    textStyle: const TextStyle(
                                       color: Colors.white,
-                                      fontSize: 24.0,
+                                      fontSize: 20.0,
                                       fontWeight: FontWeight.w600,
                                       letterSpacing: 1.2,
                                     ),
+                                    strokeWidth: 5.0, // Adjust the strokeWidth as needed
+                                    strokeColor: const Color(0xFF2B9F94), // Set the color of the stroke
                                   ),
                                   Row(
                                     children: <Widget>[
                                       const Icon(
                                         FontAwesomeIcons.locationArrow,
                                         size: 10.0,
-                                        color: Colors.white,
+                                        color: Colors.black,
                                       ),
                                       const SizedBox(width: 5.0),
-                                      Text(
-                                        destination.tpackage,
-                                        style: const TextStyle(
+                                      StrokeText(
+                                        text: destination.tpackage,
+                                        textStyle: const TextStyle(
                                           color: Colors.white,
+                                          fontSize: 10.0,
+                                          fontWeight: FontWeight.w600,
+                                          letterSpacing: 1.2,
                                         ),
+                                        strokeWidth: 5.0, // Adjust the strokeWidth as needed
+                                        strokeColor: const Color(0xFF000000), // Set the color of the stroke
+
                                       ),
                                     ],
                                   ),

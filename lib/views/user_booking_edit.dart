@@ -90,6 +90,12 @@ class _UserBookingEditState extends State<UserBookingEdit> {
                     onDateSelected(pickedDate);
                   }
                 },
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Please select a date';
+                  }
+                  return null;
+                },
               ),
             ),
             const SizedBox(width: 16),
@@ -107,12 +113,22 @@ class _UserBookingEditState extends State<UserBookingEdit> {
                     onTimeSelected(pickedTime);
                   }
                 },
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Please select a time';
+                  }
+                  return null;
+                },
               ),
             ),
           ],
         ),
       ],
     );
+  }
+
+  bool _isPackageSelected() {
+    return _selectedPackages.contains(true);
   }
 
   @override
@@ -164,8 +180,11 @@ class _UserBookingEditState extends State<UserBookingEdit> {
                             decoration: InputDecoration(labelText: 'Number of Guests for $package'),
                             keyboardType: TextInputType.number,
                             validator: (value) {
-                              if (_selectedPackages[index] && value!.isEmpty) {
+                              if (_selectedPackages[index] && (value == null || value.isEmpty)) {
                                 return 'Please enter number of guests for $package';
+                              }
+                              if (_selectedPackages[index] && int.tryParse(value!) == null) {
+                                return 'Please enter a valid number';
                               }
                               return null;
                             },
@@ -212,54 +231,60 @@ class _UserBookingEditState extends State<UserBookingEdit> {
 
   Future<void> _updateBooking() async {
     if (_formKey.currentState!.validate()) {
-      try {
-        final selectedPackages = _menuPackages
-            .asMap()
-            .entries
-            .where((entry) => _selectedPackages[entry.key])
-            .map((entry) => entry.value)
-            .join(', ');
+      if (_isPackageSelected()) {
+        try {
+          final selectedPackages = _menuPackages
+              .asMap()
+              .entries
+              .where((entry) => _selectedPackages[entry.key])
+              .map((entry) => entry.value)
+              .join(', ');
 
-        final eventDateTime = DateTime(
-          _selectedEventDate.year,
-          _selectedEventDate.month,
-          _selectedEventDate.day,
-          _selectedEventTime.hour,
-          _selectedEventTime.minute,
-        );
+          final eventDateTime = DateTime(
+            _selectedEventDate.year,
+            _selectedEventDate.month,
+            _selectedEventDate.day,
+            _selectedEventTime.hour,
+            _selectedEventTime.minute,
+          );
 
-        final updatedBooking = MenuBook(
-          bookId: widget.booking.bookId,
-          userId: widget.booking.userId,
-          bookDate: widget.booking.bookDate,
-          bookTime: widget.booking.bookTime,
-          eventDate: _selectedEventDate,
-          eventTime: DateTime(0, 0, 0, _selectedEventTime.hour, _selectedEventTime.minute),
-          menuPackage: selectedPackages,
-          numGuest: _totalGuests,
-          packagePrice: _totalPrice,
-        );
+          final updatedBooking = MenuBook(
+            bookId: widget.booking.bookId,
+            userId: widget.booking.userId,
+            bookDate: widget.booking.bookDate,
+            bookTime: widget.booking.bookTime,
+            eventDate: _selectedEventDate,
+            eventTime: DateTime(0, 0, 0, _selectedEventTime.hour, _selectedEventTime.minute),
+            menuPackage: selectedPackages,
+            numGuest: _totalGuests,
+            packagePrice: _totalPrice,
+          );
 
-        final db = DatabaseService();
-        await db.updateBooking(
-          updatedBooking.bookId,
-          updatedBooking.menuPackage,
-          eventDateTime,
-          updatedBooking.numGuest,
-          updatedBooking.packagePrice,
-        );
+          final db = DatabaseService();
+          await db.updateBooking(
+            updatedBooking.bookId,
+            updatedBooking.menuPackage,
+            eventDateTime,
+            updatedBooking.numGuest,
+            updatedBooking.packagePrice,
+          );
 
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('Booking updated successfully')),
+          );
+
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (context) => UserBookingList(userId: widget.booking.userId)),
+          );
+        } catch (e) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('Failed to update booking')),
+          );
+        }
+      } else {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Booking updated successfully')),
-        );
-
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (context) => UserBookingList(userId: widget.booking.userId)),
-        );
-      } catch (e) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Failed to update booking')),
+          const SnackBar(content: Text('Please select at least one menu package')),
         );
       }
     }

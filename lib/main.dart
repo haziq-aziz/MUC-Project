@@ -7,7 +7,7 @@ void main() async {
   final dbService = DatabaseService();
 
   // Insert an admin account for testing
-  await dbService.insertAdmin('admin', 'admin');
+  //await dbService.insertAdmin('admin', 'admin');
 
   runApp(const RestaurantBooking());
 }

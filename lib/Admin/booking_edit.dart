@@ -79,6 +79,7 @@ class _BookingEditState extends State<BookingEdit> {
                 decoration: const InputDecoration(labelText: 'Date (YYYY-MM-DD)'),
                 controller: TextEditingController(text: DateFormat('yyyy-MM-dd').format(selectedDate)),
                 readOnly: true,
+                validator: _validateEventDate, // Add validation here
                 onTap: () async {
                   DateTime? pickedDate = await showDatePicker(
                     context: context,
@@ -112,6 +113,23 @@ class _BookingEditState extends State<BookingEdit> {
           ],
         ),
       ],
+    );
+  }
+
+  String? _validateEventDate(String? value) {
+    if (_selectedEventDate.isBefore(DateTime.now())) {
+      return 'Event date must be in the future';
+    }
+    return null;
+  }
+
+  bool _isAtLeastOnePackageSelected() {
+    return _selectedPackages.contains(true);
+  }
+
+  void _showPackageSelectionError() {
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(content: Text('Please select at least one menu package')),
     );
   }
 
@@ -254,10 +272,10 @@ class _BookingEditState extends State<BookingEdit> {
           const SnackBar(content: Text('Booking updated successfully')),
         );
 
-       Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (context) => const BookingList()),
-      );
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => const BookingList()),
+        );
       } catch (e) {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text('Failed to update booking')),
@@ -267,6 +285,10 @@ class _BookingEditState extends State<BookingEdit> {
   }
 
   void _submitForm() async {
+    if (!_isAtLeastOnePackageSelected()) {
+      _showPackageSelectionError();
+      return;
+    }
     await _updateBooking();
   }
 }
