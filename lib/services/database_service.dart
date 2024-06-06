@@ -100,6 +100,19 @@ class DatabaseService {
     }
     return -1; // Or handle error accordingly
   }
+  Future<void> deleteBooking(int bookId) async {
+    final db = await database;
+    try {
+      await db.delete(
+        'menubook',
+        where: 'bookid = ?',
+        whereArgs: [bookId],
+      );
+    } catch (e) {
+      print('Error deleting booking: $e');
+      throw Exception('Failed to delete booking');
+    }
+  }
 
   Future<void> deleteUser(int userId) async {
     final db = await database;
@@ -149,27 +162,28 @@ class DatabaseService {
   }
 
   Future<void> updateBooking(
-  int bookId,
-  String menuPackage,
-  DateTime eventDateTime,
-  int numGuest,
-  double packagePrice,
-) async {
-  final db = await database;
-  await db.update(
-    'menubook',
-    {
-      'menupackage': menuPackage,
-      'eventdate': DateFormat('yyyy-MM-dd').format(eventDateTime),
-      'eventtime': DateFormat('HH:mm:ss').format(eventDateTime),
-      'numguest': numGuest,
-      'packageprice': packagePrice,
-    },
-    where: 'bookid = ?',
-    whereArgs: [bookId],
-    conflictAlgorithm: ConflictAlgorithm.replace,
-  );
-}
+      int bookId,
+      String menuPackage,
+      DateTime eventDateTime,
+      int numGuest,
+      double packagePrice,
+      ) async {
+    final db = await database;
+    await db.update(
+      'menubook',
+      {
+        'menupackage': menuPackage,
+        'eventdate': DateFormat('yyyy-MM-dd').format(eventDateTime),
+        'eventtime': DateFormat('HH:mm:ss').format(eventDateTime), // Correctly format time
+        'numguest': numGuest,
+        'packageprice': packagePrice,
+      },
+      where: 'bookid = ?',
+      whereArgs: [bookId],
+      conflictAlgorithm: ConflictAlgorithm.replace,
+    );
+  }
+
 
   Future<bool> login(Users user) async {
     final db = await database;

@@ -22,9 +22,9 @@ class HotelCarousel extends StatelessWidget {
                 ),
               ),
               GestureDetector(
-                onTap: () => print('See All'),
+                onTap: () => print(''),
                 child: Text(
-                  'See All',
+                  '',
                   style: TextStyle(
                     color: Theme.of(context).primaryColor,
                     fontSize: 16.0,

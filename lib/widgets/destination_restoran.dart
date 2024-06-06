@@ -29,7 +29,7 @@ class DestinationRestoran extends StatelessWidget {
               GestureDetector(
                 onTap: () => print('See All'),
                 child: Text(
-                  'See All',
+                  '',
                   style: TextStyle(
                     color: Theme.of(context).primaryColor,
                     fontSize: 16.0,
