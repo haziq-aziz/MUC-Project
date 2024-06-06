@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:restaurantbooking/Admin/booking_list.dart';
 import 'package:restaurantbooking/JsonModels/booking.dart'; // Import MenuBook from the correct location
 import '../services/database_service.dart';
 
@@ -253,7 +254,10 @@ class _BookingEditState extends State<BookingEdit> {
           const SnackBar(content: Text('Booking updated successfully')),
         );
 
-        Navigator.pop(context);
+       Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => const BookingList()),
+      );
       } catch (e) {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text('Failed to update booking')),
