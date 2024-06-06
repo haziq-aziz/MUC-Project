@@ -23,6 +23,20 @@ class MenuBook {
     required this.packagePrice,
   });
 
+  Map<String, dynamic> toMap() {
+    return {
+      'bookid': bookId,
+      'userid': userId,
+      'bookdate': DateFormat('yyyy-MM-dd').format(bookDate),
+      'booktime': DateFormat('HH:mm:ss').format(bookTime),
+      'eventdate': DateFormat('yyyy-MM-dd').format(eventDate),
+      'eventtime': DateFormat('HH:mm:ss').format(eventTime),
+      'menupackage': menuPackage,
+      'numguest': numGuest,
+      'packageprice': packagePrice,
+    };
+  }
+
   factory MenuBook.fromMap(Map<String, dynamic> map) {
     return MenuBook(
       bookId: map['bookid'],

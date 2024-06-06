@@ -5,6 +5,8 @@ import 'package:restaurantbooking/views/home_screen_success.dart';
 import 'package:restaurantbooking/services/database_service.dart';
 import 'package:restaurantbooking/services/auth_service.dart';
 import 'package:restaurantbooking/Authentication/globals.dart' as globals;
+import 'package:date_utils/date_utils.dart';
+
 
 import '../views/edit_profile.dart';
 import '../views/landingpage.dart';
@@ -24,6 +26,18 @@ class MyApp extends StatelessWidget {
   }
 }
 
+class DateUtils {
+  static String formatDate(DateTime date) {
+    return DateFormat('yyyy-MM-dd').format(date);
+  }
+
+  static String formatTime(TimeOfDay time) {
+    final now = DateTime.now();
+    final dateTime = DateTime(now.year, now.month, now.day, time.hour, time.minute);
+    return DateFormat('HH:mm').format(dateTime);
+  }
+}
+
 class BookingForm extends StatefulWidget {
   const BookingForm({super.key});
 
@@ -35,16 +49,16 @@ final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
 class _BookingFormState extends State<BookingForm> {
   final _formKey = GlobalKey<FormState>();
-  final List<String> _menuPackages = ['Package 1', 'Package 2', 'Package 3'];
-  final List<double> _packagePrices = [50.0, 40.0, 30.0];
-  final List<bool> _selectedPackages = [false, false, false];
+  final List<String> _menuPackages = ['Package 1', 'Package 2', 'Package 3', 'Package 4', 'Package 5' ];
+  final List<double> _packagePrices = [50.0, 40.0, 30.0, 55.0, 35.0];
+  final List<bool> _selectedPackages = [false, false, false, false, false];
   final List<TextEditingController> _guestControllers = [
     TextEditingController(),
     TextEditingController(),
     TextEditingController(),
+    TextEditingController(),
+    TextEditingController(),
   ];
-  DateTime? _selectedBookDate;
-  TimeOfDay? _selectedBookTime;
   DateTime? _selectedEventDate;
   TimeOfDay? _selectedEventTime;
 
@@ -110,13 +124,6 @@ class _BookingFormState extends State<BookingForm> {
           key: _formKey,
           child: ListView(
             children: [
-              _buildDateTimePicker(
-                label: 'Booking Date',
-                selectedDate: _selectedBookDate,
-                selectedTime: _selectedBookTime,
-                onDateSelected: (date) => setState(() => _selectedBookDate = date),
-                onTimeSelected: (time) => setState(() => _selectedBookTime = time),
-              ),
               _buildDateTimePicker(
                 label: 'Event Date',
                 selectedDate: _selectedEventDate,
@@ -302,7 +309,7 @@ class _BookingFormState extends State<BookingForm> {
                 );
                 if (date != null) onDateSelected(date);
               },
-              child: Text(selectedDate != null ? DateFormat.yMd().format(selectedDate) : 'Select Date'),
+              child: Text(selectedDate != null ? DateUtils.formatDate(selectedDate) : 'Select Date'),
             ),
             TextButton(
               onPressed: () async {
@@ -312,7 +319,7 @@ class _BookingFormState extends State<BookingForm> {
                 );
                 if (time != null) onTimeSelected(time);
               },
-              child: Text(selectedTime != null ? selectedTime.format(context) : 'Select Time'),
+              child: Text(selectedTime != null ? DateUtils.formatTime(selectedTime) : 'Select Time'),
             ),
           ],
         ),
@@ -347,13 +354,10 @@ class _BookingFormState extends State<BookingForm> {
         return entry.value;
       }).join(', ');
 
-      DateTime bookDateTime = DateTime(
-        _selectedBookDate!.year,
-        _selectedBookDate!.month,
-        _selectedBookDate!.day,
-        _selectedBookTime!.hour,
-        _selectedBookTime!.minute,
-      );
+      // Automatically generate booking date and time
+      DateTime now = DateTime.now();
+
+      DateTime bookDateTime = now;
 
       DateTime eventDateTime = DateTime(
         _selectedEventDate!.year,
@@ -375,4 +379,5 @@ class _BookingFormState extends State<BookingForm> {
       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Booking successful')));
     }
   }
+
 }
