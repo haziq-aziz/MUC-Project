@@ -210,7 +210,7 @@ class _DestinationScreenState extends State<DestinationScreen> {
                             ),
                             _buildRatingStars(activity.rating),
                             SizedBox(height: 10.0),
-                            Row(
+                        /*Row(
                               children: <Widget>[
                                 Container(
                                   padding: EdgeInsets.all(5.0),
@@ -238,7 +238,7 @@ class _DestinationScreenState extends State<DestinationScreen> {
                                   ),
                                 ),
                               ],
-                            )
+                            )*/
                           ],
                         ),
                       ),

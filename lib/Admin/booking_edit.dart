@@ -15,69 +15,108 @@ class BookingEdit extends StatefulWidget {
 
 class _BookingEditState extends State<BookingEdit> {
   final _formKey = GlobalKey<FormState>();
-
-  late TextEditingController _menuPackageController;
-  late TextEditingController _eventDateController;
-  late TextEditingController _eventTimeController;
-  late TextEditingController _numGuestController;
-  late TextEditingController _packagePriceController;
+  final List<String> _menuPackages = ['Package 1', 'Package 2', 'Package 3', 'Package 4', 'Package 5'];
+  final List<double> _packagePrices = [50.0, 40.0, 30.0, 55.0, 35.0];
+  final List<bool> _selectedPackages = [false, false, false, false, false];
+  final List<TextEditingController> _guestControllers = [
+    TextEditingController(),
+    TextEditingController(),
+    TextEditingController(),
+    TextEditingController(),
+    TextEditingController(),
+  ];
+  late DateTime _selectedEventDate;
+  late TimeOfDay _selectedEventTime;
+  double _totalPrice = 0.0;
+  int _totalGuests = 0;
 
   @override
   void initState() {
     super.initState();
-    _menuPackageController = TextEditingController(text: widget.booking.menuPackage);
-    _eventDateController = TextEditingController(
-        text: DateFormat('yyyy-MM-dd').format(widget.booking.eventDate));
-    _eventTimeController = TextEditingController(
-        text: DateFormat('HH:mm').format(widget.booking.eventTime));
-    _numGuestController = TextEditingController(text: widget.booking.numGuest.toString());
-    _packagePriceController = TextEditingController(text: widget.booking.packagePrice.toString());
+    _initializeSelectedPackagesAndGuests();
   }
 
-  @override
-  void dispose() {
-    _menuPackageController.dispose();
-    _eventDateController.dispose();
-    _eventTimeController.dispose();
-    _numGuestController.dispose();
-    _packagePriceController.dispose();
-    super.dispose();
-  }
-
-  Future<void> _selectDate() async {
-    DateTime? pickedDate = await showDatePicker(
-      context: context,
-      initialDate: DateFormat('yyyy-MM-dd').parse(_eventDateController.text),
-      firstDate: DateTime.now(),
-      lastDate: DateTime(2101),
-    );
-
-    if (pickedDate != null) {
-      setState(() {
-        _eventDateController.text = DateFormat('yyyy-MM-dd').format(pickedDate);
-      });
+  void _initializeSelectedPackagesAndGuests() {
+    final selectedPackages = widget.booking.menuPackage.split(', ');
+    for (int i = 0; i < _menuPackages.length; i++) {
+      if (selectedPackages.contains(_menuPackages[i])) {
+        _selectedPackages[i] = true;
+        _guestControllers[i].text = widget.booking.numGuest.toString();
+      }
     }
+    _selectedEventDate = widget.booking.eventDate;
+    _selectedEventTime = TimeOfDay(
+      hour: widget.booking.eventTime.hour,
+      minute: widget.booking.eventTime.minute,
+    );
+    _calculateTotal();
   }
 
-  Future<void> _selectTime() async {
-    TimeOfDay? pickedTime = await showTimePicker(
-      context: context,
-      initialTime: TimeOfDay.fromDateTime(
-        DateFormat('HH:mm').parse(_eventTimeController.text),
-      ),
+  Widget _buildDateTimePicker({
+    required String label,
+    required DateTime selectedDate,
+    required TimeOfDay selectedTime,
+    required ValueChanged<DateTime> onDateSelected,
+    required ValueChanged<TimeOfDay> onTimeSelected,
+  }) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          label,
+          style: TextStyle(
+            fontWeight: FontWeight.bold,
+            fontSize: 16,
+          ),
+        ),
+        SizedBox(height: 8),
+        Row(
+          children: [
+            Expanded(
+              child: TextFormField(
+                decoration: InputDecoration(labelText: 'Date (YYYY-MM-DD)'),
+                controller: TextEditingController(text: DateFormat('yyyy-MM-dd').format(selectedDate)),
+                readOnly: true,
+                onTap: () async {
+                  DateTime? pickedDate = await showDatePicker(
+                    context: context,
+                    initialDate: selectedDate,
+                    firstDate: DateTime(2000),
+                    lastDate: DateTime(2101),
+                  );
+                  if (pickedDate != null) {
+                    onDateSelected(pickedDate);
+                  }
+                },
+              ),
+            ),
+            SizedBox(width: 16),
+            Expanded(
+              child: TextFormField(
+                decoration: InputDecoration(labelText: 'Time (HH:MM)'),
+                controller: TextEditingController(text: selectedTime.format(context)),
+                readOnly: true,
+                onTap: () async {
+                  TimeOfDay? pickedTime = await showTimePicker(
+                    context: context,
+                    initialTime: selectedTime,
+                  );
+                  if (pickedTime != null) {
+                    onTimeSelected(pickedTime);
+                  }
+                },
+              ),
+            ),
+          ],
+        ),
+      ],
     );
-
-    if (pickedTime != null) {
-      setState(() {
-        _eventTimeController.text = pickedTime.format(context);
-      });
-    }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Edit Booking')),
+      appBar: AppBar(title: const Text('Edit Booking')),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Form(
@@ -87,89 +126,65 @@ class _BookingEditState extends State<BookingEdit> {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    'Event Date and Time',
+                  _buildDateTimePicker(
+                    label: 'Event Date',
+                    selectedDate: _selectedEventDate,
+                    selectedTime: _selectedEventTime,
+                    onDateSelected: (date) => setState(() => _selectedEventDate = date),
+                    onTimeSelected: (time) => setState(() => _selectedEventTime = time),
+                  ),
+                  const Text(
+                    '\n Menu Packages',
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 16,
                     ),
                   ),
-                  SizedBox(height: 8),
-                  Row(
-                    children: [
-                      Expanded(
-                        child: TextButton(
-                          onPressed: _selectDate,
-                          child: Row(
-                            children: [
-                              Icon(Icons.calendar_today),
-                              SizedBox(width: 8),
-                              Text(
-                                _eventDateController.text.isNotEmpty
-                                    ? _eventDateController.text
-                                    : 'Select Date',
-                              ),
-                            ],
-                          ),
+                  const SizedBox(height: 8),
+                  ..._menuPackages.asMap().entries.map((entry) {
+                    final index = entry.key;
+                    final package = entry.value;
+                    return Column(
+                      children: [
+                        CheckboxListTile(
+                          title: Text('$package (RM${_packagePrices[index]})'),
+                          value: _selectedPackages[index],
+                          onChanged: (value) {
+                            setState(() {
+                              _selectedPackages[index] = value!;
+                              _calculateTotal();
+                            });
+                          },
                         ),
-                      ),
-                      SizedBox(width: 16),
-                      Expanded(
-                        child: TextButton(
-                          onPressed: _selectTime,
-                          child: Row(
-                            children: [
-                              Icon(Icons.access_time),
-                              SizedBox(width: 8),
-                              Text(
-                                _eventTimeController.text.isNotEmpty
-                                    ? _eventTimeController.text
-                                    : 'Select Time',
-                              ),
-                            ],
+                        if (_selectedPackages[index])
+                          TextFormField(
+                            controller: _guestControllers[index],
+                            decoration: InputDecoration(labelText: 'Number of Guests for $package'),
+                            keyboardType: TextInputType.number,
+                            validator: (value) {
+                              if (_selectedPackages[index] && value!.isEmpty) {
+                                return 'Please enter number of guests for $package';
+                              }
+                              return null;
+                            },
+                            onChanged: (value) {
+                              _calculateTotal();
+                            },
                           ),
-                        ),
-                      ),
-                    ],
-                  ),
+                      ],
+                    );
+                  }),
+                  const SizedBox(height: 20),
+
                 ],
               ),
-              TextFormField(
-                controller: _menuPackageController,
-                decoration: InputDecoration(labelText: 'Menu Package'),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter the menu package';
-                  }
-                  return null;
-                },
-              ),
-              TextFormField(
-                controller: _numGuestController,
-                decoration: InputDecoration(labelText: 'Number of Guests'),
-                keyboardType: TextInputType.number,
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter the number of guests';
-                  }
-                  return null;
-                },
-              ),
-              TextFormField(
-                controller: _packagePriceController,
-                decoration: InputDecoration(labelText: 'Package Price'),
-                keyboardType: TextInputType.number,
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter the package price';
-                  }
-                  return null;
-                },
-              ),
+              const SizedBox(height: 20),
+              Text('Total Number of Guests: $_totalGuests'),
+              Text('Total Price: RM$_totalPrice'),
               const SizedBox(height: 20),
               ElevatedButton(
                 onPressed: _submitForm,
-                child: Text('Save Changes'),
+                child: const Text('Save Changes'),
               ),
             ],
           ),
@@ -178,32 +193,75 @@ class _BookingEditState extends State<BookingEdit> {
     );
   }
 
-  void _submitForm() async {
-    if (_formKey.currentState!.validate()) {
-      // Update booking in the database
-      try {
-        DateTime pickedDateTime = DateFormat('yyyy-MM-dd HH:mm')
-            .parse('${_eventDateController.text} ${_eventTimeController.text}');
+  void _calculateTotal() {
+    double totalPrice = 0.0;
+    int totalGuests = 0;
+    for (int i = 0; i < _selectedPackages.length; i++) {
+      if (_selectedPackages[i]) {
+        int numGuests = int.tryParse(_guestControllers[i].text) ?? 0;
+        totalGuests += numGuests;
+        totalPrice += _packagePrices[i] * numGuests;
+      }
+    }
+    setState(() {
+      _totalPrice = totalPrice;
+      _totalGuests = totalGuests;
+    });
+  }
 
-        await DatabaseService().updateBooking(
-          widget.booking.bookId,
-          _menuPackageController.text,
-          pickedDateTime,
-          int.parse(_numGuestController.text),
-          double.parse(_packagePriceController.text),
+  Future<void> _updateBooking() async {
+    if (_formKey.currentState!.validate()) {
+      try {
+        final selectedPackages = _menuPackages
+            .asMap()
+            .entries
+            .where((entry) => _selectedPackages[entry.key])
+            .map((entry) => entry.value)
+            .join(', ');
+
+        final eventDateTime = DateTime(
+          _selectedEventDate.year,
+          _selectedEventDate.month,
+          _selectedEventDate.day,
+          _selectedEventTime.hour,
+          _selectedEventTime.minute,
+        );
+
+        final updatedBooking = MenuBook(
+          bookId: widget.booking.bookId,
+          userId: widget.booking.userId,
+          bookDate: widget.booking.bookDate,
+          bookTime: widget.booking.bookTime,
+          eventDate: _selectedEventDate,
+          eventTime: DateTime(0, 0, 0, _selectedEventTime.hour, _selectedEventTime.minute),
+          menuPackage: selectedPackages,
+          numGuest: _totalGuests,
+          packagePrice: _totalPrice,
+        );
+
+        final db = DatabaseService();
+        await db.updateBooking(
+          updatedBooking.bookId,
+          updatedBooking.menuPackage,
+          eventDateTime,
+          updatedBooking.numGuest,
+          updatedBooking.packagePrice,
         );
 
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Booking updated successfully')),
+          const SnackBar(content: Text('Booking updated successfully')),
         );
 
-        // Navigate back to the booking list
-        Navigator.pop(context); // Pop the booking edit screen
+        Navigator.pop(context);
       } catch (e) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Failed to update booking')),
+          const SnackBar(content: Text('Failed to update booking')),
         );
       }
     }
+  }
+
+  void _submitForm() async {
+    await _updateBooking();
   }
 }

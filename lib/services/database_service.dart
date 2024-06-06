@@ -100,6 +100,19 @@ class DatabaseService {
     }
     return -1; // Or handle error accordingly
   }
+  Future<void> deleteBooking(int bookId) async {
+    final db = await database;
+    try {
+      await db.delete(
+        'menubook',
+        where: 'bookid = ?',
+        whereArgs: [bookId],
+      );
+    } catch (e) {
+      print('Error deleting booking: $e');
+      throw Exception('Failed to delete booking');
+    }
+  }
 
   Future<void> deleteUser(int userId) async {
     final db = await database;
