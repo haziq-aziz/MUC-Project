@@ -191,6 +191,19 @@ class DatabaseService {
     );
   }
 
+  Future<List<MenuBook>> getUserMenuBookings(int userId) async {
+    final db = await database;
+    List<Map<String, dynamic>> results = await db.query(
+      'menubook',
+      where: 'userid = ?',
+      whereArgs: [userId],
+    );
+    List<MenuBook> bookingList = [];
+    for (var map in results) {
+      bookingList.add(MenuBook.fromMap(map));
+    }
+    return bookingList;
+  }
 
   Future<bool> login(Users user) async {
     final db = await database;

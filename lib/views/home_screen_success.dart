@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:restaurantbooking/views/edit_profile.dart';
 import 'package:restaurantbooking/views/landingpage.dart';
+import 'package:restaurantbooking/views/user_view_bookings.dart';
 import 'package:restaurantbooking/widgets/destination_restoran.dart';
 import 'package:restaurantbooking/widgets/restoran_comingsoon.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -208,7 +209,12 @@ class _HomeScreenSuccessState extends State<HomeScreenSuccess> {
               leading: const Icon(Icons.book),
               title: const Text('Booking List'),
               onTap: () {
-                // Navigate to Booking List screen
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => UserBookingList(userId: globals.userId!),
+                  ),
+                );
               },
             ),
             const Divider(),
