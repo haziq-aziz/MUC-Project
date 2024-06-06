@@ -2,20 +2,20 @@
 
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:restaurantbooking/Admin/booking_list.dart';
 import 'package:restaurantbooking/JsonModels/booking.dart'; // Import MenuBook from the correct location
+import 'package:restaurantbooking/views/user_view_bookings.dart';
 import '../services/database_service.dart';
 
-class BookingEdit extends StatefulWidget {
+class UserBookingEdit extends StatefulWidget {
   final MenuBook booking;
 
-  const BookingEdit({super.key, required this.booking});
+  const UserBookingEdit({super.key, required this.booking});
 
   @override
-  _BookingEditState createState() => _BookingEditState();
+  _UserBookingEditState createState() => _UserBookingEditState();
 }
 
-class _BookingEditState extends State<BookingEdit> {
+class _UserBookingEditState extends State<UserBookingEdit> {
   final _formKey = GlobalKey<FormState>();
   final List<String> _menuPackages = ['Package 1', 'Package 2', 'Package 3', 'Package 4', 'Package 5'];
   final List<double> _packagePrices = [50.0, 40.0, 30.0, 55.0, 35.0];
@@ -177,7 +177,6 @@ class _BookingEditState extends State<BookingEdit> {
                     );
                   }),
                   const SizedBox(height: 20),
-
                 ],
               ),
               const SizedBox(height: 20),
@@ -254,10 +253,10 @@ class _BookingEditState extends State<BookingEdit> {
           const SnackBar(content: Text('Booking updated successfully')),
         );
 
-       Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (context) => const BookingList()),
-      );
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => UserBookingList(userId: widget.booking.userId)),
+        );
       } catch (e) {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text('Failed to update booking')),
