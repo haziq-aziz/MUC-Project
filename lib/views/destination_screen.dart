@@ -99,7 +99,7 @@ class _DestinationScreenState extends State<DestinationScreen> {
                         ),
                         const SizedBox(width: 5.0),
                         StrokeText(
-                          text: "Fusion Package",
+                          text: widget.destination.tpackage,
                           textStyle: const TextStyle(
                             color: Colors.white,
                             fontSize: 20.0,

@@ -28,7 +28,7 @@ class MyApp extends StatelessWidget {
 
 class DateUtils {
   static String formatDate(DateTime date) {
-    return DateFormat('yyyy-MM-dd').format(date);
+    return DateFormat('dd-MM-yyyy').format(date);
   }
 
   static String formatTime(TimeOfDay time) {

@@ -76,8 +76,8 @@ class _UserBookingEditState extends State<UserBookingEdit> {
           children: [
             Expanded(
               child: TextFormField(
-                decoration: const InputDecoration(labelText: 'Date (YYYY-MM-DD)'),
-                controller: TextEditingController(text: DateFormat('yyyy-MM-dd').format(selectedDate)),
+                decoration: const InputDecoration(labelText: 'Date (DD-MM-YYYY)'),
+                controller: TextEditingController(text: DateFormat('dd-MM-yyyy').format(selectedDate)),
                 readOnly: true,
                 onTap: () async {
                   DateTime? pickedDate = await showDatePicker(

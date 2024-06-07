@@ -56,10 +56,37 @@ class _UserBookingListState extends State<UserBookingList> {
     }
   }
 
+  Future<void> _confirmDeleteBooking(int bookId) async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false, // user must tap button!
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Confirm Delete'),
+          content: const Text('Are you sure you want to delete this booking?'),
+          actions: <Widget>[
+            TextButton(
+              child: const Text('Cancel'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+            TextButton(
+              child: const Text('Delete'),
+              onPressed: () {
+                Navigator.of(context).pop();
+                _deleteBooking(bookId);
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
 
   Widget _buildEditButton(MenuBook booking) {
     return IconButton(
-      icon: Icon(Icons.edit),
+      icon: const Icon(Icons.edit),
       onPressed: () {
         Navigator.push(
           context,
@@ -68,6 +95,7 @@ class _UserBookingListState extends State<UserBookingList> {
       },
     );
   }
+
   void _openProfileDrawer() {
     _scaffoldKey.currentState?.openEndDrawer();
   }
@@ -81,6 +109,7 @@ class _UserBookingListState extends State<UserBookingList> {
           (route) => false,
     );
   }
+
   void _showDetailDialog(MenuBook booking) {
     showDialog(
       context: context,
@@ -92,10 +121,10 @@ class _UserBookingListState extends State<UserBookingList> {
               children: <Widget>[
                 _buildDetailRow('Booking ID:', booking.bookId.toString()),
                 _buildDetailRow('User ID:', booking.userId.toString()),
-                _buildDetailRow('Booking Date:', DateFormat.yMd().format(booking.bookDate)),
-                _buildDetailRow('Booking Time:', DateFormat.Hm().format(booking.bookTime)),
-                _buildDetailRow('Event Date:', DateFormat.yMd().format(booking.eventDate)),
-                _buildDetailRow('Event Time:', DateFormat.Hm().format(booking.eventTime)),
+                _buildDetailRow('Booking Date:', DateFormat('dd-MM-yyyy').format(booking.bookDate)),
+                _buildDetailRow('Booking Time:', DateFormat('HH:mm ').format(booking.bookTime)),
+                _buildDetailRow('Event Date:', DateFormat('dd-MM-yyyy').format(booking.eventDate)),
+                _buildDetailRow('Event Time:', DateFormat('HH:mm ').format(booking.eventTime)),
                 _buildDetailRow('Menu Package:', booking.menuPackage),
                 _buildDetailRow('Total Guests:', booking.numGuest.toString()),
                 _buildDetailRow('Package Price:', 'RM${booking.packagePrice} '), // Example: Assuming packagePrice is in RM
@@ -117,7 +146,7 @@ class _UserBookingListState extends State<UserBookingList> {
               child: const Text('Delete'),
               onPressed: () {
                 Navigator.of(context).pop();
-                _deleteBooking(booking.bookId);
+                _confirmDeleteBooking(booking.bookId); // Show confirmation dialog before deletion
               },
             ),
             TextButton(
@@ -148,6 +177,7 @@ class _UserBookingListState extends State<UserBookingList> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _scaffoldKey,
       appBar: AppBar(
         title: const Text("Your Booking"),
         backgroundColor: const Color.fromRGBO(43, 159, 148, 1.0),
@@ -181,9 +211,9 @@ class _UserBookingListState extends State<UserBookingList> {
                 children: [
                   _buildEditButton(booking),
                   IconButton(
-                    icon: Icon(Icons.delete),
+                    icon: const Icon(Icons.delete),
                     onPressed: () {
-                      _deleteBooking(booking.bookId);
+                      _confirmDeleteBooking(booking.bookId); // Show confirmation dialog before deletion
                     },
                   ),
                 ],
@@ -192,7 +222,6 @@ class _UserBookingListState extends State<UserBookingList> {
           );
         },
       ),
-
       endDrawer: Drawer(
         child: ListView(
           padding: EdgeInsets.zero,
@@ -234,9 +263,7 @@ class _UserBookingListState extends State<UserBookingList> {
               onTap: () {
                 Navigator.pushReplacement(
                   context,
-                  MaterialPageRoute(
-                      builder: (context) =>
-                          EditProfile(userId: globals.userId!)),
+                  MaterialPageRoute(builder: (context) => EditProfile(userId: globals.userId!)),
                 );
               },
             ),
@@ -246,9 +273,7 @@ class _UserBookingListState extends State<UserBookingList> {
               onTap: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(
-                    builder: (context) => UserBookingList(userId: globals.userId!),
-                  ),
+                  MaterialPageRoute(builder: (context) => UserBookingList(userId: globals.userId!)),
                 );
               },
             ),
