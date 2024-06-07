@@ -9,6 +9,7 @@ import 'package:restaurantbooking/Authentication/globals.dart' as globals;
 
 import '../views/edit_profile.dart';
 import '../views/landingpage.dart';
+import '../views/user_view_bookings.dart';
 
 void main() {
   runApp(const MyApp());
@@ -27,7 +28,7 @@ class MyApp extends StatelessWidget {
 
 class DateUtils {
   static String formatDate(DateTime date) {
-    return DateFormat('yyyy-MM-dd').format(date);
+    return DateFormat('dd-MM-yyyy').format(date);
   }
 
   static String formatTime(TimeOfDay time) {
@@ -262,7 +263,9 @@ class _BookingFormState extends State<BookingForm> {
               onTap: () {
                 Navigator.pushReplacement(
                   context,
-                  MaterialPageRoute(builder: (context) => EditProfile(userId: globals.userId!)),
+                  MaterialPageRoute(
+                      builder: (context) =>
+                          EditProfile(userId: globals.userId!)),
                 );
               },
             ),
@@ -270,7 +273,12 @@ class _BookingFormState extends State<BookingForm> {
               leading: const Icon(Icons.book),
               title: const Text('Booking List'),
               onTap: () {
-                // Navigate to Booking List screen
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => UserBookingList(userId: globals.userId!),
+                  ),
+                );
               },
             ),
             const Divider(),
@@ -322,6 +330,7 @@ class _BookingFormState extends State<BookingForm> {
             ),
           ],
         ),
+
       ],
     );
   }
@@ -344,6 +353,20 @@ class _BookingFormState extends State<BookingForm> {
 
   Future<void> _submitForm() async {
     if (_formKey.currentState!.validate()) {
+      if (_selectedEventDate == null) {
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+          content: Text('Please select an event date'),
+        ));
+        return;
+      }
+
+      if (!_selectedPackages.contains(true)) {
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+          content: Text('Please select at least one menu package'),
+        ));
+        return;
+      }
+
       double totalPrice = 0.0;
       int totalGuests = 0;
       String menuPackage = _menuPackages.asMap().entries.where((entry) => _selectedPackages[entry.key]).map((entry) {
@@ -355,7 +378,6 @@ class _BookingFormState extends State<BookingForm> {
 
       // Automatically generate booking date and time
       DateTime now = DateTime.now();
-
       DateTime bookDateTime = now;
 
       DateTime eventDateTime = DateTime(
@@ -376,7 +398,14 @@ class _BookingFormState extends State<BookingForm> {
       );
 
       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Booking successful')));
+
+      // Navigate to UserBookingList
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (context) => UserBookingList(userId: _userId),
+        ),
+      );
     }
   }
-
 }

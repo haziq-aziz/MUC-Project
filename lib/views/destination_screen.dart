@@ -95,15 +95,19 @@ class _DestinationScreenState extends State<DestinationScreen> {
                         const Icon(
                           FontAwesomeIcons.locationArrow,
                           size: 15.0,
-                          color: Colors.white70,
+                          color: Colors.black,
                         ),
                         const SizedBox(width: 5.0),
-                        Text(
-                          widget.destination.tpackage,
-                          style: const TextStyle(
-                            color: Colors.white70,
+                        StrokeText(
+                          text: widget.destination.tpackage,
+                          textStyle: const TextStyle(
+                            color: Colors.white,
                             fontSize: 20.0,
+                            fontWeight: FontWeight.w600,
+                            letterSpacing: 1.2,
                           ),
+                          strokeWidth: 5.0, // Adjust the strokeWidth as needed
+                          strokeColor: const Color(0xFF000000), // Set the color of the stroke
                         ),
                       ],
                     ),

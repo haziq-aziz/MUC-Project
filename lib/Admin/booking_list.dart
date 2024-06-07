@@ -210,7 +210,7 @@ class _BookingListState extends State<BookingList> {
           final booking = bookingList[index];
           // Format the event date and time
           String formattedEventDate = DateFormat('dd-MM-yyyy').format(booking.eventDate);
-          String formattedEventTime = DateFormat('HH:mm ').format(booking.eventTime);
+          String formattedEventTime = DateFormat('HH:mm').format(booking.eventTime);
           DateFormat('dd-MM-yyyy').format(booking.bookDate);
           DateFormat('HH:mm').format(booking.bookTime);
 
