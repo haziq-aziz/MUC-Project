@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:restaurantbooking/JsonModels/booking.dart';
 import 'package:restaurantbooking/views/user_booking_edit.dart';
-import 'package:restaurantbooking/views/user_view_bookings.dart';
-import '../BookForm/bookingform.dart';
 import '../services/database_service.dart';
 import 'edit_profile.dart';
 import 'home_screen_success.dart';
@@ -22,7 +20,6 @@ class UserBookingList extends StatefulWidget {
 class _UserBookingListState extends State<UserBookingList> {
   List<MenuBook> bookingList = []; // Initialize an empty list of bookings
 
-  int _currentTab = 0;
   @override
   void initState() {
     super.initState();
