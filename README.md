@@ -1,4 +1,4 @@
-# Restaurant Menu Package Booking App
+# Selera Kamoung - A Restaurant Menu Package Booking App
 
 Welcome to the Restaurant Menu Package Booking App! This application allows users to book restaurant menu packages for their events seamlessly. Both new and existing users can navigate through the app to register, book packages, and manage their bookings efficiently.
 
@@ -102,13 +102,15 @@ This project is licensed under the MIT License.
 
 Include screenshots of different pages of the application here.
 
-![Front Page](screenshots/front_page.png)
-![Menu Packages](screenshots/menu_packages.png)
-![User Registration](screenshots/user_registration.png)
-![User Login](screenshots/user_login.png)
-![User Profile](screenshots/user_profile.png)
-![Booking Form](screenshots/booking_form.png)
-![View Bookings](screenshots/view_bookings.png)
-![Administrator Panel](screenshots/admin_panel.png)
-![Administrator Panel](screenshots/admin_view_all_users.png)
-![Administrator Panel](screenshots/admin_view_all_bookings.png)
+| Screenshot Description      | Screenshot |
+|-----------------------------|------------|
+| Front Page                  | ![Front Page](screenshots/front_page.png) |
+| Menu Packages               | ![Menu Packages](screenshots/menu_packages.png) |
+| User Registration           | ![User Registration](screenshots/user_registration.png) |
+| User Login                  | ![User Login](screenshots/user_login.png) |
+| User Profile                | ![User Profile](screenshots/user_profile.png) |
+| Booking Form                | ![Booking Form](screenshots/booking_form.png) |
+| View Bookings               | ![View Bookings](screenshots/view_bookings.png) |
+| Administrator Panel         | ![Administrator Panel](screenshots/admin_panel.png) |
+| Admin View All Users        | ![Admin View All Users](screenshots/admin_view_all_users.png) |
+| Admin View All Bookings     | ![Admin View All Bookings](screenshots/admin_view_all_bookings.png) |
