@@ -102,15 +102,18 @@ This project is licensed under the MIT License.
 
 Include screenshots of different pages of the application here.
 
-| Screenshot Description      | Screenshot |
-|-----------------------------|------------|
-| Front Page                  | ![Front Page](screenshots/front_page.png) |
-| Menu Packages               | ![Menu Packages](screenshots/menu_packages.png) |
-| User Registration           | ![User Registration](screenshots/user_registration.png) |
-| User Login                  | ![User Login](screenshots/user_login.png) |
-| User Profile                | ![User Profile](screenshots/user_profile.png) |
-| Booking Form                | ![Booking Form](screenshots/booking_form.png) |
-| View Bookings               | ![View Bookings](screenshots/view_bookings.png) |
-| Administrator Panel         | ![Administrator Panel](screenshots/admin_panel.png) |
-| Admin View All Users        | ![Admin View All Users](screenshots/admin_view_all_users.png) |
-| Admin View All Bookings     | ![Admin View All Bookings](screenshots/admin_view_all_bookings.png) |
+| Front Page | Menu Package |
+| ------------- | ------------- |
+| <img src="https://i.imgur.com/ha2v8DU.png" width="300">  | <img src="https://i.imgur.com/WroAmwh.png" width="300">   |
+
+| User Registration | User Login |
+| ------------- | ------------- |
+| <img src="https://i.imgur.com/PYZBGYN.png" width="300">  | <img src="https://i.imgur.com/RLQvouq.png" width="300">   |
+
+| User Profile | Booking Form | User View Bookings |
+| ------------- | ------------- | ------------- |
+| <img src="https://i.imgur.com/FpGa7ap.png" width="300">  | <img src="https://i.imgur.com/0Qw4LL8.png" width="300">   | <img src="https://i.imgur.com/c32t1w5.png" width="300">  |
+
+| Admin Dashboard | Admin View All Users | Admin View All Bookings |
+| ------------- | ------------- | ------------- |
+| <img src="https://i.imgur.com/iU3YlBG.png" width="300">  | <img src="https://i.imgur.com/bCL4pnL.png" width="300">   | <img src="https://i.imgur.com/kUXx3bQ.png" width="300">  | <img src="https://i.imgur.com/W4PMvfI.png" width="300">   |
