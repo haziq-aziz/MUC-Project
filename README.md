@@ -116,4 +116,4 @@ Include screenshots of different pages of the application here.
 
 | Admin Dashboard | Admin View All Users | Admin View All Bookings |
 | ------------- | ------------- | ------------- |
-| <img src="https://i.imgur.com/iU3YlBG.png" width="300">  | <img src="https://i.imgur.com/bCL4pnL.png" width="300">   | <img src="https://i.imgur.com/kUXx3bQ.png" width="300">  | <img src="https://i.imgur.com/W4PMvfI.png" width="300">   |
+| <img src="https://i.imgur.com/iU3YlBG.png" width="300">  | <img src="https://i.imgur.com/bCL4pnL.png" width="300">   | <img src="https://i.imgur.com/kUXx3bQ.png" width="300">  | <img src="https://i.imgur.com/W4PMvfI.png" width="300"> |
