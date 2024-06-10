@@ -1,4 +1,4 @@
-# Selera Kamoung - A Restaurant Menu Package Booking App
+# Selera Kampung - A Restaurant Menu Package Booking App
 
 Welcome to the Restaurant Menu Package Booking App! This application allows users to book restaurant menu packages for their events seamlessly. Both new and existing users can navigate through the app to register, book packages, and manage their bookings efficiently.
 
