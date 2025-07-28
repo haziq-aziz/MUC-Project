@@ -11,7 +11,7 @@ import 'package:restaurantbooking/Authentication/globals.dart' as globals;
 class UserBookingList extends StatefulWidget {
   final int userId;
 
-  const UserBookingList({Key? key, required this.userId}) : super(key: key);
+  const UserBookingList({super.key, required this.userId});
 
   @override
   _UserBookingListState createState() => _UserBookingListState();

@@ -58,12 +58,12 @@ class LandingPage extends StatelessWidget {
                     );
                   },
                   style: ButtonStyle(
-                    minimumSize: MaterialStateProperty.all<Size>(
+                    minimumSize: WidgetStateProperty.all<Size>(
                         const Size(250, 50)),
-                    backgroundColor: MaterialStateProperty.all<Color>(
+                    backgroundColor: WidgetStateProperty.all<Color>(
                       const Color.fromRGBO(43, 159, 148, 1.0),
                     ),
-                    shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                    shape: WidgetStateProperty.all<RoundedRectangleBorder>(
                       RoundedRectangleBorder(
                         borderRadius:
                             BorderRadius.circular(5.0),
@@ -90,12 +90,12 @@ class LandingPage extends StatelessWidget {
                     );
                   },
                   style: ButtonStyle(
-                    minimumSize: MaterialStateProperty.all<Size>(
+                    minimumSize: WidgetStateProperty.all<Size>(
                         const Size(250, 50)),
-                    backgroundColor: MaterialStateProperty.all<Color>(
+                    backgroundColor: WidgetStateProperty.all<Color>(
                       const Color.fromARGB(125, 172, 226, 220),
                     ),
-                    shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                    shape: WidgetStateProperty.all<RoundedRectangleBorder>(
                       RoundedRectangleBorder(
                         borderRadius:
                             BorderRadius.circular(5.0),
